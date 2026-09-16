@@ -69,20 +69,33 @@ export const translations = {
     },
     projects: {
       title: "Proyek Unggulan",
+      subtitle: "Pilih kategori untuk melihat proyek berdasarkan bidang keahlian",
+      allCategory: "Semua",
+      emptyState: "Belum ada proyek dalam kategori ini.",
+      categories: {
+        backend: "Backend",
+        fullstack: "Full Stack Developer",
+        ai: "AI Engineer",
+        mobile: "Mobile Developer"
+      },
       items: [
         {
+          id: "eyemate",
           title: "EyeMate - AI Mobile Assistant",
           desc: "Aplikasi mobile pendeteksi objek real-time berbasis YOLOv8 untuk penyandang gangguan penglihatan dengan panduan suara & teks di Android dan iOS."
         },
         {
+          id: "absensiku",
           title: "Absensiku",
           desc: "Sistem absensi online berbasis web dan mobile dengan fitur Geo-tagging dan notifikasi real-time."
         },
         {
+          id: "kopi-kenangan",
           title: "Kopi-Kenangan",
           desc: "Website ini untuk landing page Coffee Shop serta melihat menu."
         },
         {
+          id: "sioplas",
           title: "SIOPLAS",
           desc: "Website untuk kantor karantina perikanan dan kelautan pekanbaru dalam pengajuan laporan atau tugas laporan tribulan."
         }
@@ -178,20 +191,33 @@ export const translations = {
     },
     projects: {
       title: "Featured Projects",
+      subtitle: "Filter projects by specialization or tech focus",
+      allCategory: "All",
+      emptyState: "No projects found in this category.",
+      categories: {
+        backend: "Backend",
+        fullstack: "Full Stack Developer",
+        ai: "AI Engineer",
+        mobile: "Mobile Developer"
+      },
       items: [
         {
+          id: "eyemate",
           title: "EyeMate - AI Mobile Assistant",
           desc: "Real-time object detection mobile app using YOLOv8 for visually impaired users with voice & text guidance on Android and iOS."
         },
         {
+          id: "absensiku",
           title: "Absensiku",
           desc: "Web and mobile-based online attendance system with Geo-tagging feature and real-time notifications."
         },
         {
+          id: "kopi-kenangan",
           title: "Kopi-Kenangan",
           desc: "Coffee Shop landing page website and menu viewer."
         },
         {
+          id: "sioplas",
           title: "SIOPLAS",
           desc: "Website for the Pekanbaru Fishery and Marine Quarantine Office for submitting reports or quarterly report tasks."
         }
