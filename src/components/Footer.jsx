@@ -3,7 +3,7 @@ import { useLanguage } from "../context/LanguageContext";
 import git from "../assets/github.png";
 import linkedin from "../assets/linkedin.png";
 
-function Footer() {
+function Footer() { 
   const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
   const emailAddress = "dandipratamapku04@gmail.com";

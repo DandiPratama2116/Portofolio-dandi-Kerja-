@@ -1,12 +1,11 @@
 import FoldText from '../fitur-gsap/FoldText';
 import { useLanguage } from '../context/LanguageContext';
 
-function About({ scrollTo }) {
-  const { t } = useLanguage();
+function About({ scrollTo }) {  
+  const { t } = useLanguage(); 
 
   return (
     <section id="about" className="section about-section">
-      {/* Aesthetic Background Decor Shapes */}
       <div className="section-bg-decor">
         <div className="decor-blob about-blob-1"></div>
         <div className="decor-blob about-blob-2"></div>
