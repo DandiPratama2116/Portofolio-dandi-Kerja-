@@ -30,6 +30,45 @@ export const translations = {
           title: "Judul Skripsi (Tugas Akhir)",
           desc: "\"Aplikasi Eyemate Berbasis AI dalam Pengenalan Objek dan Panduan Suara dan Teks Penyandang Gangguan Penglihatan\" (dikembangkan untuk Android & iOS menggunakan YOLOv8)."
         }
+      ],
+      experienceBadge: "Pengalaman Kerja",
+      experienceTitle: "Pengalaman Kerja",
+      experienceSubtitle: "Riwayat pengalaman kerja profesional dan magang industri",
+      experiences: [
+        {
+          role: "Backend Developer",
+          company: "SIOPLAS, SKIPM Pekanbaru Project",
+          location: "Pekanbaru, Indonesia",
+          period: "08 Oktober 2025 – 17 Januari 2026",
+          type: "Work Experience",
+          icon: "💻",
+          desc: "Mengembangkan backend aplikasi SIOPLAS menggunakan Go (Golang) untuk mendukung manajemen data, manajemen penugasan, dan pelaporan operasional.",
+          details: [
+            "Mengembangkan backend aplikasi SIOPLAS menggunakan Go (Golang) untuk mendukung manajemen data, task management, dan pelaporan operasional.",
+            "Merancang dan membangun RESTful API untuk menghubungkan komunikasi antara layanan backend dan aplikasi frontend.",
+            "Merancang dan mengelola basis data MySQL, termasuk struktur tabel, relasi data, serta operasi CRUD sesuai kebutuhan sistem.",
+            "Mengimplementasikan business logic, validasi data, penanganan request, dan manajemen response pada layanan backend.",
+            "Mengembangkan fitur penugasan dan pelaporan untuk mendukung proses administrasi serta monitoring kerja.",
+            "Mengintegrasikan fungsionalitas AI untuk meringkas laporan secara otomatis sehingga informasi menjadi lebih ringkas dan efisien untuk ditinjau."
+          ],
+          skills: ["Go (Golang)", "RESTful API", "MySQL", "Database Management", "Business Logic", "AI Integration", "Backend Development"]
+        },
+        {
+          role: "UI/UX Design Intern",
+          company: "PT Pertamina Refinery Unit II Dumai",
+          location: "Dumai, Indonesia",
+          period: "01 Juli 2025 – 29 Agustus 2025",
+          type: "Internship",
+          icon: "🎨",
+          desc: "Merancang prototipe antarmuka sistem pelaporan lapangan dan mendukung operasional pemantauan fasilitas kilang minyak.",
+          details: [
+            "Merancang prototipe UI/UX menggunakan Figma untuk website berbasis chatbot guna memfasilitasi pengajuan laporan lapangan ke departemen terkait yang bertanggung jawab atas peralatan dan sumber daya.",
+            "Membantu entri data karyawan dan pengelolaan data administrasi perusahaan secara rapi dan akurat.",
+            "Melakukan observasi lapangan langsung terhadap operasional pemrosesan dan manajemen kilang minyak.",
+            "Membantu divisi CCTV dalam memantau aktivitas karyawan dan operasional kerja di PT Pertamina Refinery Unit II Dumai."
+          ],
+          skills: ["Figma", "UI/UX Design", "Prototyping", "Data Management", "Field Operations", "CCTV Monitoring"]
+        }
       ]
     },
     skills: {
@@ -151,6 +190,45 @@ export const translations = {
           icon: "📜",
           title: "Bachelor Thesis Title",
           desc: "\"Aplikasi Eyemate Berbasis AI dalam Pengenalan Objek dan Panduan Suara dan Teks Penyandang Gangguan Penglihatan\" (developed for Android & iOS using YOLOv8)."
+        }
+      ],
+      experienceBadge: "Work Experience",
+      experienceTitle: "Work Experience",
+      experienceSubtitle: "Professional work experience and industrial internship track record",
+      experiences: [
+        {
+          role: "Backend Developer",
+          company: "SIOPLAS, SKIPM Pekanbaru Project",
+          location: "Pekanbaru, Indonesia",
+          period: "08 October 2025 – 17 January 2026",
+          type: "Work Experience",
+          icon: "💻",
+          desc: "Developed the backend of the SIOPLAS application using Go (Golang) to support data management, task management, and operational reporting.",
+          details: [
+            "Developed the backend of the SIOPLAS application using Go (Golang) to support data management, task management, and operational reporting.",
+            "Designed and developed RESTful APIs to enable communication between the backend and frontend applications.",
+            "Designed and managed MySQL databases, including table structures, data relationships, and CRUD operations based on system requirements.",
+            "Implemented business logic, data validation, request handling, and response management within the backend services.",
+            "Developed task and reporting features to support administrative processes and work monitoring.",
+            "Integrated AI functionality to summarize reports, making information more concise and efficient to review."
+          ],
+          skills: ["Go (Golang)", "RESTful API", "MySQL", "Database Management", "Business Logic", "AI Integration", "Backend Development"]
+        },
+        {
+          role: "UI/UX Design Intern",
+          company: "PT Pertamina Refinery Unit II Dumai",
+          location: "Dumai, Indonesia",
+          period: "01 July 2025 – 29 August 2025",
+          type: "Internship",
+          icon: "🎨",
+          desc: "Designed UI/UX prototypes for field reporting systems and supported operational monitoring at the refinery facility.",
+          details: [
+            "Designed UI/UX prototypes using Figma for a chatbot-based website aimed at facilitating field report submissions to the relevant departments responsible for equipment and resource requests.",
+            "Assisted with employee data entry and administrative data management.",
+            "Conducted direct field observations of the oil processing and management operations.",
+            "Assisted the CCTV division in monitoring employee activities and work operations at PT Pertamina Refinery Unit II Dumai."
+          ],
+          skills: ["Figma", "UI/UX Design", "Prototyping", "Data Management", "Field Operations", "CCTV Monitoring"]
         }
       ]
     },

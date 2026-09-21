@@ -7,8 +7,8 @@ function Hero({ scrollTo }) {
   const handleDownloadCV = () => {
     // Triggers download/view of Dandi Pratama's CV
     const link = document.createElement("a");
-    link.href = "/CV-Dandi-Pratama.pdf";
-    link.download = "CV-Dandi-Pratama.pdf";
+    link.href = "public/CV_DandiPratama_SE.pdf";
+    link.download = "CV-DandiPratama_SE.pdf";
     link.target = "_blank";
     document.body.appendChild(link);
     link.click();
