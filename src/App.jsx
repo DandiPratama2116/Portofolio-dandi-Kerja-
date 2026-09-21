@@ -8,6 +8,7 @@ import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
+import ShapeGrid from "./components/ShapeGrid";
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -47,6 +48,17 @@ function App() {
 
   return (
     <div className="app">
+      <div className="global-shapegrid-bg" aria-hidden="true">
+        <ShapeGrid
+          speed={0.4}
+          squareSize={40}
+          direction="diagonal"
+          borderColor={darkMode ? "rgba(255, 255, 255, 0.07)" : "rgba(79, 70, 229, 0.09)"}
+          hoverFillColor={darkMode ? "rgba(99, 102, 241, 0.35)" : "rgba(79, 70, 229, 0.2)"}
+          shape="square"
+          hoverTrailAmount={5}
+        />
+      </div>
       <Navbar
         activeSection={activeSection}
         scrollTo={scrollTo}
