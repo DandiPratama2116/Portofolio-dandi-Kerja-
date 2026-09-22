@@ -14,6 +14,7 @@ import dockerIcon from "../assets/Docker.png";
 import xamppIcon from "../assets/xampp.png";
 
 import { useLanguage } from "../context/LanguageContext";
+import { Users, GitBranch, BrainCircuit, Clock } from "lucide-react";
 
 function Skills() {
   const { t } = useLanguage();
@@ -46,6 +47,21 @@ function Skills() {
     }
     return icon;
   };
+
+  const getTeamIcon = (idx) => {
+    switch (idx) {
+      case 0:
+        return <Users size={20} className="team-icon-svg" />;
+      case 1:
+        return <GitBranch size={20} className="team-icon-svg" />;
+      case 2:
+        return <BrainCircuit size={20} className="team-icon-svg" />;
+      case 3:
+      default:
+        return <Clock size={20} className="team-icon-svg" />;
+    }
+  };
+
 
   // SVG Paths definitions for skills
   const leftPaths = [
@@ -172,12 +188,16 @@ function Skills() {
 
         {/* Keahlian Kerja & Kolaborasi Tim */}
         <div className="team-skills-wrapper">
-          <h3 className="sub-section-title">{t.skills.teamTitle}</h3>
+          <div className="team-skills-header">
+            <h3 className="sub-section-title">{t.skills.teamTitle}</h3>
+          </div>
           <div className="team-skills-grid">
             {t.skills.team.map((item, idx) => (
               <div className="team-skill-card" key={idx}>
                 <div className="team-skill-top">
-                  <span className="team-skill-icon">{item.icon}</span>
+                  <div className="team-skill-icon-box">
+                    {getTeamIcon(idx)}
+                  </div>
                   <span className="team-skill-badge">{item.badge}</span>
                 </div>
                 <h4 className="team-skill-title">{item.title}</h4>

@@ -4,6 +4,7 @@ import banner1 from "../assets/bannerapk(proyek1).png";
 import banner2 from "../assets/bannerAbsensiku(proyek2).png";
 import banner3 from "../assets/banner(proyek3).png";
 import banner4 from "../assets/bannnersioplas(proyek4).png";
+import { Eye, X, ArrowUpRight, FolderGit2 } from "lucide-react";
 
 const CATEGORIES = [
   { id: "Backend", key: "backend", defaultLabel: "Backend" },
@@ -13,7 +14,7 @@ const CATEGORIES = [
 ];
 
 function Projects() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].id);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -22,28 +23,28 @@ function Projects() {
       id: "eyemate",
       categories: ["AI Engineer", "Mobile Developer", "Backend", "Full Stack Developer"],
       tech: ["Python", "YOLOv8", "FastAPI", "Flutter", "SQLite", "Key-Gemini-Flash", "Ngrok"],
-      color: "#aa3bff",
+      color: "#2563eb",
       image: banner1,
     },
     {
       id: "absensiku",
       categories: ["Backend", "Mobile Developer"],
       tech: ["javascript", "Golang", "MySQL", "XAMPP"],
-      color: "#2563eb",
+      color: "#0284c7",
       image: banner2,
     },
     {
       id: "kopi-kenangan",
       categories: ["Full Stack Developer"],
       tech: ["html", "css", "javascript"],
-      color: "#10b981",
+      color: "#059669",
       image: banner3,
     },
     {
       id: "sioplas",
       categories: ["Backend"],
       tech: ["Laravel", "php", "css", "Golang", "XAMPP", "MySQL"],
-      color: "#f59e0b",
+      color: "#d97706",
       image: banner4,
     },
   ];
@@ -67,14 +68,7 @@ function Projects() {
 
   return (
     <section id="projects" className="section projects-section">
-      {/* Aesthetic Background Decor */}
-      <div className="section-bg-decor">
-        <div className="decor-blob projects-blob-1"></div>
-        <div className="decor-blob projects-blob-2"></div>
-        <div className="decor-grid-pattern"></div>
-      </div>
-
-      <div className="container" style={{ position: "relative", zIndex: 2 }}>
+      <div className="container">
         <div className="section-header">
           <h2 className="section-title">{t.projects.title}</h2>
           {t.projects.subtitle && (
@@ -101,7 +95,6 @@ function Projects() {
                   className={`category-btn ${isActive ? "active" : ""}`}
                   onClick={() => setActiveCategory(cat.id)}
                 >
-                  {cat.icon && <span className="category-btn-icon">{cat.icon}</span>}
                   <span className="category-btn-text">{label}</span>
                   <span className="category-btn-count">{count}</span>
                 </button>
@@ -113,6 +106,7 @@ function Projects() {
         {/* Projects Grid */}
         {filteredProjects.length === 0 ? (
           <div className="projects-empty-state">
+            <FolderGit2 size={32} className="empty-icon" />
             <p>{t.projects.emptyState || "Tidak ada proyek dalam kategori ini."}</p>
           </div>
         ) : (
@@ -120,25 +114,23 @@ function Projects() {
             {filteredProjects.map((item) => {
               const { meta } = item;
               return (
-                <div className="project-card animate-card" key={item.id || item.title}>
+                <div className="project-card" key={item.id || item.title}>
                   <div className="project-card-left">
                     <div
                       className="project-banner-container clickable-banner"
                       onClick={() => setSelectedProject(item)}
-                      title="Klik untuk melihat detail"
+                      title={lang === "id" ? "Klik untuk melihat detail proyek" : "Click to view project details"}
                     >
                       {meta.image ? (
-                        <img src={meta.image} alt={item.title} className="project-banner-img" />
+                        <img src={meta.image} alt={item.title} className="project-banner-img" loading="lazy" />
                       ) : (
-                        <div
-                          className="project-emoji-wrap"
-                          style={{ background: `${meta.color}15`, borderColor: `${meta.color}30` }}
-                        >
-                          <span className="project-emoji">{meta.emoji}</span>
+                        <div className="project-placeholder-wrap">
+                          <FolderGit2 size={36} />
                         </div>
                       )}
                       <div className="banner-overlay-hint">
-                        <span>🔍 Perbesar</span>
+                        <Eye size={15} />
+                        <span>{lang === "id" ? "Lihat Detail" : "View Details"}</span>
                       </div>
                     </div>
                   </div>
@@ -155,7 +147,7 @@ function Projects() {
                             e.stopPropagation();
                             setActiveCategory(cat);
                           }}
-                          title={`Filter kategori: ${cat}`}
+                          title={`Filter: ${cat}`}
                         >
                           {cat}
                         </button>
@@ -166,9 +158,11 @@ function Projects() {
                       className="project-title clickable-title"
                       onClick={() => setSelectedProject(item)}
                     >
-                      {item.title}
+                      <span>{item.title}</span>
+                      <ArrowUpRight size={16} className="title-arrow-icon" />
                     </h3>
                     <p className="project-desc">{item.desc}</p>
+                    
                     <div className="project-tech">
                       {meta.tech.map((tech) => (
                         <span className="tech-tag" key={tech}>
@@ -191,10 +185,12 @@ function Projects() {
             <button
               className="project-modal-close"
               onClick={() => setSelectedProject(null)}
-              aria-label="Tutup modal"
+              aria-label="Close modal"
+              title="Tutup"
             >
-              &times;
+              <X size={18} />
             </button>
+
             <div className="project-modal-media">
               {selectedProject.meta.image ? (
                 <img
@@ -203,17 +199,12 @@ function Projects() {
                   className="project-modal-img"
                 />
               ) : (
-                <div
-                  className="project-modal-emoji"
-                  style={{
-                    background: `${selectedProject.meta.color}15`,
-                    borderColor: `${selectedProject.meta.color}30`,
-                  }}
-                >
-                  <span className="project-emoji">{selectedProject.meta.emoji}</span>
+                <div className="project-modal-placeholder">
+                  <FolderGit2 size={48} />
                 </div>
               )}
             </div>
+
             <div className="project-modal-info">
               <div className="project-category-badges" style={{ marginBottom: "12px" }}>
                 {selectedProject.meta.categories.map((cat) => (
@@ -222,14 +213,19 @@ function Projects() {
                   </span>
                 ))}
               </div>
+
               <h2>{selectedProject.title}</h2>
               <p>{selectedProject.desc}</p>
-              <div className="project-tech" style={{ marginTop: "18px" }}>
-                {selectedProject.meta.tech.map((tech) => (
-                  <span className="tech-tag" key={tech}>
-                    {tech}
-                  </span>
-                ))}
+
+              <div className="project-modal-tech-section">
+                <h4 className="tech-heading">{lang === "id" ? "Teknologi yang Digunakan" : "Technologies Used"}</h4>
+                <div className="project-tech">
+                  {selectedProject.meta.tech.map((tech) => (
+                    <span className="tech-tag" key={tech}>
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -240,3 +236,4 @@ function Projects() {
 }
 
 export default Projects;
+
