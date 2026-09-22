@@ -1,25 +1,51 @@
 import FoldText from '../fitur-gsap/FoldText';
 import { useLanguage } from '../context/LanguageContext';
+import { 
+  GraduationCap, 
+  FileText, 
+  Briefcase, 
+  Calendar, 
+  Building2, 
+  MapPin, 
+  CheckCircle2, 
+  Palette, 
+  Award,
+  Code2,
+  Sparkles
+} from 'lucide-react';
 
-function About({ scrollTo }) {  
-  const { t } = useLanguage(); 
+function About() {  
+  const { lang, t } = useLanguage(); 
+
+  const getHighlightIcon = (idx) => {
+    if (idx === 0) return <GraduationCap size={20} className="highlight-icon-lucide" />;
+    if (idx === 1) return <FileText size={20} className="highlight-icon-lucide" />;
+    return <Award size={20} className="highlight-icon-lucide" />;
+  };
+
+  const getExperienceIcon = (role, type, icon) => {
+    const roleLower = (role || "").toLowerCase();
+    const typeLower = (type || "").toLowerCase();
+
+    if (roleLower.includes("backend") || roleLower.includes("developer") || icon === "💻") {
+      return <Code2 size={18} />;
+    }
+    if (roleLower.includes("design") || typeLower.includes("design") || icon === "🎨") {
+      return <Palette size={18} />;
+    }
+    return <Briefcase size={18} />;
+  };
 
   return (
     <section id="about" className="section about-section">
-      <div className="section-bg-decor">
-        <div className="decor-blob about-blob-1"></div>
-        <div className="decor-blob about-blob-2"></div>
-        <div className="decor-grid-pattern"></div>
-      </div>
-
-      <div className="container" style={{ position: "relative", zIndex: 2 }}>
+      <div className="container">
         <div className="section-header">
           <h2 className="section-title">{t.about.title}</h2>
         </div>
 
         <div className="about-content">
-          <div className="about-text">
-            <p>
+          <div className="about-text-card">
+            <p className="about-lead">
               <FoldText key={`para-${t.about.title}`} text={t.about.paragraph} splitBy="word" trigger="scroll" hinge="top" duration={0.6} stagger={0.012} />
             </p>
           </div>
@@ -42,7 +68,7 @@ function About({ scrollTo }) {
               {t.about.highlights.map((item, idx) => (
                 <div className="highlight-card" key={idx}>
                   <div className="highlight-icon-wrap">
-                    <span className="highlight-icon">{item.icon}</span>
+                    {getHighlightIcon(idx, item.icon)}
                   </div>
                   <div className="highlight-info">
                     <h3 className="highlight-title">{item.title}</h3>
@@ -53,101 +79,95 @@ function About({ scrollTo }) {
             </div>
           )}
 
-          {/* Work Experience Straight Line Timeline */}
+          {/* Work Experience Vertical Timeline */}
           {t.about.experiences && (
             <div className="about-experience-section" id="experience">
               <div className="experience-header">
-                <div className="experience-badge-pill">
-                  <span className="pulse-dot"></span>
-                  <span>{t.about.experienceBadge || "Pengalaman Kerja"}</span>
-                </div>
                 <h3 className="experience-heading">{t.about.experienceTitle || "Pengalaman Kerja"}</h3>
                 {t.about.experienceSubtitle && (
                   <p className="experience-subheading">{t.about.experienceSubtitle}</p>
                 )}
               </div>
 
-              <div className="experience-timeline">
-                {/* Continuous straight line */}
-                <div className="timeline-straight-line" aria-hidden="true"></div>
+              <div className="timeline-container">
+                <div className="timeline-spine" aria-hidden="true"></div>
 
-                <div className="timeline-items-list">
+                <div className="timeline-list">
                   {t.about.experiences.map((exp, idx) => (
-                    <div className="timeline-item" key={idx}>
-                      {/* Milestone Node on the Straight Line */}
-                      <div className="timeline-node-wrapper">
-                        <div className="timeline-node-dot">
-                          <span className="timeline-node-icon">{exp.icon || "💼"}</span>
+                    <div className={`timeline-entry ${idx === 0 ? "is-latest" : ""}`} key={idx}>
+                      {/* Timeline Left Rail: Milestone Node */}
+                      <div className="timeline-milestone">
+                        <div className="timeline-node-circle">
+                          {getExperienceIcon(exp.role, exp.type, exp.icon)}
                         </div>
-                        {idx === 0 && <span className="timeline-node-pulse" aria-hidden="true"></span>}
+                        {idx === 0 && <span className="timeline-pulse-ring" aria-hidden="true"></span>}
                       </div>
 
-                      {/* Timeline Content Card */}
-                      <div className="timeline-content-card">
-                        <div className="timeline-card-header">
-                          <div className="timeline-meta-top">
-                            <span className="timeline-period-badge">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                              </svg>
-                              {exp.period}
+                      {/* Timeline Main Card */}
+                      <div className="timeline-card">
+                        <div className="timeline-card-top">
+                          <div className="timeline-badges-row">
+                            <span className="timeline-period-chip">
+                              <Calendar size={13} />
+                              <span>{exp.period}</span>
                             </span>
                             {exp.type && (
-                              <span className="timeline-type-badge">{exp.type}</span>
+                              <span className="timeline-type-chip">{exp.type}</span>
+                            )}
+                            {idx === 0 && (
+                              <span className="timeline-latest-chip">
+                                <Sparkles size={12} />
+                                <span>{lang === "id" ? "Terbaru" : "Latest"}</span>
+                              </span>
                             )}
                           </div>
 
-                          <h4 className="timeline-role-title">{exp.role}</h4>
+                          <h4 className="timeline-role">{exp.role}</h4>
 
-                          <div className="timeline-company-info">
-                            <span className="company-name">
-                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                              </svg>
-                              {exp.company}
+                          <div className="timeline-entity-row">
+                            <span className="entity-company">
+                              <Building2 size={15} />
+                              <span>{exp.company}</span>
                             </span>
                             {exp.location && (
-                              <span className="company-location">
-                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                  <circle cx="12" cy="10" r="3"></circle>
-                                </svg>
-                                {exp.location}
+                              <span className="entity-location">
+                                <MapPin size={14} />
+                                <span>{exp.location}</span>
                               </span>
                             )}
                           </div>
                         </div>
 
                         {exp.desc && (
-                          <p className="timeline-card-desc">{exp.desc}</p>
+                          <p className="timeline-summary">{exp.desc}</p>
                         )}
 
                         {exp.details && exp.details.length > 0 && (
-                          <ul className="timeline-details-list">
-                            {exp.details.map((detail, dIdx) => (
-                              <li key={dIdx} className="timeline-detail-item">
-                                <span className="detail-bullet-icon" aria-hidden="true">
-                                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                  </svg>
-                                </span>
-                                <span>{detail}</span>
-                              </li>
-                            ))}
-                          </ul>
+                          <div className="timeline-details-block">
+                            <h5 className="timeline-details-title">
+                              {lang === "id" ? "Tanggung Jawab & Kontribusi:" : "Key Responsibilities & Contributions:"}
+                            </h5>
+                            <ul className="timeline-bullets">
+                              {exp.details.map((detail, dIdx) => (
+                                <li key={dIdx} className="timeline-bullet-item">
+                                  <CheckCircle2 size={15} className="bullet-check-icon" />
+                                  <span>{detail}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         )}
 
                         {exp.skills && exp.skills.length > 0 && (
-                          <div className="timeline-skills-wrap">
-                            {exp.skills.map((skill, sIdx) => (
-                              <span key={sIdx} className="timeline-skill-pill">
-                                {skill}
-                              </span>
-                            ))}
+                          <div className="timeline-stack-row">
+                            <span className="stack-label">Tech Stack:</span>
+                            <div className="timeline-tags">
+                              {exp.skills.map((skill, sIdx) => (
+                                <span key={sIdx} className="timeline-tag">
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
                           </div>
                         )}
                       </div>
@@ -164,3 +184,5 @@ function About({ scrollTo }) {
 }
 
 export default About;
+
+

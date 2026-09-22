@@ -53,8 +53,8 @@ function App() {
           speed={0.4}
           squareSize={40}
           direction="diagonal"
-          borderColor={darkMode ? "rgba(255, 255, 255, 0.07)" : "rgba(79, 70, 229, 0.09)"}
-          hoverFillColor={darkMode ? "rgba(99, 102, 241, 0.35)" : "rgba(79, 70, 229, 0.2)"}
+          borderColor={darkMode ? "rgba(99, 102, 241, 0.16)" : "rgba(79, 70, 229, 0.09)"}
+          hoverFillColor={darkMode ? "rgba(56, 189, 248, 0.35)" : "rgba(79, 70, 229, 0.2)"}
           shape="square"
           hoverTrailAmount={5}
         />
