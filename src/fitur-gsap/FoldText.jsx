@@ -162,6 +162,8 @@ const FoldText = ({
       if (rect.top <= window.innerHeight * 0.9 && rect.bottom >= 0) {
         play(false);
       }
+
+
     } else if (trigger === 'loop') {
       play(true);
     } else {

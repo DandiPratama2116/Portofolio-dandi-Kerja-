@@ -13,11 +13,135 @@ import mongoIcon from "../assets/mongodb.png";
 import dockerIcon from "../assets/Docker.png";
 import xamppIcon from "../assets/xampp.png";
 
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLanguage } from "../context/LanguageContext";
 import { Users, GitBranch, BrainCircuit, Clock } from "lucide-react";
 
+gsap.registerPlugin(ScrollTrigger);
+
 function Skills() {
   const { t } = useLanguage();
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      // ── Section title ──
+      const sectionTitle = el.querySelector('.section-title');
+      if (sectionTitle) {
+        gsap.fromTo(sectionTitle,
+          { opacity: 0, y: 28, skewX: -3 },
+          { opacity: 1, y: 0, skewX: 0, duration: 0.75, ease: 'power3.out',
+            scrollTrigger: { trigger: sectionTitle, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
+      // ── Section description/subtitle ──
+      const sectionDesc = el.querySelector('.section-description, .section-subtitle, .section-desc');
+      if (sectionDesc) {
+        gsap.fromTo(sectionDesc,
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.65, delay: 0.1, ease: 'power2.out',
+            scrollTrigger: { trigger: sectionDesc, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
+      // ── Hub nodes from left ──
+      const leftNodes = el.querySelectorAll('.hub-left .hub-node');
+      const rightNodes = el.querySelectorAll('.hub-right .hub-node');
+      const centerCard = el.querySelector('.hub-center-card');
+      const hubTrigger = el.querySelector('.skills-hub-wrapper');
+
+      if (leftNodes.length) {
+        gsap.fromTo(leftNodes,
+          { opacity: 0, x: -40 },
+          { opacity: 1, x: 0, duration: 0.55, stagger: 0.06, ease: 'power2.out',
+            scrollTrigger: { trigger: hubTrigger, start: 'top 85%', toggleActions: 'play none none reverse' }
+          }
+        );
+        // Animate node labels
+        const leftLabels = el.querySelectorAll('.hub-left .hub-node .node-label, .hub-left .hub-node span');
+        if (leftLabels.length) {
+          gsap.fromTo(leftLabels,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.4, stagger: 0.06, delay: 0.25, ease: 'power2.out',
+              scrollTrigger: { trigger: hubTrigger, start: 'top 85%', toggleActions: 'play none none reverse' }
+            }
+          );
+        }
+      }
+
+      if (rightNodes.length) {
+        gsap.fromTo(rightNodes,
+          { opacity: 0, x: 40 },
+          { opacity: 1, x: 0, duration: 0.55, stagger: 0.06, ease: 'power2.out',
+            scrollTrigger: { trigger: hubTrigger, start: 'top 85%', toggleActions: 'play none none reverse' }
+          }
+        );
+        const rightLabels = el.querySelectorAll('.hub-right .hub-node .node-label, .hub-right .hub-node span');
+        if (rightLabels.length) {
+          gsap.fromTo(rightLabels,
+            { opacity: 0 },
+            { opacity: 1, duration: 0.4, stagger: 0.06, delay: 0.25, ease: 'power2.out',
+              scrollTrigger: { trigger: hubTrigger, start: 'top 85%', toggleActions: 'play none none reverse' }
+            }
+          );
+        }
+      }
+
+      // ── Center card pop ──
+      if (centerCard) {
+        gsap.fromTo(centerCard,
+          { opacity: 0, scale: 0.7, rotate: -4 },
+          { opacity: 1, scale: 1, rotate: 0, duration: 0.7, ease: 'back.out(1.8)',
+            scrollTrigger: { trigger: hubTrigger, start: 'top 85%', toggleActions: 'play none none reverse' }
+          }
+        );
+        // Center card inner text
+        const centerTexts = centerCard.querySelectorAll('h3, p, span, .hub-title, .hub-sub');
+        if (centerTexts.length) {
+          gsap.fromTo(centerTexts,
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, duration: 0.5, stagger: 0.08, delay: 0.2, ease: 'power2.out',
+              scrollTrigger: { trigger: hubTrigger, start: 'top 85%', toggleActions: 'play none none reverse' }
+            }
+          );
+        }
+      }
+
+      // ── Team Skills Cards ──
+      const teamCards = el.querySelectorAll('.team-skill-card');
+      if (teamCards.length) {
+        gsap.fromTo(teamCards,
+          { opacity: 0, y: 40, scale: 0.93 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.65, stagger: 0.1, ease: 'back.out(1.4)',
+            scrollTrigger: { trigger: el.querySelector('.team-skills-grid'), start: 'top 85%', toggleActions: 'play none none reverse' }
+          }
+        );
+        // Card headings and text inside each team card
+        teamCards.forEach((card) => {
+          const texts = card.querySelectorAll('h3, h4, p, span:not(.icon-wrap)');
+          if (texts.length) {
+            gsap.fromTo(texts,
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, delay: 0.2, ease: 'power2.out',
+                scrollTrigger: { trigger: card, start: 'top 87%', toggleActions: 'play none none reverse' }
+              }
+            );
+          }
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [t]);
+
 
   const leftSkills = [
     { name: "React", icon: reactIcon },
@@ -87,7 +211,7 @@ function Skills() {
   ];
 
   return (
-    <section id="skills" className="section skills-section">
+    <section id="skills" ref={sectionRef} className="section skills-section">
       {/* Aesthetic Background Decor */}
       <div className="section-bg-decor">
         <div className="decor-blob skills-blob-1"></div>

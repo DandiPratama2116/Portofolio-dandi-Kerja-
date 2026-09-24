@@ -1,5 +1,8 @@
 import FoldText from '../fitur-gsap/FoldText';
 import { useLanguage } from '../context/LanguageContext';
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
   GraduationCap, 
   FileText, 
@@ -14,8 +17,117 @@ import {
   Sparkles
 } from 'lucide-react';
 
+gsap.registerPlugin(ScrollTrigger);
+
 function About() {  
   const { lang, t } = useLanguage(); 
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      // ── Section title & tag ──
+      const sectionTitle = el.querySelector('.section-title');
+      if (sectionTitle) {
+        gsap.fromTo(sectionTitle,
+          { opacity: 0, y: 28, skewX: -3 },
+          { opacity: 1, y: 0, skewX: 0, duration: 0.75, ease: 'power3.out',
+            scrollTrigger: { trigger: sectionTitle, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
+      // ── About text card ──
+      const aboutTextCard = el.querySelector('.about-text-card');
+      if (aboutTextCard) {
+        gsap.fromTo(aboutTextCard,
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
+            scrollTrigger: { trigger: aboutTextCard, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
+      // ── Stats Cards staggered reveal ──
+      const statCards = el.querySelectorAll('.about-stat-card');
+      if (statCards.length) {
+        gsap.fromTo(statCards,
+          { opacity: 0, y: 35, scale: 0.92 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.4)',
+            scrollTrigger: { trigger: el.querySelector('.about-stats-grid'), start: 'top 85%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
+      // ── Highlights Cards staggered ──
+      const highlightCards = el.querySelectorAll('.highlight-card');
+      if (highlightCards.length) {
+        gsap.fromTo(highlightCards,
+          { opacity: 0, y: 40, scale: 0.94 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.65, stagger: 0.12, ease: 'back.out(1.4)',
+            scrollTrigger: { trigger: el.querySelector('.about-highlights-grid'), start: 'top 85%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
+      // ── Experience heading ──
+      const expHeading = el.querySelector('.experience-heading');
+      const expSubheading = el.querySelector('.experience-subheading');
+      if (expHeading) {
+        gsap.fromTo(expHeading,
+          { opacity: 0, x: -24 },
+          { opacity: 1, x: 0, duration: 0.65, ease: 'power2.out',
+            scrollTrigger: { trigger: expHeading, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+      if (expSubheading) {
+        gsap.fromTo(expSubheading,
+          { opacity: 0, x: -18 },
+          { opacity: 1, x: 0, duration: 0.6, delay: 0.1, ease: 'power2.out',
+            scrollTrigger: { trigger: expSubheading, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
+      // ── Timeline entries (card + text) ──
+      const timelineEntries = el.querySelectorAll('.timeline-entry');
+      timelineEntries.forEach((entry, i) => {
+        // Animate the whole card
+        gsap.fromTo(entry,
+          { opacity: 0, x: -40, },
+          { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out',
+            scrollTrigger: { trigger: entry, start: 'top 87%', toggleActions: 'play none none reverse' }
+          }
+        );
+        // Animate role title inside
+        const role = entry.querySelector('.timeline-role');
+        if (role) {
+          gsap.fromTo(role,
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.5, delay: 0.15, ease: 'power2.out',
+              scrollTrigger: { trigger: entry, start: 'top 87%', toggleActions: 'play none none reverse' }
+            }
+          );
+        }
+        // Animate tech stack tags
+        const tags = entry.querySelectorAll('.timeline-tag');
+        if (tags.length) {
+          gsap.fromTo(tags,
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, duration: 0.4, stagger: 0.04, delay: 0.2, ease: 'back.out(1.5)',
+              scrollTrigger: { trigger: entry, start: 'top 87%', toggleActions: 'play none none reverse' }
+            }
+          );
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [lang, t]);
+
 
   const getHighlightIcon = (idx) => {
     if (idx === 0) return <GraduationCap size={20} className="highlight-icon-lucide" />;
@@ -37,7 +149,7 @@ function About() {
   };
 
   return (
-    <section id="about" className="section about-section">
+    <section id="about" ref={sectionRef} className="section about-section">
       <div className="container">
         <div className="section-header">
           <h2 className="section-title">{t.about.title}</h2>

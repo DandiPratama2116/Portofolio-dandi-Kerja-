@@ -1,0 +1,34 @@
+.scroll-float {
+  overflow: hidden;
+}
+
+.scroll-float-text {
+  display: inline-block;
+  font-size: clamp(1.6rem, 8vw, 10rem);
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Allow section-title, experience-heading, and custom classes to control their typography cleanly */
+.scroll-float.section-title,
+.scroll-float.experience-heading,
+.scroll-float.sub-section-title,
+.section-title .scroll-float-text,
+.experience-heading .scroll-float-text,
+.sub-section-title .scroll-float-text,
+.scroll-float.section-title .scroll-float-text,
+.scroll-float.experience-heading .scroll-float-text,
+.scroll-float.sub-section-title .scroll-float-text,
+.scroll-float-text.section-title {
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+
+.char {
+  display: inline-block;
+}
