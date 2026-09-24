@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./css/App.css";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Navbar from "./components/Navbar";
 import Hero from "./components/home";
@@ -9,6 +11,8 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ShapeGrid from "./components/ShapeGrid";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -72,7 +76,7 @@ function App() {
       <Skills />
       <Projects />
       <Contact />
-      <Footer />
+      <Footer scrollTo={scrollTo} />
     </div>
   );
 }
