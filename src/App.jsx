@@ -10,7 +10,9 @@ import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import ShapeGrid from "./components/ShapeGrid";
+import Certificate from "./components/certificate";
+import SkyBackground from "./components/SkyBackground";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,7 +31,11 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["home", "about", "skills", "projects", "contact"];
+      if (window.scrollY < 80) {
+        setActiveSection("home");
+        return;
+      }
+      const sections = ["home", "about", "skills", "projects", "certificate", "contact"];
       for (const id of sections) {
         const el = document.getElementById(id);
         if (el) {
@@ -41,28 +47,22 @@ function App() {
         }
       }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
     setMenuOpen(false);
   };
 
   return (
     <div className="app">
-      <div className="global-shapegrid-bg" aria-hidden="true">
-        <ShapeGrid
-          speed={0.4}
-          squareSize={40}
-          direction="diagonal"
-          borderColor={darkMode ? "rgba(99, 102, 241, 0.16)" : "rgba(79, 70, 229, 0.09)"}
-          hoverFillColor={darkMode ? "rgba(56, 189, 248, 0.35)" : "rgba(79, 70, 229, 0.2)"}
-          shape="square"
-          hoverTrailAmount={5}
-        />
-      </div>
+      <SkyBackground darkMode={darkMode} />
       <Navbar
         activeSection={activeSection}
         scrollTo={scrollTo}
@@ -71,10 +71,11 @@ function App() {
         menuOpen={menuOpen}
         setMenuOpen={setMenuOpen}
       />
-      <Hero scrollTo={scrollTo} />
+      <Hero darkMode={darkMode} scrollTo={scrollTo} />
       <About scrollTo={scrollTo} />
       <Skills />
       <Projects />
+      <Certificate />
       <Contact />
       <Footer scrollTo={scrollTo} />
     </div>

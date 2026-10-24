@@ -39,6 +39,17 @@ function About() {
         );
       }
 
+      // ── About photo card ──
+      const aboutPhoto = el.querySelector('.about-photo-card');
+      if (aboutPhoto) {
+        gsap.fromTo(aboutPhoto,
+          { opacity: 0, y: 32, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: 'power2.out',
+            scrollTrigger: { trigger: aboutPhoto, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
       // ── About text card ──
       const aboutTextCard = el.querySelector('.about-text-card');
       if (aboutTextCard) {
@@ -94,7 +105,7 @@ function About() {
 
       // ── Timeline entries (card + text) ──
       const timelineEntries = el.querySelectorAll('.timeline-entry');
-      timelineEntries.forEach((entry, i) => {
+      timelineEntries.forEach((entry) => {
         // Animate the whole card
         gsap.fromTo(entry,
           { opacity: 0, x: -40, },
@@ -156,23 +167,43 @@ function About() {
         </div>
 
         <div className="about-content">
-          <div className="about-text-card">
-            <p className="about-lead">
-              <FoldText key={`para-${t.about.title}`} text={t.about.paragraph} splitBy="word" trigger="scroll" hinge="top" duration={0.6} stagger={0.012} />
-            </p>
-          </div>
-
-          {/* Quick Key Metrics / Stats Row */}
-          {t.about.stats && (
-            <div className="about-stats-grid">
-              {t.about.stats.map((stat, idx) => (
-                <div className="about-stat-card" key={idx}>
-                  <span className="stat-val">{stat.value}</span>
-                  <span className="stat-lbl">{stat.label}</span>
+          {/* Top Hero Layout: Photo & Intro Text + Stats */}
+          <div className="about-hero-grid">
+            <div className="about-photo-card">
+              <div className="about-photo-frame">
+                <img
+                  src="/fotowisuda.png"
+                  alt="Dandi Pratama, S.T."
+                  className="about-photo-img"
+                  loading="lazy"
+                />
+                <div className="about-photo-badge">
+                  <GraduationCap size={15} className="photo-badge-icon" />
+                  <span>Dandi Pratama, S.T.</span>
                 </div>
-              ))}
+              </div>
             </div>
-          )}
+
+            <div className="about-intro-column">
+              <div className="about-text-card">
+                <p className="about-lead">
+                  <FoldText key={`para-${t.about.title}`} text={t.about.paragraph} splitBy="word" trigger="scroll" hinge="top" duration={0.6} stagger={0.012} />
+                </p>
+              </div>
+
+              {/* Quick Key Metrics / Stats Row */}
+              {t.about.stats && (
+                <div className="about-stats-grid">
+                  {t.about.stats.map((stat, idx) => (
+                    <div className="about-stat-card" key={idx}>
+                      <span className="stat-val">{stat.value}</span>
+                      <span className="stat-lbl">{stat.label}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
 
           {/* Key Strengths & Achievements Grid */}
           {t.about.highlights && (
