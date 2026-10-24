@@ -5,22 +5,12 @@
     <link rel="icon" type="image/svg+xml" href="/iconPorto.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dandi Pratama - Portfolio</title>
-    <!-- Preload hero image for instant reveal -->
-    <link rel="preload" href="/foto-utama.png" as="image" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      // Prevent flash of wrong theme on page load
-      (function() {
-        var saved = localStorage.getItem('theme');
-        var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
-    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -51,13 +51,11 @@ const DepthCarousel = ({
 
   const [active, setActive] = useState(0);
 
-  useEffect(() => {
-    onChangeRef.current = onChange;
-    cfgRef.current = {
-      count, depth, spread, tilt, tiltDirection, visibleCards, falloff, blur,
-      duration, ease, loop, cardWidth, autoplayDelay
-    };
-  });
+  onChangeRef.current = onChange;
+  cfgRef.current = {
+    count, depth, spread, tilt, tiltDirection, visibleCards, falloff, blur,
+    duration, ease, loop, cardWidth, autoplayDelay
+  };
 
   const layout = useCallback(pos => {
     const cfg = cfgRef.current;
@@ -293,12 +291,7 @@ const DepthCarousel = ({
             key={i}
             className={`depth-carousel__card${active === i ? ' is-active' : ''}`}
             ref={el => (cardRefs.current[i] = el)}
-            style={{
-              width: cardWidth,
-              height: cardHeight,
-              borderRadius: radius,
-              background: item.bg || '#0b0d12',
-            }}
+            style={{ width: cardWidth, height: cardHeight, borderRadius: radius }}
             aria-roledescription="slide"
             aria-label={`${i + 1} of ${count}`}
             aria-hidden={active !== i}
@@ -308,11 +301,6 @@ const DepthCarousel = ({
               className="depth-carousel__img"
               src={item.image}
               alt={item.alt || ''}
-              style={{
-                objectFit: item.fit || 'cover',
-                objectPosition: item.position || 'center',
-                padding: item.padding || 0,
-              }}
               draggable={false}
             />
             {item.label && (

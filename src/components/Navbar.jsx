@@ -23,7 +23,7 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
 
           {/* Segmented Pill Navigation */}
           <ul className={`menu ${menuOpen ? "open" : ""}`} role="menubar">
-            {["home", "about", "skills", "projects", "certificate", "contact"].map((s) => (
+            {["home", "about", "skills", "projects", "contact"].map((s) => (
               <li
                 key={s}
                 className={activeSection === s ? "active" : ""}
