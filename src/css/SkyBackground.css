@@ -1,0 +1,427 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   SKY BACKGROUND — GLOBAL ANIMATED THEME BACKGROUND
+   Morning sky (light) / Starry night (dark)
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ── SKY CSS VARIABLES ── */
+:root,
+[data-theme="light"] {
+  --sky-top: #87CEEB;
+  --sky-mid: #b4dff0;
+  --sky-bottom: #FFE9D6;
+  --sun-color: rgba(255, 220, 100, 0.85);
+  --sun-glow: rgba(255, 200, 80, 0.35);
+  --cloud-color-1: rgba(255, 255, 255, 0.92);
+  --cloud-color-2: rgba(255, 255, 255, 0.75);
+  --cloud-color-3: rgba(255, 255, 255, 0.55);
+  --cloud-shadow: rgba(180, 200, 220, 0.18);
+  --star-opacity: 0;
+  --moon-opacity: 0;
+  --nebula-opacity: 0;
+  --cloud-opacity: 1;
+  --shooting-star-opacity: 0;
+}
+
+[data-theme="dark"] {
+  --sky-top: #0b1026;
+  --sky-mid: #111638;
+  --sky-bottom: #1a1f4b;
+  --sun-color: rgba(255, 220, 100, 0);
+  --sun-glow: rgba(255, 200, 80, 0);
+  --cloud-color-1: rgba(200, 210, 240, 0.06);
+  --cloud-color-2: rgba(200, 210, 240, 0.04);
+  --cloud-color-3: rgba(200, 210, 240, 0.02);
+  --cloud-shadow: rgba(0, 0, 0, 0);
+  --star-opacity: 1;
+  --moon-opacity: 1;
+  --nebula-opacity: 1;
+  --cloud-opacity: 0.08;
+  --shooting-star-opacity: 1;
+}
+
+/* ── SKY CONTAINER ── */
+.sky-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    var(--sky-top) 0%,
+    var(--sky-mid) 50%,
+    var(--sky-bottom) 100%
+  );
+  transition: background 0.6s ease;
+}
+
+/* ── SUN (LIGHT MODE) ── */
+.sky-sun {
+  position: absolute;
+  top: -2%;
+  right: 8%;
+  width: clamp(100px, 14vw, 200px);
+  height: clamp(100px, 14vw, 200px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    var(--sun-color) 0%,
+    var(--sun-glow) 45%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  opacity: 1;
+  transition: opacity 0.6s ease;
+  will-change: opacity;
+}
+
+[data-theme="dark"] .sky-sun {
+  opacity: 0;
+}
+
+/* ── MOON (DARK MODE) ── */
+.sky-moon {
+  position: absolute;
+  top: 6%;
+  right: 12%;
+  width: clamp(50px, 6vw, 90px);
+  height: clamp(50px, 6vw, 90px);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 35%,
+    #f0f4ff 0%,
+    #d4dced 50%,
+    #b8c4da 100%
+  );
+  box-shadow:
+    0 0 20px 8px rgba(200, 215, 255, 0.3),
+    0 0 60px 20px rgba(180, 200, 255, 0.15),
+    0 0 100px 40px rgba(160, 185, 255, 0.08);
+  opacity: var(--moon-opacity);
+  transition: opacity 0.6s ease;
+  will-change: opacity;
+}
+
+/* Moon crater details */
+.sky-moon::before {
+  content: '';
+  position: absolute;
+  top: 22%;
+  left: 28%;
+  width: 20%;
+  height: 20%;
+  border-radius: 50%;
+  background: rgba(180, 195, 215, 0.5);
+}
+
+.sky-moon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  width: 14%;
+  height: 14%;
+  border-radius: 50%;
+  background: rgba(180, 195, 215, 0.4);
+}
+
+/* ── NEBULA / GALAXY ACCENT (DARK MODE) ── */
+.sky-nebula {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  width: 45%;
+  height: 50%;
+  background: radial-gradient(
+    ellipse at 30% 40%,
+    rgba(100, 60, 180, 0.08) 0%,
+    rgba(60, 100, 200, 0.05) 40%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  opacity: var(--nebula-opacity);
+  transition: opacity 0.6s ease;
+  will-change: opacity;
+}
+
+.sky-nebula-2 {
+  position: absolute;
+  bottom: 20%;
+  right: 10%;
+  width: 35%;
+  height: 40%;
+  background: radial-gradient(
+    ellipse at 60% 50%,
+    rgba(80, 40, 160, 0.06) 0%,
+    rgba(100, 60, 200, 0.04) 40%,
+    transparent 70%
+  );
+  filter: blur(50px);
+  opacity: var(--nebula-opacity);
+  transition: opacity 0.6s ease;
+  will-change: opacity;
+}
+
+/* ── CLOUDS ── */
+.sky-clouds-layer {
+  position: absolute;
+  inset: 0;
+  opacity: var(--cloud-opacity);
+  transition: opacity 0.6s ease;
+  will-change: opacity;
+}
+
+.sky-cloud {
+  position: absolute;
+  will-change: transform;
+}
+
+/* Cloud SVG paths are white with varying opacity */
+.sky-cloud svg {
+  display: block;
+  filter: drop-shadow(0 4px 8px var(--cloud-shadow));
+}
+
+/* Cloud Layer 1 — FAR (small, faint, slow) */
+.sky-cloud--far {
+  opacity: 0.35;
+}
+
+.sky-cloud--far.c1 {
+  top: 8%;
+  left: -15%;
+  width: clamp(100px, 12vw, 180px);
+  animation: cloud-drift 120s linear infinite;
+}
+
+.sky-cloud--far.c2 {
+  top: 18%;
+  left: -25%;
+  width: clamp(90px, 10vw, 160px);
+  animation: cloud-drift 110s linear infinite;
+  animation-delay: -40s;
+}
+
+/* Cloud Layer 2 — MID (medium size, medium speed) */
+.sky-cloud--mid {
+  opacity: 0.55;
+}
+
+.sky-cloud--mid.c3 {
+  top: 28%;
+  left: -20%;
+  width: clamp(140px, 16vw, 240px);
+  animation: cloud-drift 90s linear infinite;
+  animation-delay: -20s;
+}
+
+.sky-cloud--mid.c4 {
+  top: 42%;
+  left: -30%;
+  width: clamp(120px, 14vw, 220px);
+  animation: cloud-drift 85s linear infinite;
+  animation-delay: -55s;
+}
+
+.sky-cloud--mid.c5 {
+  top: 55%;
+  left: -18%;
+  width: clamp(110px, 13vw, 200px);
+  animation: cloud-drift 95s linear infinite;
+  animation-delay: -30s;
+}
+
+/* Cloud Layer 3 — NEAR (large, opaque, fast) */
+.sky-cloud--near {
+  opacity: 0.8;
+}
+
+.sky-cloud--near.c6 {
+  top: 65%;
+  left: -25%;
+  width: clamp(180px, 22vw, 340px);
+  animation: cloud-drift 70s linear infinite;
+  animation-delay: -10s;
+}
+
+.sky-cloud--near.c7 {
+  top: 78%;
+  left: -20%;
+  width: clamp(160px, 20vw, 300px);
+  animation: cloud-drift 65s linear infinite;
+  animation-delay: -45s;
+}
+
+/* Cloud drift keyframe */
+@keyframes cloud-drift {
+  0%   { transform: translateX(0) translateY(0); }
+  100% { transform: translateX(calc(100vw + 100%)) translateY(0); }
+}
+
+/* ── STARS (DARK MODE) ── */
+.sky-stars-layer {
+  position: absolute;
+  inset: 0;
+  opacity: var(--star-opacity);
+  transition: opacity 0.6s ease;
+  will-change: opacity;
+}
+
+.sky-star {
+  position: absolute;
+  border-radius: 50%;
+  background: #fff;
+  will-change: opacity;
+}
+
+/* Star sizes */
+.sky-star--sm {
+  width: 1px;
+  height: 1px;
+  box-shadow: 0 0 2px 0.5px rgba(255, 255, 255, 0.4);
+}
+
+.sky-star--md {
+  width: 2px;
+  height: 2px;
+  box-shadow: 0 0 3px 1px rgba(255, 255, 255, 0.5);
+}
+
+.sky-star--lg {
+  width: 3px;
+  height: 3px;
+  box-shadow: 0 0 5px 1.5px rgba(200, 220, 255, 0.6);
+}
+
+/* Twinkle animations — 3 variants for organic look */
+.sky-star--twinkle-1 {
+  animation: star-twinkle-1 3s ease-in-out infinite;
+}
+
+.sky-star--twinkle-2 {
+  animation: star-twinkle-2 4s ease-in-out infinite;
+}
+
+.sky-star--twinkle-3 {
+  animation: star-twinkle-3 5s ease-in-out infinite;
+}
+
+@keyframes star-twinkle-1 {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
+}
+
+@keyframes star-twinkle-2 {
+  0%, 100% { opacity: 0.3; }
+  40%      { opacity: 0.9; }
+  60%      { opacity: 0.7; }
+}
+
+@keyframes star-twinkle-3 {
+  0%, 100% { opacity: 0.5; }
+  30%      { opacity: 1; }
+  70%      { opacity: 0.35; }
+}
+
+/* ── SHOOTING STAR ── */
+.sky-shooting-star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.sky-shooting-star::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.8), transparent);
+  transform: translateY(-50%);
+}
+
+.sky-shooting-star.active {
+  animation: shoot-star 1.2s ease-out forwards;
+}
+
+@keyframes shoot-star {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(-35deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(60vw, 30vh) rotate(-35deg);
+  }
+}
+
+/* ── PAUSED STATE (via visibilitychange) ── */
+.sky-bg[data-paused="true"] .sky-cloud,
+.sky-bg[data-paused="true"] .sky-star,
+.sky-bg[data-paused="true"] .sky-shooting-star {
+  animation-play-state: paused !important;
+}
+
+/* ── REDUCED MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  .sky-cloud {
+    animation: none !important;
+  }
+
+  .sky-star {
+    animation: none !important;
+    opacity: 0.6 !important;
+  }
+
+  .sky-shooting-star {
+    display: none !important;
+  }
+}
+
+/* ── MOBILE OPTIMISATIONS ── */
+@media (max-width: 768px) {
+  /* Hide far clouds on mobile for performance */
+  .sky-cloud--far {
+    display: none;
+  }
+
+  /* Reduce nebula blur on mobile */
+  .sky-nebula,
+  .sky-nebula-2 {
+    filter: blur(25px);
+  }
+
+  /* Smaller sun/moon on mobile */
+  .sky-sun {
+    width: 80px;
+    height: 80px;
+    right: 5%;
+  }
+
+  .sky-moon {
+    width: 40px;
+    height: 40px;
+    right: 8%;
+  }
+}
+
+/* ── TABLET ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .sky-cloud--far.c2 {
+    display: none;
+  }
+}

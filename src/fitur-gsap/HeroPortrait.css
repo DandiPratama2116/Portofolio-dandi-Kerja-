@@ -1,0 +1,136 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   HERO PORTRAIT - LENS REVEAL EFFECT
+   ────────────────────────────────────────────────────────────────────────── */
+
+.hero-portrait-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 85vh;
+  max-height: 85vh;
+  z-index: 2;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.hero-portrait-layer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero-portrait-img {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Halftone layer - always visible */
+.hero-portrait-halftone {
+  z-index: 1;
+  filter: grayscale(1) contrast(1.1);
+  opacity: 0.85;
+}
+
+/* Color reveal layer - masked by cursor */
+.hero-portrait-reveal {
+  z-index: 2;
+  will-change: mask-image;
+  -webkit-mask-image: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    #000 0%,
+    #000 60%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--r) at var(--x) var(--y),
+    #000 0%,
+    #000 60%,
+    transparent 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Preload hint */
+.hero-portrait-reveal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--preload-img);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── RESPONSIVE ── */
+
+@media (max-width: 1200px) {
+  .hero-portrait-container {
+    height: 80vh;
+    max-height: 80vh;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hero-portrait-container {
+    height: 75vh;
+    max-height: 75vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-portrait-container {
+    height: 70vh;
+    max-height: 70vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-portrait-container {
+    height: 65vh;
+    max-height: 65vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-portrait-container {
+    height: 60vh;
+    max-height: 60vh;
+  }
+}
+
+/* Reduced motion: show static reveal */
+@media (prefers-reduced-motion: reduce) {
+  .hero-portrait-reveal {
+    -webkit-mask-image: radial-gradient(
+      circle 180px at 50% 50%,
+      #000 0%,
+      #000 60%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle 180px at 50% 50%,
+      #000 0%,
+      #000 60%,
+      transparent 100%
+    );
+  }
+}
+
+/* Touch devices - show on touch */
+@media (hover: none) and (pointer: coarse) {
+  .hero-portrait-container {
+    cursor: pointer;
+  }
+}

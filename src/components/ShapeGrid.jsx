@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import './ShapeGrid.css';
+import '../css/ShapeGrid.css';
 
 const ShapeGrid = ({
   direction = 'right',
