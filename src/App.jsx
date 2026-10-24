@@ -10,7 +10,7 @@ import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import Certificate from "./components/certificate";
+import Certificate from "./components/Certificate";
 import SkyBackground from "./components/SkyBackground";
 
 
