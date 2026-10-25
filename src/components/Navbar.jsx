@@ -152,12 +152,13 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
     <header className="navbar-wrapper">
       <nav className="navbar dragonball-nav" id="navbar" aria-label="Main Navigation">
         <div className="nav-inner">
-          {/* Logo Branding: 4-Star Dragon Ball with Saiyan Gold Typography */}
+          {/* Logo Branding: Official LogoDP.png */}
           <div className="logo-wrap" onClick={() => scrollTo("home")} role="button" tabIndex={0}>
-            <DragonBallSphere />
+            <div className="logo-dp-wrap">
+              <img src="/LogoDP.png" alt="Dandi Pratama Logo" className="logo-dp-img" />
+            </div>
             <div className="logo-text-group">
-              <span className="logo-title">DANDI</span>
-              <span className="logo-badge-db">PORTFOLIO</span>
+              <span className="logo-title">Portfolio</span>
             </div>
           </div>
 

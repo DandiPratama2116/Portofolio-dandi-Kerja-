@@ -278,18 +278,6 @@ export const translations = {
           tags: ["Debugging", "Troubleshooting", "Error Handling", "MySkill"]
         },
         {
-          id: "myskill-login-ui",
-          title: "Creating UI for Login & Register in Flutter",
-          issuer: "MySkill",
-          category: "mobile",
-          date: "20 Oktober 2026",
-          hours: "1 Jam Praktik",
-          image: "/certificates/myskill-flutter-login-ui.jpg",
-          pdf: "/certificates/myskill-flutter-login-ui.pdf",
-          desc: "Pembangunan antarmuka pengguna otentikasi login dan register yang responsif, validasi form interaktif, dan animasi transisi pada Flutter.",
-          tags: ["Flutter", "UI/UX", "Authentication", "Form Validation"]
-        },
-        {
           id: "pertamina-internship",
           title: "Kerja Praktek (Internship) PT Kilang Pertamina Internasional RU II Dumai",
           issuer: "PT Kilang Pertamina Internasional RU II Dumai",
@@ -610,18 +598,6 @@ export const translations = {
           pdf: "/certificates/myskill-troubleshooting-debugging.pdf",
           desc: "Systematic root-cause analysis, debugging strategies, error log tracking, and runtime diagnostics for robust software engineering.",
           tags: ["Debugging", "Troubleshooting", "Error Handling", "MySkill"]
-        },
-        {
-          id: "myskill-login-ui",
-          title: "Creating UI for Login & Register in Flutter",
-          issuer: "MySkill",
-          category: "mobile",
-          date: "October 20, 2026",
-          hours: "1 Hour Practice",
-          image: "/certificates/myskill-flutter-login-ui.jpg",
-          pdf: "/certificates/myskill-flutter-login-ui.pdf",
-          desc: "Crafting modern authentication user interfaces, responsive form validations, and screen transitions in Flutter.",
-          tags: ["Flutter", "UI/UX", "Authentication", "Form Validation"]
         },
         {
           id: "pertamina-internship",

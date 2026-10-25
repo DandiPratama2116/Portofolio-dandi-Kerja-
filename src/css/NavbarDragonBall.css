@@ -82,6 +82,32 @@
   transform: translateY(-1px) scale(1.02);
 }
 
+.logo-dp-wrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4), 0 0 10px rgba(245, 158, 11, 0.25);
+  flex-shrink: 0;
+}
+
+.logo-wrap:hover .logo-dp-wrap {
+  transform: scale(1.08) rotate(3deg);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.6), 0 0 16px rgba(251, 191, 36, 0.45);
+}
+
+.logo-dp-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  display: block;
+}
+
 .dragonball-sphere-wrap {
   position: relative;
   width: 36px;
@@ -459,14 +485,14 @@
   box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
 }
 
-/* Nav CTA: Kamehameha / Saiyan Energy Button */
+/* Nav CTA Button */
 .nav-cta-btn.db-cta {
   display: inline-flex;
   align-items: center;
   gap: 7px;
   padding: 7px 16px;
   border-radius: 9999px;
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #d97706 100%) !important;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
   /* Border transparan */
   border: 1px solid transparent !important;
   color: #ffffff !important;
@@ -475,19 +501,21 @@
   font-family: var(--font-sans);
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 
-    0 4px 16px rgba(249, 115, 22, 0.45),
-    0 0 10px rgba(251, 191, 36, 0.3) !important;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35) !important;
   white-space: nowrap;
 }
 
 .nav-cta-btn.db-cta:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 
-    0 6px 22px rgba(249, 115, 22, 0.6),
-    0 0 18px rgba(251, 191, 36, 0.5) !important;
-  background: linear-gradient(135deg, #fb923c 0%, #ea580c 45%, #f59e0b 100%) !important;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5) !important;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+}
+
+.nav-cta-btn.db-cta:active {
+  transform: translateY(1px) scale(0.97) !important;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.5) !important;
 }
 
 .nav-cta-btn.db-cta:hover .nav-cta-arrow {
