@@ -1,0 +1,562 @@
+/* ──────────────────────────────────────────────────────────────────────────
+   DRAGON BALL THEME — NAVBAR & KINTO'UN (AWAN KINTON) ANIMATIONS
+   Features:
+   - Transparent border on navbar & menu pill (border: 1px solid transparent)
+   - Iconic 4-Star Dragon Ball (Sūshinchū) branding with glowing Ki pulse
+   - Bouncy, floating Awan Kinton (Flying Nimbus) cloud burst animation on click
+   - Super Saiyan & Goku Gi golden-orange Ki energy aesthetic
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* ── Floating Navbar Wrapper ── */
+.navbar-wrapper {
+  position: fixed;
+  top: 14px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+  pointer-events: none;
+}
+
+/* ── Main Navbar Container: Transparent Border & Translucent Glass ── */
+.navbar.dragonball-nav {
+  pointer-events: auto;
+  width: min(1160px, 100%);
+  /* Border transparan */
+  border: 1px solid transparent !important;
+  border-radius: 9999px;
+  background: rgba(10, 15, 29, 0.78);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 
+    0 14px 40px -10px rgba(0, 0, 0, 0.5),
+    0 0 25px -4px rgba(245, 158, 11, 0.18),
+    inset 0 1px 1px 0 rgba(254, 240, 138, 0.12);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+[data-theme="light"] .navbar.dragonball-nav {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 12px 36px -10px rgba(234, 88, 12, 0.15),
+    0 0 20px -3px rgba(251, 191, 36, 0.25),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Hover: subtle Saiyan Ki ambient glow, keeping border transparent */
+.navbar.dragonball-nav:hover {
+  border-color: rgba(251, 191, 36, 0.25) !important;
+  box-shadow: 
+    0 18px 45px -8px rgba(0, 0, 0, 0.55),
+    0 0 35px -2px rgba(245, 158, 11, 0.32),
+    inset 0 1px 1px 0 rgba(254, 240, 138, 0.2);
+}
+
+.nav-inner {
+  width: 100%;
+  height: 58px;
+  padding: 0 16px 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* ── DRAGON BALL 4-STAR SPHERE & LOGO ── */
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logo-wrap:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+
+.dragonball-sphere-wrap {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 10px rgba(234, 88, 12, 0.5));
+}
+
+.dragonball-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.logo-wrap:hover .dragonball-svg {
+  transform: rotate(15deg) scale(1.08);
+}
+
+.db-aura-ring {
+  fill: none;
+  stroke: rgba(251, 191, 36, 0.55);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 2;
+  animation: dbRingSpin 8s linear infinite;
+}
+
+@keyframes dbRingSpin {
+  from { transform: rotate(0deg); transform-origin: 22px 22px; }
+  to { transform: rotate(360deg); transform-origin: 22px 22px; }
+}
+
+.db-ki-pulse {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.4) 0%, rgba(249, 115, 22, 0) 70%);
+  animation: dbKiPulse 2.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes dbKiPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.35); opacity: 0.85; }
+}
+
+.logo-text-group {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logo-title {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, #ffffff 30%, #fef08a 70%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-transform: uppercase;
+}
+
+[data-theme="light"] .logo-title {
+  background: linear-gradient(135deg, #0f172a 30%, #ea580c 70%, #d97706 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.logo-badge-db {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fb923c;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.logo-badge-db::before {
+  content: "★";
+  font-size: 8px;
+  color: #ea580c;
+}
+
+/* ── MENU CONTAINER: Transparent Border & Pill Styling ── */
+.dragonball-nav .menu {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  background: rgba(255, 255, 255, 0.04) !important;
+  padding: 4px 6px;
+  border-radius: 9999px;
+  /* Border transparan */
+  border: 1px solid transparent !important;
+  position: relative;
+}
+
+[data-theme="light"] .dragonball-nav .menu {
+  background: rgba(245, 158, 11, 0.08) !important;
+}
+
+.dragonball-nav .menu-item {
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 7px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  white-space: nowrap;
+  user-select: none;
+  overflow: visible; /* Ensure Kinto'un cloud puffs can pop outside */
+}
+
+.dragonball-nav .menu-item:hover {
+  color: #fef08a !important;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.4);
+}
+
+[data-theme="light"] .dragonball-nav .menu-item:hover {
+  color: #ea580c !important;
+  text-shadow: 0 0 10px rgba(249, 115, 22, 0.2);
+}
+
+.dragonball-nav .menu-item.clicked-burst .menu-text {
+  display: inline-block;
+  animation: textClickBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes textClickBounce {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.12); color: #fef08a; }
+  100% { transform: scale(1); }
+}
+
+/* Active Nav Item: Goku Gi Flame Gradient with Ki Aura */
+.dragonball-nav .menu li.active,
+.dragonball-nav .menu .menu-item.active {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 55%, #eab308 100%) !important;
+  box-shadow: 
+    0 4px 18px rgba(249, 115, 22, 0.45),
+    0 0 12px rgba(251, 191, 36, 0.35) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* ── KINTO'UN (AWAN KINTON) ACTIVE CUSHION ── */
+.active-kinton-cushion {
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 58px;
+  height: 26px;
+  pointer-events: none;
+  opacity: 0.95;
+  animation: kintonHoverWiggle 2.6s ease-in-out infinite;
+  filter: drop-shadow(0 4px 10px rgba(245, 158, 11, 0.55));
+}
+
+@keyframes kintonHoverWiggle {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-3px); }
+}
+
+/* ── AWAN KINTON (FLYING NIMBUS) BURST ANIMATION ON CLICK ── */
+.kinton-burst {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 48px;
+  animation: kintonFloatUp 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.kinton-cloud-main {
+  width: 76px;
+  height: 38px;
+  display: block;
+  filter: drop-shadow(0 6px 14px rgba(245, 158, 11, 0.75));
+}
+
+.kinton-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Additional puff smoke particles */
+.kinton-puff-left,
+.kinton-puff-right {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fef08a 25%, #f59e0b 80%);
+  opacity: 0.9;
+}
+
+.kinton-puff-left {
+  left: -2px;
+  bottom: 4px;
+  animation: puffLeft 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.kinton-puff-right {
+  right: -2px;
+  bottom: 4px;
+  animation: puffRight 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Mini Ki Sparkles */
+.ki-sparkle-1,
+.ki-sparkle-2,
+.ki-sparkle-3 {
+  position: absolute;
+  font-size: 14px;
+  color: #fef08a;
+  text-shadow: 0 0 10px #f59e0b;
+  pointer-events: none;
+}
+
+.ki-sparkle-1 {
+  top: -8px;
+  left: -14px;
+  animation: sparkleFloat1 0.85s ease-out forwards;
+}
+
+.ki-sparkle-2 {
+  top: -12px;
+  right: -14px;
+  animation: sparkleFloat2 0.85s ease-out forwards;
+}
+
+.ki-sparkle-3 {
+  top: -22px;
+  left: 45%;
+  animation: sparkleFloat3 0.95s ease-out forwards;
+}
+
+/* Animations for Cloud Burst */
+@keyframes kintonFloatUp {
+  0% {
+    transform: translateX(-50%) translateY(12px) scale(0.3);
+    opacity: 0;
+  }
+  20% {
+    transform: translateX(-50%) translateY(-4px) scale(1.25);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) translateY(-14px) scale(1.1);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(-50%) translateY(-26px) scale(0.95);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-42px) scale(0.7);
+    opacity: 0;
+  }
+}
+
+@keyframes puffLeft {
+  0% { transform: scale(0.3) translate(0, 0); opacity: 0; }
+  30% { transform: scale(1.2) translate(-12px, -6px); opacity: 0.95; }
+  100% { transform: scale(0.2) translate(-28px, -12px); opacity: 0; }
+}
+
+@keyframes puffRight {
+  0% { transform: scale(0.3) translate(0, 0); opacity: 0; }
+  30% { transform: scale(1.2) translate(12px, -6px); opacity: 0.95; }
+  100% { transform: scale(0.2) translate(28px, -12px); opacity: 0; }
+}
+
+@keyframes sparkleFloat1 {
+  0% { transform: scale(0.2) translate(0, 0); opacity: 0; }
+  40% { transform: scale(1.3) translate(-10px, -12px); opacity: 1; }
+  100% { transform: scale(0.4) translate(-20px, -28px); opacity: 0; }
+}
+
+@keyframes sparkleFloat2 {
+  0% { transform: scale(0.2) translate(0, 0); opacity: 0; }
+  40% { transform: scale(1.3) translate(10px, -12px); opacity: 1; }
+  100% { transform: scale(0.4) translate(20px, -28px); opacity: 0; }
+}
+
+@keyframes sparkleFloat3 {
+  0% { transform: scale(0.2) translate(0, 0); opacity: 0; }
+  40% { transform: scale(1.4) translate(0px, -14px); opacity: 1; }
+  100% { transform: scale(0.4) translate(0px, -32px); opacity: 0; }
+}
+
+/* ── NAV ACTIONS: Dragon Ball Styled Controls ── */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Language Switcher */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  /* Border transparan */
+  border: 1px solid transparent !important;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+[data-theme="light"] .lang-toggle {
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.lang-toggle:hover {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
+
+.lang-badge.active {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+/* Theme Switcher */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  /* Border transparan */
+  border: 1px solid transparent !important;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] .theme-toggle {
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.theme-toggle:hover {
+  color: #f59e0b;
+  background: rgba(251, 191, 36, 0.16);
+  transform: rotate(20deg) scale(1.08);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.4);
+}
+
+/* Nav CTA: Kamehameha / Saiyan Energy Button */
+.nav-cta-btn.db-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #d97706 100%) !important;
+  /* Border transparan */
+  border: 1px solid transparent !important;
+  color: #ffffff !important;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 
+    0 4px 16px rgba(249, 115, 22, 0.45),
+    0 0 10px rgba(251, 191, 36, 0.3) !important;
+  white-space: nowrap;
+}
+
+.nav-cta-btn.db-cta:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 
+    0 6px 22px rgba(249, 115, 22, 0.6),
+    0 0 18px rgba(251, 191, 36, 0.5) !important;
+  background: linear-gradient(135deg, #fb923c 0%, #ea580c 45%, #f59e0b 100%) !important;
+}
+
+.nav-cta-btn.db-cta:hover .nav-cta-arrow {
+  transform: translateX(3px);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.hamburger:hover {
+  color: #f59e0b;
+}
+
+/* ── MOBILE RESPONSIVE ADAPTATION ── */
+@media (max-width: 900px) {
+  .dragonball-nav .menu {
+    position: fixed;
+    top: 76px;
+    left: 16px;
+    right: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    background: rgba(10, 15, 29, 0.96) !important;
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    /* Border transparan */
+    border: 1px solid transparent !important;
+    border-radius: 20px;
+    padding: 16px;
+    gap: 8px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.2);
+    display: none;
+  }
+
+  [data-theme="light"] .dragonball-nav .menu {
+    background: rgba(255, 255, 255, 0.95) !important;
+  }
+
+  .dragonball-nav .menu.open {
+    display: flex;
+    animation: mobileMenuSlide 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes mobileMenuSlide {
+    from { opacity: 0; transform: translateY(-10px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .dragonball-nav .menu-item {
+    text-align: center;
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .hamburger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-cta-btn.db-cta {
+    display: none;
+  }
+}
