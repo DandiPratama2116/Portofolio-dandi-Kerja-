@@ -14,7 +14,9 @@ import {
   Palette, 
   Award,
   Code2,
-  Sparkles
+  Sparkles,
+  Download,
+  Eye
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -68,6 +70,17 @@ function About() {
           { opacity: 0, y: 35, scale: 0.92 },
           { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.4)',
             scrollTrigger: { trigger: el.querySelector('.about-stats-grid'), start: 'top 85%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+
+      // ── CV Button reveal ──
+      const cvBtn = el.querySelector('.about-cv-wrapper');
+      if (cvBtn) {
+        gsap.fromTo(cvBtn,
+          { opacity: 0, y: 24, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.65, delay: 0.15, ease: 'power2.out',
+            scrollTrigger: { trigger: cvBtn, start: 'top 88%', toggleActions: 'play none none reverse' }
           }
         );
       }
@@ -202,6 +215,20 @@ function About() {
                   ))}
                 </div>
               )}
+
+              {/* Tombol Unduh CV */}
+              <div className="about-cv-wrapper">
+                <a
+                  href="/CV_DandiPratama_1.pdf"
+                  download="CV_DandiPratama_1.pdf"
+                  className="about-unduh-cv-btn"
+                  title={lang === "id" ? "Unduh CV Dandi Pratama (PDF)" : "Download CV (PDF)"}
+                >
+                  <FileText size={18} />
+                  <span>{lang === "id" ? "Unduh CV" : "Download CV"}</span>
+                  <Download size={16} className="cv-download-icon" />
+                </a>
+              </div>
             </div>
           </div>
 

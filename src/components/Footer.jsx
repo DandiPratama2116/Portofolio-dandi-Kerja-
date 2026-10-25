@@ -37,7 +37,7 @@ function Footer() {
               title={lang === "id" ? "Kembali ke Atas" : "Back to Top"}
             >
               <div className="footer-logo-mark-wrap">
-                <span className="logo-mark">D</span>
+                <img src="/LogoDP.png" alt="Dandi Pratama Logo" className="footer-logo-img" />
                 <span className="logo-dot-glow"></span>
               </div>
               <h3 className="footer-logo">
