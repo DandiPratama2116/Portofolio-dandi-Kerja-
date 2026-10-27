@@ -48,9 +48,9 @@ function Projects() {
       bg: "#ffffff",
     },
     {
-      id: "kopi-kenangan",
-      categories: ["Full Stack Developer", "Frontend"],
-      tech: ["HTML", "CSS", "JavaScript"],
+      id: "Coffeshop-pku",
+      categories: ["Full Stack Developer"],
+      tech: ["React.Js", "Golang", "MySQL", "XAMPP"],
       color: "#b45309",
       gradient: "linear-gradient(135deg, #78350f, #d97706)",
       image: "/project dandi/Coffe-Shop.png",
@@ -65,7 +65,7 @@ function Projects() {
     {
       id: "sioplas",
       categories: ["Backend", "Web System"],
-      tech: ["Laravel", "PHP", "CSS", "Golang", "XAMPP", "MySQL"],
+      tech: ["Laravel", "Golang", "XAMPP", "MySQL"],
       color: "#0284c7",
       gradient: "linear-gradient(135deg, #0284c7, #38bdf8)",
       image: "/project dandi/Sioplas.png",
@@ -80,7 +80,7 @@ function Projects() {
     {
       id: "webnesa",
       categories: ["Full Stack Developer", "Frontend"],
-      tech: ["HTML", "CSS", "JavaScript", "Responsive Design"],
+      tech: ["Laravel"],
       color: "#3b82f6",
       gradient: "linear-gradient(135deg, #1d4ed8, #3b82f6)",
       image: "/project dandi/WebNesa.png",
