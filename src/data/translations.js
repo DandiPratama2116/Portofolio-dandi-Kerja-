@@ -173,6 +173,29 @@ export const translations = {
             "Optimasi performa web dan responsivitas penuh di desktop, tablet, dan smartphone.",
             "Desain UI/UX profesional dengan kombinasi tipografi dan palet warna teknologi modern."
           ]
+        },
+        {
+          id: "kafe-shukufuku",
+          title: "Kafe Shukufuku - Japanese Specialty Coffee",
+          desc: "Website landing page bernuansa minimalis khas Jepang untuk Shukufuku Specialty Coffee, menyajikan katalog menu kopi autentik, ulasan pelanggan, dan informasi kafe dengan desain yang estetik dan tenang.",
+          details: [
+            "Pengembangan halaman web landing page berbasis TypeScript (.tsx) dan React dengan arsitektur komponen modular dan type-safe.",
+            "Desain antarmuka bersih berestetika modern minimalis khas Jepang dengan tipografi elegan dan palet warna warm earth-tone.",
+            "Fitur navigasi halaman interaktif mencakup About, Menu Specialty Coffee, Gallery, Customer Reviews, dan Kontak Reservasi.",
+            "Optimasi layout responsif multi-device (desktop, tablet, smartphone) untuk pengalaman pengguna yang mulus dan cepat."
+          ]
+        },
+        {
+          id: "uiux-pertamina",
+          title: "UI/UX Customer Service & Chatbot - Pertamina RU II Dumai",
+          desc: "Desain sistem antarmuka (UI/UX) portal Customer Service dan asisten virtual Chatbot interaktif untuk PT Kilang Pertamina Internasional RU II Dumai.",
+          details: [
+            "Design Tampilan Dashboard: Monitoring analitik, metrik interaksi, dan status operasional sistem secara real-time.",
+            "Design Tampilan Customer: Portal interaktif bagi pengunjung untuk mengakses informasi dan mengajukan layanan bantuan.",
+            "Design Tampilan Admin: Panel kontrol terpusat untuk manajemen antrean tiket, penanganan respon, dan riwayat obrolan.",
+            "Design Tampilan Chatbot: Antarmuka percakapan asisten virtual cerdas yang responsif, intuitif, dan ramah pengguna.",
+            "Design Tampilan Login/Logout: Halaman autentikasi aman dengan estetika korporat modern untuk pengguna dan staf admin."
+          ]
         }
       ]
     },
@@ -276,6 +299,19 @@ export const translations = {
           pdf: "/certificates/myskill-troubleshooting-debugging.pdf",
           desc: "Teknik pemecahan masalah (root-cause analysis), penelusuran log error, debugging kode, serta optimasi stabilitas sistem aplikasi.",
           tags: ["Debugging", "Troubleshooting", "Error Handling", "MySkill"]
+        },
+        {
+          id: "myskill-frontend-backend-integration",
+          title: "Frontend & Backend Integration (Specialization)",
+          issuer: "MySkill",
+          category: "backend",
+          date: "29 Oktober 2026",
+          hours: "4 Jam (4 Materi)",
+          credential: "MS-20261029-4SVEzhYpczkcdczCbWoY",
+          image: "/certificates/myskill-frontend-backend-integration.jpg",
+          pdf: "/certificates/myskill-frontend-backend-integration.pdf",
+          desc: "Spesialisasi integrasi Frontend dan Backend dari MySkill yang mencakup arsitektur integrasi sistem, komunikasi client-server, konsumsi API, otentikasi data, serta alur integrasi end-to-end aplikasi modern.",
+          tags: ["Frontend", "Backend", "API Integration", "Fullstack", "MySkill"]
         },
         {
           id: "pertamina-internship",
@@ -495,6 +531,29 @@ export const translations = {
             "High-performance optimization and complete responsiveness across mobile, tablet, and desktop.",
             "Professional UI/UX aesthetic combining contemporary typography and dark tech palette."
           ]
+        },
+        {
+          id: "kafe-shukufuku",
+          title: "Kafe Shukufuku - Japanese Specialty Coffee",
+          desc: "A Japanese minimalist specialty coffee landing page featuring authentic menu showcases, customer reviews, and serene cafe branding.",
+          details: [
+            "Interactive landing page development built with TypeScript (.tsx) and React featuring structured, modular, and type-safe components.",
+            "Clean Japanese-inspired minimalist aesthetic with elegant typography and a warm earth-tone palette.",
+            "Comprehensive page layout covering About, Specialty Coffee Menu, Cafe Gallery, Customer Reviews, and Reservation Contact.",
+            "Fully responsive multi-device design (desktop, tablet, mobile) optimized for smooth, fluid user browsing."
+          ]
+        },
+        {
+          id: "uiux-pertamina",
+          title: "UI/UX Customer Service & Chatbot - Pertamina RU II Dumai",
+          desc: "UI/UX system design for the Customer Service portal and interactive virtual Chatbot assistant for PT Kilang Pertamina Internasional RU II Dumai.",
+          details: [
+            "Dashboard Interface Design: Real-time monitoring of operational status, interaction metrics, and service analytics.",
+            "Customer Interface Design: Intuitive self-service portal for visitors to discover information and initiate support.",
+            "Admin Interface Design: Centralized management panel for ticketing queues, response configurations, and chat history logs.",
+            "Chatbot Interface Design: Clean, conversational AI widget interface with guided interactive options.",
+            "Login/Logout Interface Design: Secure role-based authentication pages designed with modern corporate standards."
+          ]
         }
       ]
     },
@@ -598,6 +657,19 @@ export const translations = {
           pdf: "/certificates/myskill-troubleshooting-debugging.pdf",
           desc: "Systematic root-cause analysis, debugging strategies, error log tracking, and runtime diagnostics for robust software engineering.",
           tags: ["Debugging", "Troubleshooting", "Error Handling", "MySkill"]
+        },
+        {
+          id: "myskill-frontend-backend-integration",
+          title: "Frontend & Backend Integration (Specialization)",
+          issuer: "MySkill",
+          category: "backend",
+          date: "October 29, 2026",
+          hours: "4 Hours (4 Courses)",
+          credential: "MS-20261029-4SVEzhYpczkcdczCbWoY",
+          image: "/certificates/myskill-frontend-backend-integration.jpg",
+          pdf: "/certificates/myskill-frontend-backend-integration.pdf",
+          desc: "Skill specialization in Frontend and Backend Integration from MySkill, covering integration architecture, client-server communication, API consumption, data authentication, and full-stack integration workflows.",
+          tags: ["Frontend", "Backend", "API Integration", "Fullstack", "MySkill"]
         },
         {
           id: "pertamina-internship",

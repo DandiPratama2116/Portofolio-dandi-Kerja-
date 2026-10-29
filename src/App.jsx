@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./css/App.css";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -23,6 +23,8 @@ function App() {
   });
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const isClickScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef(null);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", darkMode ? "dark" : "light");
@@ -31,6 +33,9 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Jangan timpa activeSection jika sedang smooth scrolling dari klik navbar
+      if (isClickScrollingRef.current) return;
+
       if (window.scrollY < 80) {
         setActiveSection("home");
         return;
@@ -40,7 +45,7 @@ function App() {
         const el = document.getElementById(id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 120 && rect.bottom >= 120) {
+          if (rect.top <= 140 && rect.bottom >= 140) {
             setActiveSection(id);
             break;
           }
@@ -48,10 +53,21 @@ function App() {
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
   }, []);
 
   const scrollTo = (id) => {
+    // Kunci scroll listener seketika agar awan navbar langsung aktif dan tidak loncat-loncat saat smooth scroll
+    setActiveSection(id);
+    isClickScrollingRef.current = true;
+    if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = setTimeout(() => {
+      isClickScrollingRef.current = false;
+    }, 850);
+
     if (id === "home") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {

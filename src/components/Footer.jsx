@@ -46,7 +46,7 @@ function Footer() {
             </div>
 
             <p className="footer-tagline">
-              Software Engineer • Backend & Full Stack Developer
+              Software Engineer • Backend Developer, Full Stack Developer, Web & Mobile Developer
             </p>
           </div>
 
