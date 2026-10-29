@@ -91,6 +91,34 @@ function Projects() {
       position: "top center",
       bg: "#0f172a",
     },
+    {
+      id: "kafe-shukufuku",
+      categories: ["Frontend", "Web Landing Page"],
+      tech: ["TypeScript (.tsx)", "React", "CSS3", "Responsive Design"],
+      color: "#b47b48",
+      gradient: "linear-gradient(135deg, #b47b48, #d4976a)",
+      image: "/project dandi/Kafe-Shukufuku.png",
+      gallery: [
+        { label: "Halaman Web / Landing Page", src: "/project dandi/Kafe-Shukufuku.png", type: "web" }
+      ],
+      fit: "cover",
+      position: "top center",
+      bg: "#f8f6f0",
+    },
+    {
+      id: "uiux-pertamina",
+      categories: ["UI/UX Design", "System Design"],
+      tech: ["Figma", "Adobe Photoshop", "Adobe Illustrator", "Adobe XD"],
+      color: "#0284c7",
+      gradient: "linear-gradient(135deg, #0284c7, #2563eb)",
+      image: "/project dandi/UI:UX Pertamina.png",
+      gallery: [
+        { label: "Portal CS & Chatbot Pertamina", src: "/project dandi/UI:UX Pertamina.png", type: "web" }
+      ],
+      fit: "cover",
+      position: "top center",
+      bg: "#0c1a2e",
+    }
   ];
 
   const allProjects = (t.projects?.items || []).map((proj, idx) => {
@@ -315,7 +343,6 @@ function Projects() {
               </div>
               {/* Click hint */}
               <p className="carousel-hint">
-                <Zap size={12} />
                 {lang === "id"
                   ? "Geser atau klik panah untuk menelusuri proyek"
                   : "Swipe or click arrows to browse projects"}
@@ -419,7 +446,10 @@ function Projects() {
                   src={modalActiveImage}
                   alt={modalProject.title}
                   className={`project-modal-img ${
-                    modalActiveImage.includes("Coffe-Shop.png") || modalActiveImage.includes("WebNesa.png")
+                    modalActiveImage.includes("Coffe-Shop.png") ||
+                    modalActiveImage.includes("WebNesa.png") ||
+                    modalActiveImage.includes("Kafe-Shukufuku.png") ||
+                    modalActiveImage.includes("UI:UX Pertamina.png")
                       ? "is-landscape"
                       : "is-portrait"
                   }`}

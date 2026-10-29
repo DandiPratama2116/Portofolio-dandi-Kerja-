@@ -284,12 +284,6 @@ function About() {
                             {exp.type && (
                               <span className="timeline-type-chip">{exp.type}</span>
                             )}
-                            {idx === 0 && (
-                              <span className="timeline-latest-chip">
-                                <Sparkles size={12} />
-                                <span>{lang === "id" ? "Terbaru" : "Latest"}</span>
-                              </span>
-                            )}
                           </div>
 
                           <h4 className="timeline-role">{exp.role}</h4>

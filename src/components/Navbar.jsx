@@ -51,23 +51,22 @@ function DragonBallSphere() {
 }
 
 // ── Kinto'un (Awan Kinton / Flying Nimbus) SVG ──
-function KintonCloudSVG({ variant = "burst" }) {
-  const isSubtle = variant === "subtle";
+function KintonCloudSVG() {
   return (
     <svg
       viewBox="0 0 120 60"
-      className={`kinton-svg ${isSubtle ? "kinton-svg-subtle" : "kinton-svg-burst"}`}
+      className="kinton-svg kinton-svg-subtle"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden="true"
     >
       <defs>
-        <linearGradient id={`kintonYellowGrad-${variant}`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="kintonYellowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#FFFBEB" />
           <stop offset="25%" stopColor="#FEF08A" />
           <stop offset="60%" stopColor="#FBBF24" />
           <stop offset="100%" stopColor="#F59E0B" />
         </linearGradient>
-        <radialGradient id={`kintonPuffShine-${variant}`} cx="35%" cy="25%" r="60%">
+        <radialGradient id="kintonPuffShine" cx="35%" cy="25%" r="60%">
           <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.9" />
           <stop offset="60%" stopColor="#FEF08A" stopOpacity="0.4" />
           <stop offset="100%" stopColor="#FBBF24" stopOpacity="0" />
@@ -75,7 +74,7 @@ function KintonCloudSVG({ variant = "burst" }) {
       </defs>
 
       {/* Main puffy cloud body */}
-      <g fill={`url(#kintonYellowGrad-${variant})`} stroke="#D97706" strokeWidth="1" strokeOpacity="0.4">
+      <g fill="url(#kintonYellowGrad)" stroke="#D97706" strokeWidth="1" strokeOpacity="0.4">
         {/* Base rounded cloud puffs */}
         <ellipse cx="60" cy="42" rx="42" ry="14" />
         <circle cx="32" cy="34" r="16" />
@@ -86,9 +85,9 @@ function KintonCloudSVG({ variant = "burst" }) {
       </g>
 
       {/* White/light yellow gloss puff highlights */}
-      <ellipse cx="55" cy="18" rx="12" ry="6" fill={`url(#kintonPuffShine-${variant})`} />
-      <ellipse cx="30" cy="28" rx="9" ry="5" fill={`url(#kintonPuffShine-${variant})`} />
-      <ellipse cx="84" cy="26" rx="9" ry="5" fill={`url(#kintonPuffShine-${variant})`} />
+      <ellipse cx="55" cy="18" rx="12" ry="6" fill="url(#kintonPuffShine)" />
+      <ellipse cx="30" cy="28" rx="9" ry="5" fill="url(#kintonPuffShine)" />
+      <ellipse cx="84" cy="26" rx="9" ry="5" fill="url(#kintonPuffShine)" />
 
       {/* Akira Toriyama style comic cloud swirl */}
       <path
@@ -131,17 +130,12 @@ function KintonCloudSVG({ variant = "burst" }) {
 
 function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setMenuOpen }) {
   const { lang, setLang, t } = useLanguage();
-  
-  // State for Kinto'un (Awan Kinton) cloud burst animation on click
-  const [activeCloud, setActiveCloud] = useState({ id: null, count: 0 });
 
   const toggleLanguage = () => {
     setLang(lang === "id" ? "en" : "id");
   };
 
   const handleMenuClick = (s) => {
-    // Trigger animated Kinto'un cloud burst on this clicked item
-    setActiveCloud({ id: s, count: Date.now() });
     scrollTo(s);
     if (menuOpen) setMenuOpen(false);
   };
@@ -162,39 +156,24 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
             </div>
           </div>
 
-          {/* Segmented Pill Navigation with Transparent Border & Awan Kinton on Click */}
+          {/* Segmented Pill Navigation with Awan Kinton di Bawah saat Aktif */}
           <ul className={`menu ${menuOpen ? "open" : ""}`} role="menubar">
             {navItems.map((s) => {
               const isActive = activeSection === s;
-              const hasCloudBurst = activeCloud.id === s;
 
               return (
                 <li
                   key={s}
-                  className={`menu-item ${isActive ? "active" : ""} ${hasCloudBurst ? "clicked-burst" : ""}`}
+                  className={`menu-item ${isActive ? "active" : ""}`}
                   onClick={() => handleMenuClick(s)}
                   role="menuitem"
                 >
                   <span className="menu-text">{t.nav[s] || s.charAt(0).toUpperCase() + s.slice(1)}</span>
 
-                  {/* Active Kinto'un Cloud Cushion Base */}
+                  {/* Kinto'un Cloud Cushion Base (Awan Kinton Bawah) */}
                   {isActive && (
                     <span className="active-kinton-cushion" aria-hidden="true">
-                      <KintonCloudSVG variant="subtle" />
-                    </span>
-                  )}
-
-                  {/* Animated Awan Kinton (Flying Nimbus) Burst on Click */}
-                  {hasCloudBurst && (
-                    <span key={activeCloud.count} className="kinton-burst" aria-hidden="true">
-                      <span className="kinton-cloud-main">
-                        <KintonCloudSVG variant="burst" />
-                      </span>
-                      <span className="kinton-puff-left"></span>
-                      <span className="kinton-puff-right"></span>
-                      <span className="ki-sparkle-1">✦</span>
-                      <span className="ki-sparkle-2">★</span>
-                      <span className="ki-sparkle-3">✦</span>
+                      <KintonCloudSVG />
                     </span>
                   )}
                 </li>
