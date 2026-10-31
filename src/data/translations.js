@@ -108,15 +108,24 @@ export const translations = {
       ]
     },
     projects: {
-      title: "Proyek Unggulan",
-      subtitle: "Pilih kategori untuk melihat proyek berdasarkan bidang keahlian",
+      title: "Project & Dokumentasi",
+      subtitle: "Pilih kategori untuk melihat proyek aplikasi atau kumpulan foto dokumentasi",
       allCategory: "Semua",
-      emptyState: "Belum ada proyek dalam kategori ini.",
+      emptyState: "Belum ada item dalam kategori ini.",
       categories: {
-        backend: "Backend",
-        fullstack: "Full Stack Developer",
-        ai: "AI Engineer",
-        mobile: "Mobile Developer"
+        project: "Project",
+        docs: "Dokumentasi"
+      },
+      modalTabs: {
+        details: "Detail & Spesifikasi",
+        gallery: "Kumpulan Foto",
+        allPhotos: "Kumpulan Foto & Galeri",
+        photoCount: "foto",
+        viewFullscreen: "Lihat Ukuran Penuh",
+        closeFullscreen: "Tutup Layar Penuh",
+        prevPhoto: "Foto Sebelumnya",
+        nextPhoto: "Foto Selanjutnya",
+        activeBadge: "Tampilan Aktif"
       },
       items: [
         {
@@ -142,7 +151,7 @@ export const translations = {
           ]
         },
         {
-          id: "kopi-kenangan",
+          id: "Coffeshop-pku",
           title: "Coffee Shop & Ordering",
           desc: "Website landing page dan sistem pemesanan menu online interaktif untuk coffee shop dengan antarmuka desktop & mobile yang responsif.",
           details: [
@@ -194,7 +203,6 @@ export const translations = {
             "Design Tampilan Customer: Portal interaktif bagi pengunjung untuk mengakses informasi dan mengajukan layanan bantuan.",
             "Design Tampilan Admin: Panel kontrol terpusat untuk manajemen antrean tiket, penanganan respon, dan riwayat obrolan.",
             "Design Tampilan Chatbot: Antarmuka percakapan asisten virtual cerdas yang responsif, intuitif, dan ramah pengguna.",
-            "Design Tampilan Login/Logout: Halaman autentikasi aman dengan estetika korporat modern untuk pengguna dan staf admin."
           ]
         }
       ]
@@ -467,14 +475,23 @@ export const translations = {
     },
     projects: {
       title: "Featured Projects",
-      subtitle: "Filter projects by specialization or tech focus",
+      subtitle: "Browse featured applications or photo documentation collections",
       allCategory: "All",
-      emptyState: "No projects found in this category.",
+      emptyState: "No items found in this category.",
       categories: {
-        backend: "Backend",
-        fullstack: "Full Stack Developer",
-        ai: "AI Engineer",
-        mobile: "Mobile Developer"
+        project: "Projects",
+        docs: "Documentation"
+      },
+      modalTabs: {
+        details: "Details & Specs",
+        gallery: "Photo Collection",
+        allPhotos: "Photo Collection & Gallery",
+        photoCount: "photos",
+        viewFullscreen: "View Fullscreen",
+        closeFullscreen: "Close Fullscreen",
+        prevPhoto: "Previous Photo",
+        nextPhoto: "Next Photo",
+        activeBadge: "Active View"
       },
       items: [
         {
@@ -500,7 +517,7 @@ export const translations = {
           ]
         },
         {
-          id: "kopi-kenangan",
+          id: "Coffeshop-pku",
           title: "Coffee Shop & Ordering",
           desc: "Interactive landing page and online table ordering system for a specialty coffee shop with responsive desktop & mobile interfaces.",
           details: [
@@ -551,8 +568,6 @@ export const translations = {
             "Dashboard Interface Design: Real-time monitoring of operational status, interaction metrics, and service analytics.",
             "Customer Interface Design: Intuitive self-service portal for visitors to discover information and initiate support.",
             "Admin Interface Design: Centralized management panel for ticketing queues, response configurations, and chat history logs.",
-            "Chatbot Interface Design: Clean, conversational AI widget interface with guided interactive options.",
-            "Login/Logout Interface Design: Secure role-based authentication pages designed with modern corporate standards."
           ]
         }
       ]
