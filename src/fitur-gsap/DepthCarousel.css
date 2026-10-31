@@ -38,6 +38,7 @@
   transform-origin: center center;
   overflow: hidden;
   background: #0b0d12;
+  border-radius: var(--dc-radius, 18px);
   box-shadow:
     0 30px 60px -20px rgba(0, 0, 0, 0.65),
     0 8px 20px -10px rgba(0, 0, 0, 0.5);
@@ -47,11 +48,22 @@
   transition: box-shadow 0.3s ease;
 }
 
+[data-theme="light"] .depth-carousel__card {
+  background: #ffffff;
+  box-shadow:
+    0 20px 45px -15px rgba(0, 0, 0, 0.15),
+    0 8px 18px -10px rgba(0, 0, 0, 0.1);
+}
+
 .depth-carousel__card.is-active {
   box-shadow:
-    0 0 0 2px rgba(56, 189, 248, 0.5),
-    0 40px 80px -20px rgba(0, 0, 0, 0.7),
-    0 0 40px rgba(56, 189, 248, 0.12);
+    0 30px 60px -15px rgba(0, 0, 0, 0.65),
+    0 0 35px rgba(56, 189, 248, 0.15);
+}
+
+[data-theme="light"] .depth-carousel__card.is-active {
+  box-shadow:
+    0 20px 50px -12px rgba(37, 99, 235, 0.2);
 }
 
 .depth-carousel__img {
