@@ -322,6 +322,19 @@ export const translations = {
           tags: ["Frontend", "Backend", "API Integration", "Fullstack", "MySkill"]
         },
         {
+          id: "myskill-advanced-golang",
+          title: "Backend - Advanced Golang (Specialization)",
+          issuer: "MySkill",
+          category: "backend",
+          date: "01 November 2026",
+          hours: "10 Jam (10 Materi)",
+          credential: "MS-20261101-xUKWrOO2gVMsWf252wuW",
+          image: "/certificates/myskill-advanced-golang.jpg",
+          pdf: "/certificates/myskill-advanced-golang.pdf",
+          desc: "Spesialisasi tingkat lanjut pengembangan backend menggunakan Golang, mencakup perancangan arsitektur sistem berkinerja tinggi, konkurensi mendalam, optimasi query & database, scalable REST API, serta best practices backend engineering.",
+          tags: ["Golang", "Advanced Backend", "Concurrency", "Database", "MySkill"]
+        },
+        {
           id: "pertamina-internship",
           title: "Kerja Praktek (Internship) PT Kilang Pertamina Internasional RU II Dumai",
           issuer: "PT Kilang Pertamina Internasional RU II Dumai",
@@ -685,6 +698,19 @@ export const translations = {
           pdf: "/certificates/myskill-frontend-backend-integration.pdf",
           desc: "Skill specialization in Frontend and Backend Integration from MySkill, covering integration architecture, client-server communication, API consumption, data authentication, and full-stack integration workflows.",
           tags: ["Frontend", "Backend", "API Integration", "Fullstack", "MySkill"]
+        },
+        {
+          id: "myskill-advanced-golang",
+          title: "Backend - Advanced Golang (Specialization)",
+          issuer: "MySkill",
+          category: "backend",
+          date: "November 01, 2026",
+          hours: "10 Hours (10 Courses)",
+          credential: "MS-20261101-xUKWrOO2gVMsWf252wuW",
+          image: "/certificates/myskill-advanced-golang.jpg",
+          pdf: "/certificates/myskill-advanced-golang.pdf",
+          desc: "Advanced backend development specialization using Go (Golang), covering high-performance system architecture, deep concurrency patterns, query and database optimization, scalable RESTful APIs, and modern backend engineering best practices.",
+          tags: ["Golang", "Advanced Backend", "Concurrency", "Database", "MySkill"]
         },
         {
           id: "pertamina-internship",
