@@ -219,8 +219,8 @@ function About() {
               {/* Tombol Unduh CV */}
               <div className="about-cv-wrapper">
                 <a
-                  href="/CV_DandiPratama_1.pdf"
-                  download="CV_DandiPratama_1.pdf"
+                  href="/CV_DandiPratama_BE.pdf"
+                  download="CV_DandiPratama_BE.pdf"
                   className="about-unduh-cv-btn"
                   title={lang === "id" ? "Unduh CV Dandi Pratama (PDF)" : "Download CV (PDF)"}
                 >

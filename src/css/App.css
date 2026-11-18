@@ -3,13 +3,13 @@
    Professionally crafted, grounded, human-designed UI/UX
    ────────────────────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap');
 
 /* ── DESIGN TOKENS (LIGHT & DARK THEMES) ── */
 :root,
 [data-theme="light"] {
-  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Poppins', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --bg: #f8fafc;
   --bg-subtle: #f1f5f9;
@@ -122,6 +122,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   transition: color 0.25s ease;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -355,42 +359,44 @@ a {
 }
 
 /* ──────────────────────────────────────────────────────────────────────────
-   1. NAVBAR (FLOATING PILL DESIGN)
+   1. NAVBAR — Full-width bar (overrides lama dihapus, lihat NavbarDragonBall.css)
    ────────────────────────────────────────────────────────────────────────── */
 .navbar-wrapper {
   position: fixed;
-  top: 14px;
+  top: 0;
   left: 0;
   right: 0;
   width: 100%;
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  padding: 0 16px;
+  z-index: 200;
+  display: block;
+  padding: 0;
   pointer-events: none;
 }
 
 .navbar {
   pointer-events: auto;
-  width: min(1140px, 100%);
-  background: var(--nav-bg);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid transparent;
-  border-radius: 9999px;
-  box-shadow: 0 14px 40px -10px rgba(0, 0, 0, 0.5), 0 0 22px -3px rgba(245, 158, 11, 0.22);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  background: rgba(10, 15, 29, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .navbar:hover {
-  border-color: rgba(251, 191, 36, 0.25);
-  box-shadow: 0 18px 45px -8px rgba(0, 0, 0, 0.55), 0 0 30px rgba(245, 158, 11, 0.32);
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .nav-inner {
   width: 100%;
-  height: 58px;
-  padding: 0 16px 0 12px;
+  max-width: 1280px;
+  height: 64px;
+  padding: 0 32px;
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;

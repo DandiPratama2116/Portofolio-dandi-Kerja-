@@ -26,29 +26,51 @@ function Hero({ darkMode }) {
 
   return (
     <section id="home" className="hero-new">
-      <HalftoneReveal
-        src="/fotoremove.png"
-        fit="contain"
-        mode="mono"
-        shape="dot"
-        cellSize={6}
-        angle={45}
-        dotScale={1}
-        inkColor={isDark ? "#e2e8f0" : "#0f172a"}
-        paperColor="transparent"
-        contrast={1.2}
-        brightness={0.05}
-        invert={false}
-        roughness={0.1}
-        misregistration={0}
-        revealRadius={180}
-        softness={0.55}
-        linger={1.4}
-        reverse={false}
-        wander={false}
-        clickBurst={false}
-        intro={false}
-      />
+      {/* Ambient studio backdrop */}
+
+
+      {/* Flex column: title → foto → badge, semua saling berdekatan */}
+      <div className="hero-stack">
+        {/* Atas: PORTFOLIO */}
+        <div className="hero-top-typography" aria-hidden="true">
+          <h1 className="hero-bg-title">PORTFOLIO</h1>
+        </div>
+
+        {/* Tengah: foto interaktif */}
+        <div className="hero-photo-wrapper">
+          <HalftoneReveal
+            src="/foto1.png"
+            fit="contain"
+            mode="mono"
+            shape="dot"
+            cellSize={7}
+            angle={23}
+            dotScale={1}
+            inkColor={isDark ? "#ffffffff" : "#41464fff"}
+            paperColor="transparent"
+            contrast={1.15}
+            brightness={0.03}
+            invert={false}
+            roughness={0.08}
+            misregistration={0}
+            revealRadius={190}
+            softness={0.55}
+            linger={1.5}
+            reverse={false}
+            wander={false}
+            clickBurst={false}
+            intro={false}
+          />
+        </div>
+
+        {/* Bawah: BACKEND ENGINEER badge — langsung menempel di bawah foto */}
+        <div className="hero-bottom-typography" aria-hidden="true">
+          <div className="hero-bg-subtitle-pill">
+            <span className="hero-bg-subtitle-dot" />
+            <h2 className="hero-bg-subtitle">BACKEND ENGINEER</h2>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

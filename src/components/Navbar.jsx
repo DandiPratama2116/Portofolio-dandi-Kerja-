@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { Sun, Moon, Menu, X, Globe, ArrowRight } from "lucide-react";
 import "../css/NavbarDragonBall.css";
@@ -130,6 +130,18 @@ function KintonCloudSVG() {
 
 function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setMenuOpen }) {
   const { lang, setLang, t } = useLanguage();
+  const navRef = useRef(null);
+
+  // Wire scrolled class untuk transisi background saat scroll
+  useEffect(() => {
+    const onScroll = () => {
+      if (navRef.current) {
+        navRef.current.classList.toggle("scrolled", window.scrollY > 10);
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const toggleLanguage = () => {
     setLang(lang === "id" ? "en" : "id");
@@ -144,7 +156,7 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
 
   return (
     <header className="navbar-wrapper">
-      <nav className="navbar dragonball-nav" id="navbar" aria-label="Main Navigation">
+      <nav className="navbar dragonball-nav" id="navbar" ref={navRef} aria-label="Main Navigation">
         <div className="nav-inner">
           {/* Logo Branding: Official LogoDP.png */}
           <div className="logo-wrap" onClick={() => scrollTo("home")} role="button" tabIndex={0}>
@@ -152,7 +164,7 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
               <img src="/LogoDP.png" alt="Dandi Pratama Logo" className="logo-dp-img" />
             </div>
             <div className="logo-text-group">
-              <span className="logo-title">Portfolio</span>
+              <span className="logo-title">DANDI PRATA</span>
             </div>
           </div>
 
