@@ -1,21 +1,232 @@
-/* ── HERO — Full-Screen Halftone Photo Only ── */
+/* ── HERO — Studio Layout: Title / Photo / Badge flex-column ── */
 
+:root,
+[data-theme="dark"] {
+  --hero-title-color: #ffffff;
+  --hero-title-shadow: 0 2px 20px rgba(0,0,0,0.5), 0 0 28px rgba(56,189,248,0.16);
+
+  --hero-badge-bg: rgba(10, 15, 30, 0.82);
+  --hero-badge-border: rgba(56, 189, 248, 0.38);
+  --hero-badge-shadow: 0 8px 24px -4px rgba(0,0,0,0.6), 0 0 16px rgba(56,189,248,0.16);
+  --hero-badge-dot: #38bdf8;
+  --hero-subtitle-color: #e0f2fe;
+
+  --hero-vignette-center: rgba(56, 189, 248, 0.08);
+  --hero-vignette-outer: rgba(11, 16, 38, 0.55);
+}
+
+[data-theme="light"] {
+  --hero-title-color: #0f172a;
+  --hero-title-shadow: 0 2px 16px rgba(255,255,255,0.9), 0 0 20px rgba(37,99,235,0.12);
+
+  --hero-badge-bg: rgba(255, 255, 255, 0.92);
+  --hero-badge-border: rgba(37, 99, 235, 0.25);
+  --hero-badge-shadow: 0 8px 24px -4px rgba(37,99,235,0.15);
+  --hero-badge-dot: #2563eb;
+  --hero-subtitle-color: #1e3a8a;
+
+  --hero-vignette-center: rgba(37, 99, 235, 0.06);
+  --hero-vignette-outer: rgba(255, 255, 255, 0.70);
+}
+
+/* ── Section shell ── */
 .hero-new {
   position: relative;
   width: 100%;
-  height: 100vh;
-  height: 100dvh;
+  /* Tinggi penuh viewport, dikurangi tinggi navbar (64px) */
+  height: calc(100vh - 64px);
+  height: calc(100dvh - 64px);
+  min-height: 480px;
+  /* Mulai di bawah navbar yang fixed */
+  margin-top: 64px;
   overflow: hidden;
+  overflow-x: hidden;
   background: transparent;
-  scroll-margin-top: 0;
-  /* no flex/centering needed — HalftoneReveal fills via its own CSS */
+  scroll-margin-top: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* HalftoneReveal mounts a div.halftone-reveal that already has
-   width/height: 100%, so we just make sure it sits inside correctly */
-.hero-new > .halftone-reveal {
-  position: absolute;
-  inset: 0;
+/* ── Ambient backdrop (z-index: 1) ── */
+.hero-backdrop {
+  display: none !important;
+}
+
+/* ── Flex column stack: title → photo → badge (z-index: 2) ── */
+.hero-stack {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.hero-top-typography {
+  pointer-events: none;
+  user-select: none;
+  margin-top: clamp(4px, 1.5vw, 28px);
+  margin-bottom: clamp(-96px, -4.2vw, -20px);
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+  animation: heroTopFadeIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-bg-title {
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 9.5vw, 7rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: clamp(0.08em, 1.1vw, 0.2em);
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--hero-title-color);
+  text-shadow: var(--hero-title-shadow);
+  white-space: nowrap;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* ── 2. Photo wrapper — ukuran foto proporsional ── */
+.hero-photo-wrapper {
+  /* Lebar: pas dengan lebar teks PORTFOLIO di atas */
+  width: clamp(200px, 42vw, 500px);
+  /* Tinggi proporsional foto asli 760×1260 */
+  aspect-ratio: 760 / 1260;
+  /* Jangan melampaui area hero yang tersedia */
+  max-height: calc(100dvh - 200px);
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Fade-out dihilangkan agar tidak ada garis/bayangan memotong latar */
+.hero-photo-wrapper::after {
+  display: none !important;
+}
+
+[data-theme="light"] .hero-photo-wrapper::after {
+  display: none !important;
+}
+
+/* HalftoneReveal fills the wrapper */
+.hero-photo-wrapper > .halftone-reveal {
   width: 100%;
   height: 100%;
+}
+
+/* ── 3. BACKEND ENGINEER badge — langsung menempel bawah foto ── */
+.hero-bottom-typography {
+  pointer-events: none;
+  user-select: none;
+  margin-top: 0;
+  animation: heroBottomFadeIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-bg-subtitle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  background: var(--hero-badge-bg);
+  border: 1px solid var(--hero-badge-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--hero-badge-shadow);
+  pointer-events: auto;
+  transition: all 0.3s ease;
+}
+
+.hero-bg-subtitle-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--hero-badge-dot);
+  box-shadow: 0 0 8px var(--hero-badge-dot), 0 0 16px var(--hero-badge-dot);
+  animation: heroDotPulse 2s ease-in-out infinite;
+}
+
+.hero-bg-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.68rem, 1.5vw, 0.88rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: clamp(0.15em, 0.3vw, 0.28em);
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--hero-subtitle-color);
+  transition: color 0.3s ease;
+  white-space: nowrap;
+}
+
+/* ── Animations ── */
+@keyframes heroTopFadeIn {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroBottomFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes heroDotPulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.55; }
+}
+
+/* ── Respects reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-top-typography,
+  .hero-bottom-typography {
+    animation: none;
+    opacity: 1;
+  }
+  .hero-bg-subtitle-dot {
+    animation: none;
+  }
+}
+
+/* ── Tablet ── */
+@media (max-width: 768px) {
+  .hero-new {
+    margin-top: 60px;
+    height: calc(100dvh - 60px);
+  }
+
+  .hero-bg-title {
+    font-size: clamp(1.8rem, 11vw, 4.5rem);
+  }
+
+  .hero-photo-wrapper {
+    width: clamp(180px, 72vw, 380px);
+  }
+}
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .hero-new {
+    margin-top: 60px;
+    height: calc(100dvh - 60px);
+    min-height: 420px;
+  }
+
+  .hero-bg-title {
+    font-size: clamp(1.6rem, 13vw, 3rem);
+  }
+
+  .hero-photo-wrapper {
+    width: clamp(160px, 80vw, 320px);
+  }
+
+  .hero-bg-subtitle-pill {
+    padding: 7px 16px;
+  }
+
+  .hero-bg-subtitle {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+  }
 }
