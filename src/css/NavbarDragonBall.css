@@ -31,7 +31,7 @@
   background: rgba(10, 15, 29, 0.78);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  box-shadow: 
+  box-shadow:
     0 14px 40px -10px rgba(0, 0, 0, 0.5),
     0 0 25px -4px rgba(245, 158, 11, 0.18),
     inset 0 1px 1px 0 rgba(254, 240, 138, 0.12);
@@ -41,7 +41,7 @@
 
 [data-theme="light"] .navbar.dragonball-nav {
   background: rgba(255, 255, 255, 0.85);
-  box-shadow: 
+  box-shadow:
     0 12px 36px -10px rgba(234, 88, 12, 0.15),
     0 0 20px -3px rgba(251, 191, 36, 0.25),
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
@@ -50,7 +50,7 @@
 /* Hover: subtle Saiyan Ki ambient glow, keeping border transparent */
 .navbar.dragonball-nav:hover {
   border-color: rgba(251, 191, 36, 0.25) !important;
-  box-shadow: 
+  box-shadow:
     0 18px 45px -8px rgba(0, 0, 0, 0.55),
     0 0 35px -2px rgba(245, 158, 11, 0.32),
     inset 0 1px 1px 0 rgba(254, 240, 138, 0.2);
@@ -138,8 +138,15 @@
 }
 
 @keyframes dbRingSpin {
-  from { transform: rotate(0deg); transform-origin: 22px 22px; }
-  to { transform: rotate(360deg); transform-origin: 22px 22px; }
+  from {
+    transform: rotate(0deg);
+    transform-origin: 22px 22px;
+  }
+
+  to {
+    transform: rotate(360deg);
+    transform-origin: 22px 22px;
+  }
 }
 
 .db-ki-pulse {
@@ -152,8 +159,17 @@
 }
 
 @keyframes dbKiPulse {
-  0%, 100% { transform: scale(1); opacity: 0.4; }
-  50% { transform: scale(1.35); opacity: 0.85; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: scale(1.35);
+    opacity: 0.85;
+  }
 }
 
 .logo-text-group {
@@ -228,7 +244,8 @@
   position: relative;
   white-space: nowrap;
   user-select: none;
-  overflow: visible; /* Ensure Kinto'un cloud puffs can pop outside */
+  overflow: visible;
+  /* Ensure Kinto'un cloud puffs can pop outside */
 }
 
 .dragonball-nav .menu-item:hover {
@@ -247,7 +264,7 @@
   color: #ffffff !important;
   font-weight: 600 !important;
   background: linear-gradient(135deg, #f97316 0%, #ea580c 55%, #eab308 100%) !important;
-  box-shadow: 
+  box-shadow:
     0 4px 18px rgba(249, 115, 22, 0.45),
     0 0 12px rgba(251, 191, 36, 0.35) !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -273,6 +290,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(3px) scale(0.85);
   }
+
   100% {
     opacity: 0.95;
     transform: translateX(-50%) translateY(0) scale(1);
@@ -280,9 +298,12 @@
 }
 
 @keyframes kintonHoverWiggle {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateX(-50%) translateY(0);
   }
+
   50% {
     transform: translateX(-50%) translateY(-2px);
   }
@@ -444,8 +465,15 @@
   }
 
   @keyframes mobileMenuSlide {
-    from { opacity: 0; transform: translateY(-10px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.97);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   .dragonball-nav .menu-item {

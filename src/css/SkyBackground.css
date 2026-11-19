@@ -46,12 +46,10 @@
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  background: linear-gradient(
-    180deg,
-    var(--sky-top) 0%,
-    var(--sky-mid) 50%,
-    var(--sky-bottom) 100%
-  );
+  background: linear-gradient(180deg,
+      var(--sky-top) 0%,
+      var(--sky-mid) 50%,
+      var(--sky-bottom) 100%);
   transition: background 0.6s ease;
 }
 
@@ -63,12 +61,10 @@
   width: clamp(100px, 14vw, 200px);
   height: clamp(100px, 14vw, 200px);
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    var(--sun-color) 0%,
-    var(--sun-glow) 45%,
-    transparent 70%
-  );
+  background: radial-gradient(circle,
+      var(--sun-color) 0%,
+      var(--sun-glow) 45%,
+      transparent 70%);
   filter: blur(8px);
   opacity: 1;
   transition: opacity 0.6s ease;
@@ -87,12 +83,10 @@
   width: clamp(50px, 6vw, 90px);
   height: clamp(50px, 6vw, 90px);
   border-radius: 50%;
-  background: radial-gradient(
-    circle at 35% 35%,
-    #f0f4ff 0%,
-    #d4dced 50%,
-    #b8c4da 100%
-  );
+  background: radial-gradient(circle at 35% 35%,
+      #f0f4ff 0%,
+      #d4dced 50%,
+      #b8c4da 100%);
   box-shadow:
     0 0 20px 8px rgba(200, 215, 255, 0.3),
     0 0 60px 20px rgba(180, 200, 255, 0.15),
@@ -132,12 +126,10 @@
   left: 5%;
   width: 45%;
   height: 50%;
-  background: radial-gradient(
-    ellipse at 30% 40%,
-    rgba(100, 60, 180, 0.08) 0%,
-    rgba(60, 100, 200, 0.05) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse at 30% 40%,
+      rgba(100, 60, 180, 0.08) 0%,
+      rgba(60, 100, 200, 0.05) 40%,
+      transparent 70%);
   filter: blur(40px);
   opacity: var(--nebula-opacity);
   transition: opacity 0.6s ease;
@@ -150,12 +142,10 @@
   right: 10%;
   width: 35%;
   height: 40%;
-  background: radial-gradient(
-    ellipse at 60% 50%,
-    rgba(80, 40, 160, 0.06) 0%,
-    rgba(100, 60, 200, 0.04) 40%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse at 60% 50%,
+      rgba(80, 40, 160, 0.06) 0%,
+      rgba(100, 60, 200, 0.04) 40%,
+      transparent 70%);
   filter: blur(50px);
   opacity: var(--nebula-opacity);
   transition: opacity 0.6s ease;
@@ -254,8 +244,13 @@
 
 /* Cloud drift keyframe */
 @keyframes cloud-drift {
-  0%   { transform: translateX(0) translateY(0); }
-  100% { transform: translateX(calc(100vw + 100%)) translateY(0); }
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+
+  100% {
+    transform: translateX(calc(100vw + 100%)) translateY(0);
+  }
 }
 
 /* ── STARS (DARK MODE) ── */
@@ -307,20 +302,47 @@
 }
 
 @keyframes star-twinkle-1 {
-  0%, 100% { opacity: 0.4; }
-  50%      { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 @keyframes star-twinkle-2 {
-  0%, 100% { opacity: 0.3; }
-  40%      { opacity: 0.9; }
-  60%      { opacity: 0.7; }
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  40% {
+    opacity: 0.9;
+  }
+
+  60% {
+    opacity: 0.7;
+  }
 }
 
 @keyframes star-twinkle-3 {
-  0%, 100% { opacity: 0.5; }
-  30%      { opacity: 1; }
-  70%      { opacity: 0.35; }
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0.35;
+  }
 }
 
 /* ── SHOOTING STAR ── */
@@ -357,12 +379,15 @@
     opacity: 0;
     transform: translate(0, 0) rotate(-35deg);
   }
+
   10% {
     opacity: 1;
   }
+
   70% {
     opacity: 0.6;
   }
+
   100% {
     opacity: 0;
     transform: translate(60vw, 30vh) rotate(-35deg);
@@ -394,6 +419,7 @@
 
 /* ── MOBILE OPTIMISATIONS ── */
 @media (max-width: 768px) {
+
   /* Hide far clouds on mobile for performance */
   .sky-cloud--far {
     display: none;

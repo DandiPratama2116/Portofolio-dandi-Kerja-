@@ -75,17 +75,27 @@
 }
 
 .hero-bg-title {
-  font-family: var(--font-sans);
-  font-size: clamp(2rem, 9.5vw, 7rem);
+  font-family: 'Archivo Black', 'Bricolage Grotesque', 'Space Grotesk', sans-serif;
+  font-size: clamp(2.8rem, 11vw, 8.2rem);
   font-weight: 900;
-  line-height: 1;
-  letter-spacing: clamp(0.08em, 1.1vw, 0.2em);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   text-transform: uppercase;
   margin: 0;
-  color: var(--hero-title-color);
-  text-shadow: var(--hero-title-shadow);
+  color: var(--hero-title-color, #0A0A0A);
+  text-shadow: 3px 3px 0 #F9D423, 6px 6px 0 #0A0A0A;
   white-space: nowrap;
-  transition: color 0.3s ease, text-shadow 0.3s ease;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+[data-theme="light"] .hero-bg-title {
+  color: #0A0A0A;
+  text-shadow: 3px 3px 0 #F9D423, 6px 6px 0 #0A0A0A;
+}
+
+[data-theme="dark"] .hero-bg-title {
+  color: #FFFFFF;
+  text-shadow: 3px 3px 0 #F9D423, 6px 6px 0 #0A0A0A;
 }
 
 /* ── 2. Photo wrapper — ukuran foto proporsional ── */
@@ -197,7 +207,9 @@
   }
 
   .hero-bg-title {
-    font-size: clamp(1.8rem, 11vw, 4.5rem);
+    font-size: clamp(2.2rem, 12vw, 4.8rem);
+    letter-spacing: -0.035em;
+    text-shadow: 2px 2px 0 #F9D423, 4px 4px 0 #0A0A0A;
   }
 
   .hero-photo-wrapper {
@@ -214,7 +226,9 @@
   }
 
   .hero-bg-title {
-    font-size: clamp(1.6rem, 13vw, 3rem);
+    font-size: clamp(1.9rem, 13.5vw, 3.4rem);
+    letter-spacing: -0.03em;
+    text-shadow: 2px 2px 0 #F9D423, 3.5px 3.5px 0 #0A0A0A;
   }
 
   .hero-photo-wrapper {
