@@ -164,7 +164,7 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
               <img src="/LogoDP.png" alt="Dandi Pratama Logo" className="logo-dp-img" />
             </div>
             <div className="logo-text-group">
-              <span className="logo-title">DANDI PRATA</span>
+              <span className="logo-title">DANDI PRATAMA</span>
             </div>
           </div>
 

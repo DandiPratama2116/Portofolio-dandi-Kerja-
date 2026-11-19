@@ -1,27 +1,32 @@
 <!doctype html>
 <html lang="id" data-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/LogoDP.png" />
-    <link rel="apple-touch-icon" href="/LogoDP.png" />
-    <title>Dandi Pratama - Portfolio</title>
-    <!-- Preload hero image for instant reveal -->
-    <link rel="preload" href="/foto1.png" as="image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-      // Prevent flash of wrong theme on page load
-      (function() {
-        var saved = localStorage.getItem('theme');
-        var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        document.documentElement.setAttribute('data-theme', theme);
-      })();
-    </script>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/LogoDP.png" />
+  <link rel="apple-touch-icon" href="/LogoDP.png" />
+  <title>Dandi Pratama - Portfolio</title>
+  <!-- Preload hero image for instant reveal -->
+  <link rel="preload" href="/foto1.png" as="image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800;12..96,900&family=Space+Grotesk:wght@500;600;700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    // Prevent flash of wrong theme on page load
+    (function () {
+      var saved = localStorage.getItem('theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>
