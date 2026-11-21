@@ -66,7 +66,6 @@ function Hero({ darkMode }) {
         {/* Bawah: BACKEND ENGINEER badge — langsung menempel di bawah foto */}
         <div className="hero-bottom-typography" aria-hidden="true">
           <div className="hero-bg-subtitle-pill">
-            <span className="hero-bg-subtitle-dot" />
             <h2 className="hero-bg-subtitle">BACKEND ENGINEER</h2>
           </div>
         </div>
