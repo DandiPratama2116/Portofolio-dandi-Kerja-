@@ -66,12 +66,19 @@ function App() {
     if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     scrollTimeoutRef.current = setTimeout(() => {
       isClickScrollingRef.current = false;
-    }, 850);
+    }, 950);
 
     if (id === "home") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      const el = document.getElementById(id);
+      if (el) {
+        const header = el.querySelector(".section-header") || el;
+        const headerRect = header.getBoundingClientRect();
+        const navbarOffset = window.innerWidth <= 768 ? 84 : 94;
+        const targetY = window.scrollY + headerRect.top - navbarOffset;
+        window.scrollTo({ top: Math.max(0, targetY), behavior: "smooth" });
+      }
     }
     setMenuOpen(false);
   };

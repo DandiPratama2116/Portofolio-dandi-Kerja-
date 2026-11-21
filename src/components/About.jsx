@@ -1,6 +1,5 @@
-import FoldText from '../fitur-gsap/FoldText';
+import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
@@ -16,7 +15,7 @@ import {
   Code2,
   Sparkles,
   Download,
-  Eye
+  Rocket
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -25,73 +24,106 @@ function About() {
   const { lang, t } = useLanguage(); 
   const sectionRef = useRef(null);
 
+  // Typewriter effect states matching reference headline
+  const [typedText, setTypedText] = useState("");
+  const [traitIndex, setTraitIndex] = useState(0);
+  const [traitAnimClass, setTraitAnimClass] = useState("trait-anim-in");
+
+  const traits = [
+    "Problem Solver",
+    "Clean Architecture",
+    "Backend Specialist",
+    "Fast Learner",
+    "System Thinker"
+  ];
+
+  const handleNextTrait = () => {
+    if (traitAnimClass === "trait-anim-out") return;
+    setTraitAnimClass("trait-anim-out");
+    setTimeout(() => {
+      setTraitIndex((prev) => (prev + 1) % traits.length);
+      setTraitAnimClass("trait-anim-in");
+    }, 320);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTraitAnimClass("trait-anim-out");
+      setTimeout(() => {
+        setTraitIndex((prev) => (prev + 1) % traits.length);
+        setTraitAnimClass("trait-anim-in");
+      }, 320);
+    }, 3400);
+
+    return () => clearInterval(timer);
+  }, [traits.length]);
+
+  useEffect(() => {
+    const phrases = [
+        "Backend Engineer",
+        "Software Developer",
+        "API Architect",
+        "Tech Enthusiast"
+    ];
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let timeoutId;
+
+    const type = () => {
+      const currentPhrase = phrases[phraseIndex];
+
+      if (!isDeleting) {
+        setTypedText(currentPhrase.substring(0, charIndex + 1));
+        charIndex++;
+
+        if (charIndex === currentPhrase.length) {
+          isDeleting = true;
+          timeoutId = setTimeout(type, 1900);
+          return;
+        }
+        timeoutId = setTimeout(type, 90);
+      } else {
+        setTypedText(currentPhrase.substring(0, charIndex - 1));
+        charIndex--;
+
+        if (charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          timeoutId = setTimeout(type, 450);
+          return;
+        }
+        timeoutId = setTimeout(type, 45);
+      }
+    };
+
+    timeoutId = setTimeout(type, 300);
+    return () => clearTimeout(timeoutId);
+  }, []);
+
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      // ── Section title & tag ──
-      const sectionTitle = el.querySelector('.section-title');
-      if (sectionTitle) {
-        gsap.fromTo(sectionTitle,
-          { opacity: 0, y: 28, skewX: -3 },
-          { opacity: 1, y: 0, skewX: 0, duration: 0.75, ease: 'power3.out',
-            scrollTrigger: { trigger: sectionTitle, start: 'top 88%', toggleActions: 'play none none reverse' }
+      // ── Section header ──
+      const headerGroup = el.querySelector('.about-header-group');
+      if (headerGroup) {
+        gsap.fromTo(headerGroup,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
+            scrollTrigger: { trigger: headerGroup, start: 'top 88%', toggleActions: 'play none none reverse' }
           }
         );
       }
 
-      // ── About photo card ──
-      const aboutPhoto = el.querySelector('.about-photo-card');
-      if (aboutPhoto) {
-        gsap.fromTo(aboutPhoto,
-          { opacity: 0, y: 32, scale: 0.96 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.75, ease: 'power2.out',
-            scrollTrigger: { trigger: aboutPhoto, start: 'top 88%', toggleActions: 'play none none reverse' }
-          }
-        );
-      }
-
-      // ── About text card ──
-      const aboutTextCard = el.querySelector('.about-text-card');
-      if (aboutTextCard) {
-        gsap.fromTo(aboutTextCard,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
-            scrollTrigger: { trigger: aboutTextCard, start: 'top 88%', toggleActions: 'play none none reverse' }
-          }
-        );
-      }
-
-      // ── Stats Cards staggered reveal ──
-      const statCards = el.querySelectorAll('.about-stat-card');
-      if (statCards.length) {
-        gsap.fromTo(statCards,
-          { opacity: 0, y: 35, scale: 0.92 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.4)',
-            scrollTrigger: { trigger: el.querySelector('.about-stats-grid'), start: 'top 85%', toggleActions: 'play none none reverse' }
-          }
-        );
-      }
-
-      // ── CV Button reveal ──
-      const cvBtn = el.querySelector('.about-cv-wrapper');
-      if (cvBtn) {
-        gsap.fromTo(cvBtn,
-          { opacity: 0, y: 24, scale: 0.96 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.65, delay: 0.15, ease: 'power2.out',
-            scrollTrigger: { trigger: cvBtn, start: 'top 88%', toggleActions: 'play none none reverse' }
-          }
-        );
-      }
-
-      // ── Highlights Cards staggered ──
-      const highlightCards = el.querySelectorAll('.highlight-card');
-      if (highlightCards.length) {
-        gsap.fromTo(highlightCards,
-          { opacity: 0, y: 40, scale: 0.94 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.65, stagger: 0.12, ease: 'back.out(1.4)',
-            scrollTrigger: { trigger: el.querySelector('.about-highlights-grid'), start: 'top 85%', toggleActions: 'play none none reverse' }
+      // ── Main Bento Card ──
+      const bentoCard = el.querySelector('.about-bento-card');
+      if (bentoCard) {
+        gsap.fromTo(bentoCard,
+          { opacity: 0, y: 32, scale: 0.98 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.8, ease: 'power2.out',
+            scrollTrigger: { trigger: bentoCard, start: 'top 86%', toggleActions: 'play none none reverse' }
           }
         );
       }
@@ -116,48 +148,20 @@ function About() {
         );
       }
 
-      // ── Timeline entries (card + text) ──
+      // ── Timeline entries ──
       const timelineEntries = el.querySelectorAll('.timeline-entry');
       timelineEntries.forEach((entry) => {
-        // Animate the whole card
         gsap.fromTo(entry,
-          { opacity: 0, x: -40, },
+          { opacity: 0, x: -35 },
           { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out',
             scrollTrigger: { trigger: entry, start: 'top 87%', toggleActions: 'play none none reverse' }
           }
         );
-        // Animate role title inside
-        const role = entry.querySelector('.timeline-role');
-        if (role) {
-          gsap.fromTo(role,
-            { opacity: 0, y: 12 },
-            { opacity: 1, y: 0, duration: 0.5, delay: 0.15, ease: 'power2.out',
-              scrollTrigger: { trigger: entry, start: 'top 87%', toggleActions: 'play none none reverse' }
-            }
-          );
-        }
-        // Animate tech stack tags
-        const tags = entry.querySelectorAll('.timeline-tag');
-        if (tags.length) {
-          gsap.fromTo(tags,
-            { opacity: 0, scale: 0.8 },
-            { opacity: 1, scale: 1, duration: 0.4, stagger: 0.04, delay: 0.2, ease: 'back.out(1.5)',
-              scrollTrigger: { trigger: entry, start: 'top 87%', toggleActions: 'play none none reverse' }
-            }
-          );
-        }
       });
     }, sectionRef);
 
     return () => ctx.revert();
   }, [lang, t]);
-
-
-  const getHighlightIcon = (idx) => {
-    if (idx === 0) return <GraduationCap size={20} className="highlight-icon-lucide" />;
-    if (idx === 1) return <FileText size={20} className="highlight-icon-lucide" />;
-    return <Award size={20} className="highlight-icon-lucide" />;
-  };
 
   const getExperienceIcon = (role, type, icon) => {
     const roleLower = (role || "").toLowerCase();
@@ -175,81 +179,170 @@ function About() {
   return (
     <section id="about" ref={sectionRef} className="section about-section">
       <div className="container">
-        <div className="section-header">
-          <h2 className="section-title">{t.about.title}</h2>
+        {/* Section Header matching reference: small tag on top + large typewriter headline */}
+        <div className="section-header about-header-group">
+          <div className="about-tag-badge">
+            {lang === "id" ? "TENTANG SAYA" : "ABOUT ME"}
+          </div>
+          <h2 className="section-title about-typewriter-headline">
+            <span className="headline-static">Problem Solver. </span>
+            <span className="headline-dynamic">{typedText}</span>
+            <span className="headline-cursor" aria-hidden="true">|</span>
+          </h2>
         </div>
 
         <div className="about-content">
-          {/* Top Hero Layout: Photo & Intro Text + Stats */}
-          <div className="about-hero-grid">
-            <div className="about-photo-card">
-              <div className="about-photo-frame">
-                <img
-                  src="/fotowisuda.png"
-                  alt="Dandi Pratama, S.T."
-                  className="about-photo-img"
-                  loading="lazy"
-                />
-                <div className="about-photo-badge">
-                  <GraduationCap size={15} className="photo-badge-icon" />
-                  <span>Dandi Pratama, S.T.</span>
+          {/* Main Container: Seamless background, no outer box border */}
+          <div className="about-main-wrapper">
+            {/* Subtle background ambient waves */}
+            <div className="about-card-waves" aria-hidden="true">
+              <svg viewBox="0 0 1200 360" preserveAspectRatio="none" className="about-waves-svg">
+                <path d="M0,140 C320,260 460,50 740,160 C980,250 1080,70 1200,120 L1200,360 L0,360 Z" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.06" />
+                <path d="M0,200 C280,90 500,290 800,110 C1020,10 1120,220 1200,180 L1200,360 L0,360 Z" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.04" />
+              </svg>
+            </div>
+
+            {/* Split Layout: Foto di Kiri, Teks & Stats di Samping (Kanan) */}
+            <div className="about-split-layout">
+              {/* Kolom Kiri: Foto Profil Lingkaran */}
+              <div className="about-photo-col">
+                <div className="about-avatar-wrapper">
+                  <img
+                    src="/fotowisuda.png"
+                    alt="Dandi Pratama, S.T."
+                    className="about-avatar-img"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+
+              {/* Kolom Kanan: Nama, Stats diatas teks, Paragraf teks, Unduh CV */}
+              <div className="about-info-col">
+                {/* Nama Lengkap + Verified Badge */}
+                <div className="about-name-row">
+                  <h3 className="about-name-text">DANDI PRATAMA, S.T.</h3>
+                  <span className="about-verified-badge" title="Verified Professional" aria-label="Verified">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                      <circle cx="12" cy="12" r="10" fill="#2563eb" />
+                      <path d="M7.5 12.2L10.5 15.2L16.5 9.2" stroke="#FFFFFF" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </div>
+
+                {/* Stats Row diletakkan persis DI ATAS teks tentang */}
+                <div className="about-stats-row">
+                  <div className="about-stat-col">
+                    <span className="stat-col-label">{lang === "id" ? "MASA STUDI" : "STUDY DURATION"}</span>
+                    <span className="stat-col-val">&lt; 4 Thn</span>
+                  </div>
+                  <div className="about-stat-col">
+                    <span className="stat-col-label">{lang === "id" ? "IPK (GPA)" : "GPA"}</span>
+                    <span className="stat-col-val">3.46 / 4.00</span>
+                  </div>
+                  <div className="about-stat-col">
+                    <span className="stat-col-label">{lang === "id" ? "PROYEK" : "PROJECTS"}</span>
+                    <span className="stat-col-val">7+</span>
+                  </div>
+                  <div className="about-stat-col">
+                    <span className="stat-col-label">{lang === "id" ? "SERTIFIKAT" : "CERTIFICATES"}</span>
+                    <span className="stat-col-val">11+</span>
+                  </div>
+                </div>
+
+                {/* Paragraf Teks Tentang di samping foto */}
+                <div className="about-bio-wrap">
+                  <p className="about-bio-text">
+                    {t.about.paragraph}
+                  </p>
+
+                  {/* Unduh CV dengan border rapi */}
+                  <div className="about-resume-row">
+                    <a
+                      href="/CV_DandiPratama_BE.pdf"
+                      download="CV_DandiPratama_BE.pdf"
+                      className="about-cv-bordered-btn"
+                      title={lang === "id" ? "Unduh CV Dandi Pratama (PDF)" : "Download Resume (PDF)"}
+                    >
+                      <span>{lang === "id" ? "Unduh CV saya" : "Download my resume"}</span>
+                      <Download size={14} className="cv-btn-icon" />
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="about-intro-column">
-              <div className="about-text-card">
-                <p className="about-lead">
-                  <FoldText key={`para-${t.about.title}`} text={t.about.paragraph} splitBy="word" trigger="scroll" hinge="top" duration={0.6} stagger={0.012} />
-                </p>
-              </div>
-
-              {/* Quick Key Metrics / Stats Row */}
-              {t.about.stats && (
-                <div className="about-stats-grid">
-                  {t.about.stats.map((stat, idx) => (
-                    <div className="about-stat-card" key={idx}>
-                      <span className="stat-val">{stat.value}</span>
-                      <span className="stat-lbl">{stat.label}</span>
+            {/* Baris Bawah: CURRENTLY di Kiri, Animated TRAIT di Kanan */}
+            <div className="about-bottom-row">
+              <div className="about-currently-block">
+                <span className="currently-label">CURRENTLY</span>
+                <div className="currently-items-grid">
+                  <div className="currently-item">
+                    <div className="currently-icon-box">
+                      <Code2 size={16} />
                     </div>
-                  ))}
-                </div>
-              )}
+                    <div className="currently-item-text">
+                      <strong className="currently-title">Building</strong>
+                      <span className="currently-desc">{lang === "id" ? "Backend APIs & Database Systems" : "Backend APIs & Database Systems"}</span>
+                    </div>
+                  </div>
 
-              {/* Tombol Unduh CV */}
-              <div className="about-cv-wrapper">
-                <a
-                  href="/CV_DandiPratama_BE.pdf"
-                  download="CV_DandiPratama_BE.pdf"
-                  className="about-unduh-cv-btn"
-                  title={lang === "id" ? "Unduh CV Dandi Pratama (PDF)" : "Download CV (PDF)"}
-                >
-                  <FileText size={18} />
-                  <span>{lang === "id" ? "Unduh CV" : "Download CV"}</span>
-                  <Download size={16} className="cv-download-icon" />
-                </a>
+                  <div className="currently-item">
+                    <div className="currently-icon-box">
+                      <Sparkles size={16} />
+                    </div>
+                    <div className="currently-item-text">
+                      <strong className="currently-title">Exploring</strong>
+                      <span className="currently-desc">{lang === "id" ? "Golang & RESTful API Development" : "Golang & RESTful API Development"}</span>
+                    </div>
+                  </div>
+
+                  <div className="currently-item">
+                    <div className="currently-icon-box">
+                      <Rocket size={16} />
+                    </div>
+                    <div className="currently-item-text">
+                      <strong className="currently-title">Learning</strong>
+                      <span className="currently-desc">{lang === "id" ? "System Design & Cloud Deployment" : "System Design & Cloud Deployment"}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Trait Card dengan Animasi Masuk dan Keluar */}
+              <div 
+                className="about-trait-container" 
+                onClick={handleNextTrait} 
+                role="button" 
+                tabIndex={0} 
+                title={lang === "id" ? "Klik untuk ganti trait" : "Click to flip trait"}
+              >
+                <div className="trait-card-deck">
+                  <div className="trait-back-card" aria-hidden="true"></div>
+                  <div className={`trait-front-card ${traitAnimClass}`}>
+                    <span className="trait-header-tag">TRAIT</span>
+                    <h4 className="trait-title-text">{traits[traitIndex]}</h4>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Academic Highlights Strip */}
+            {t.about.highlights && (
+              <div className="about-highlights-strip">
+                {t.about.highlights.map((item, idx) => (
+                  <div className="highlight-pill-item" key={idx}>
+                    <span className="highlight-pill-icon">{item.icon}</span>
+                    <div className="highlight-pill-text">
+                      <span className="highlight-pill-title">{item.title}</span>
+                      <span className="highlight-pill-desc">{item.desc}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Key Strengths & Achievements Grid */}
-          {t.about.highlights && (
-            <div className="about-highlights-grid">
-              {t.about.highlights.map((item, idx) => (
-                <div className="highlight-card" key={idx}>
-                  <div className="highlight-icon-wrap">
-                    {getHighlightIcon(idx, item.icon)}
-                  </div>
-                  <div className="highlight-info">
-                    <h3 className="highlight-title">{item.title}</h3>
-                    <p className="highlight-desc">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Work Experience Vertical Timeline */}
+          {/* Work Experience Vertical Timeline (Preserved) */}
           {t.about.experiences && (
             <div className="about-experience-section" id="experience">
               <div className="experience-header">
