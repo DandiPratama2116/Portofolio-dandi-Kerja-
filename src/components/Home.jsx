@@ -31,12 +31,13 @@ function Hero({ darkMode }) {
     <section id="home" className="hero-new-container">
       <ScrollMask
         welcomeText={t.hero?.welcome || (lang === "id" ? "SELAMAT DATANG" : "WELCOME")}
-        title={t.hero?.title || (lang === "id" ? "PORTFOLIO DANDI PRATAMA" : "DANDI PRATAMA'S PORTFOLIO")}
+        title={t.hero?.title || "PORTFOLIO DANDI PRATAMA"}
+        subtitle={t.hero?.subtitleLead || "SOFTWARE ENGINEER"}
         scrollHint={t.hero?.scrollHint || (lang === "id" ? "Scroll ke bawah" : "Scroll down")}
         variant="iris"
-        scrollLength={3.2}
-        settle={0.84}
-        zoom={1.24}
+        scrollLength={2.8}
+        settle={0.82}
+        zoom={1.18}
         isDark={isDark}
       >
         <div className="hero-stack">
@@ -45,7 +46,7 @@ function Hero({ darkMode }) {
             <h1 className="hero-bg-title">PORTFOLIO</h1>
           </div>
 
-          {/* Tengah: Foto Interaktif Halftone */}
+          {/* Tengah: Halftone Dot Matrix Eksklusif Persis Seperti Screenshot */}
           <div className="hero-photo-wrapper">
             <HalftoneReveal
               src="/foto1.png"
@@ -55,7 +56,7 @@ function Hero({ darkMode }) {
               cellSize={7}
               angle={23}
               dotScale={1}
-              inkColor={isDark ? "#ffffffff" : "#41464fff"}
+              inkColor={isDark ? "#ffffff" : "#41464f"}
               paperColor="transparent"
               contrast={1.15}
               brightness={0.03}
@@ -68,14 +69,15 @@ function Hero({ darkMode }) {
               reverse={false}
               wander={false}
               clickBurst={false}
-              intro={true}
+              intro={false}
             />
           </div>
 
-          {/* Bawah: BACKEND ENGINEER badge */}
+          {/* Bawah: SOFTWARE ENGINEER badge */}
           <div className="hero-bottom-typography" aria-hidden="true">
             <div className="hero-bg-subtitle-pill">
-              <h2 className="hero-bg-subtitle">SOFTWARE ENGINEER</h2>
+              <span className="hero-bg-subtitle-dot" />
+              <h2 className="hero-bg-subtitle">{t.hero?.subtitleLead || "SOFTWARE ENGINEER"}</h2>
             </div>
           </div>
         </div>

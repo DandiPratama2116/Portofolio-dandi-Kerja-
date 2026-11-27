@@ -143,6 +143,27 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Tutup menu mobile saat klik di luar navbar atau tekan tombol Escape
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleOutsideClick = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick, { passive: true });
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("touchstart", handleOutsideClick);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [menuOpen, setMenuOpen]);
+
   const toggleLanguage = () => {
     setLang(lang === "id" ? "en" : "id");
   };

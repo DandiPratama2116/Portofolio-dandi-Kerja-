@@ -11,6 +11,7 @@ export const translations = {
     hero: {
       welcome: "SELAMAT DATANG",
       title: "PORTFOLIO DANDI PRATAMA",
+      subtitleLead: "SOFTWARE ENGINEER",
       scrollHint: "Scroll ke bawah",
       role: "SOFTWARE ENGINEER",
       subtitle: "Lulusan Baru Teknik Informatika Universitas Islam Riau | Software Engineer | Backend Developer | Web & Mobile Developer",
@@ -394,6 +395,7 @@ export const translations = {
     hero: {
       welcome: "WELCOME",
       title: "PORTFOLIO DANDI PRATAMA",
+      subtitleLead: "SOFTWARE ENGINEER",
       scrollHint: "Scroll down",
       role: "SOFTWARE ENGINEER",
       subtitle: "Informatics Engineering Fresh Graduate from Universitas Islam Riau | Software Engineer | Backend Developer | Web & Mobile Developer",

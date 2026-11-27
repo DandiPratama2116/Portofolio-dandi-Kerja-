@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: clamp(64px, 8.5vh, 92px);
+  padding-top: clamp(56px, 8vh, 88px);
   box-sizing: border-box;
   z-index: 2;
   background: transparent !important;
@@ -35,6 +35,7 @@
   overflow: hidden;
   z-index: 4;
   clip-path: circle(0% at 50% 50%); /* Awal 0% (tertutup total sebelum scroll) */
+  -webkit-clip-path: circle(0% at 50% 50%);
   will-change: clip-path;
   background: transparent !important;
 }
@@ -72,7 +73,7 @@
   will-change: opacity;
 }
 
-/* ── Layer 3: Welcome Overlay (Font Poppins, Bersih, Tanpa Role) ── */
+/* ── Layer 3: Welcome Overlay (Font Poppins, Desain Elegan Persis Web) ── */
 .scroll-mask-welcome-overlay {
   position: absolute;
   inset: 0;
@@ -83,44 +84,102 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 24px;
+  padding: 0 20px;
   z-index: 15;
   pointer-events: auto;
   will-change: transform, opacity;
   box-sizing: border-box;
 }
 
+/* Welcome Headline Lead ("SELAMAT DATANG" / "WELCOME" Tenang & Bersih) */
+.welcome-lead-wrapper {
+  margin-bottom: 12px;
+  user-select: none;
+}
+
 .welcome-headline-lead {
   font-family: 'Poppins', sans-serif;
   font-size: clamp(0.95rem, 1.8vw, 1.35rem);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.28em;
   color: #38bdf8;
-  margin: 0 0 16px;
-  text-shadow: 0 2px 16px rgba(56, 189, 248, 0.45);
+  margin: 0;
+  text-shadow: 0 0 16px rgba(56, 189, 248, 0.65), 0 2px 10px rgba(0, 0, 0, 0.7);
+  display: inline-block;
+  cursor: default;
 }
 
+/* Judul Utama: "PORTFOLIO DANDI PRATAMA" (Font Poppins, 800 Extra Bold) */
 .welcome-main-title {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(2rem, 5.2vw, 4.2rem);
+  font-size: clamp(2rem, 5.5vw, 4.4rem);
   font-weight: 800;
-  line-height: 1.16;
+  line-height: 1.15;
   letter-spacing: -0.015em;
-  text-transform: uppercase;
   color: #ffffff;
   margin: 0 auto;
   text-align: center;
-  max-width: 950px;
-  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.75), 0 0 40px rgba(56, 189, 248, 0.16);
+  max-width: 980px;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.85), 0 0 45px rgba(56, 189, 248, 0.22);
   white-space: normal;
   word-break: break-word;
+  text-transform: uppercase;
+  user-select: none;
 }
 
-/* ── Layer 4: Petunjuk Scroll di Bagian Bawah Layar (Terpusat Rapi) ── */
+/* Subtitle: "SOFTWARE ENGINEER" */
+.welcome-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(0.85rem, 1.8vw, 1.15rem);
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.9);
+  margin: 14px auto 0;
+  text-align: center;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
+  user-select: none;
+}
+
+/* ── ANIMASI HURUF MELOMPAT SATU PER SATU DARI ATAS ── */
+.jump-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.jump-char {
+  display: inline-block;
+  will-change: transform, opacity;
+  transform-origin: center bottom;
+}
+
+/* Interaktif hover pada huruf judul */
+.jump-char-title {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.jump-char-title:hover {
+  transform: translateY(-12px) scale(1.22) !important;
+  color: #38bdf8 !important;
+  text-shadow: 0 0 24px rgba(56, 189, 248, 0.9), 0 0 45px rgba(56, 189, 248, 0.6) !important;
+}
+
+.jump-char-subtitle {
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.jump-char-subtitle:hover {
+  transform: translateY(-5px) scale(1.15) !important;
+  color: #38bdf8 !important;
+}
+
+/* ── Layer 4: Petunjuk Scroll di Bagian Bawah Layar ── */
 .scroll-mask-scroll-hint {
   position: absolute;
-  bottom: clamp(28px, 5.5vh, 48px);
+  bottom: clamp(24px, 5vh, 44px);
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -206,17 +265,42 @@
   }
 }
 
-/* ── Responsive Mobile Adjustments ── */
-@media (max-width: 640px) {
+/* ── Mobile Responsive ── */
+@media (max-width: 768px) {
+  .scroll-mask-stage {
+    padding-top: 54px;
+  }
+
+  .welcome-lead-wrapper {
+    margin-bottom: 10px;
+  }
+
+  .welcome-headline-lead {
+    font-size: clamp(0.85rem, 3.8vw, 1.05rem);
+    letter-spacing: 0.22em;
+  }
+
   .welcome-main-title {
-    font-size: 2.2rem;
+    font-size: clamp(1.65rem, 6.8vw, 2.3rem);
     line-height: 1.2;
+    padding: 0 8px;
   }
-  .welcome-tag-pill {
-    margin-bottom: 16px;
+
+  .welcome-subtitle {
+    font-size: clamp(0.78rem, 3.2vw, 0.95rem);
+    margin-top: 10px;
+    padding: 0 10px;
+    letter-spacing: 0.14em;
   }
-  .scroll-mask-welcome-overlay {
-    padding: 0 20px;
+
+  .scroll-mask-scroll-hint {
+    bottom: clamp(18px, 4vh, 32px);
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-main-title {
+    font-size: clamp(1.42rem, 6.2vw, 1.85rem);
   }
 }
 
@@ -224,6 +308,11 @@
 @media (prefers-reduced-motion: reduce) {
   .scroll-mask-viewport-frame {
     clip-path: none !important;
+    -webkit-clip-path: none !important;
+  }
+  .jump-char {
+    opacity: 1 !important;
+    transform: none !important;
   }
   .scroll-hint-dot,
   .scroll-hint-arrow,

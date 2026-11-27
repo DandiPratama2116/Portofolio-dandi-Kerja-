@@ -6,16 +6,45 @@ import "./ScrollMask.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Helper untuk memecah teks menjadi huruf-huruf yang melompat dari atas satu per satu
+const renderAnimatedLetters = (text, charClass = "jump-char", wordClass = "jump-word") => {
+  if (!text) return null;
+  const words = text.split(" ");
+  return words.map((word, wIdx) => (
+    <span
+      key={wIdx}
+      className={`jump-word ${wordClass}`.trim()}
+      style={{ display: "inline-block", whiteSpace: "nowrap" }}
+    >
+      {word.split("").map((char, cIdx) => (
+        <span
+          key={cIdx}
+          className={`jump-char ${charClass}`.trim()}
+          style={{ display: "inline-block", willChange: "transform, opacity" }}
+        >
+          {char}
+        </span>
+      ))}
+      {wIdx < words.length - 1 && (
+        <span className="jump-space" style={{ display: "inline-block" }}>
+          &nbsp;
+        </span>
+      )}
+    </span>
+  ));
+};
+
 export default function ScrollMask({
   src = "",
   alt = "Portfolio Visual",
   welcomeText = "SELAMAT DATANG",
   title = "PORTFOLIO DANDI PRATAMA",
+  subtitle = "SOFTWARE ENGINEER",
   scrollHint = "Scroll ke bawah",
   variant = "iris",
-  scrollLength = 3.2,
-  settle = 0.84,
-  zoom = 1.24,
+  scrollLength = 2.8,
+  settle = 0.82,
+  zoom = 1.18,
   children,
   className = "",
   style = {},
@@ -40,13 +69,15 @@ export default function ScrollMask({
 
     if (frame) {
       const radius = expandProgress * 125;
-      frame.style.clipPath = `circle(${radius}% at 50% 50%)`;
+      const circleVal = `circle(${radius}% at 50% 50%)`;
+      frame.style.clipPath = circleVal;
+      frame.style.webkitClipPath = circleVal;
     }
 
     if (darkVeil) {
       const veilOpacity = Math.max(0, 1 - expandProgress * 1.3);
       darkVeil.style.opacity = `${veilOpacity}`;
-      darkVeil.style.pointerEvents = veilOpacity > 0.05 ? "auto" : "none";
+      darkVeil.style.pointerEvents = "none";
     }
 
     if (media) {
@@ -58,14 +89,15 @@ export default function ScrollMask({
       const out = Math.min(1, Math.max(0, p / 0.42));
       const outEase = out * out;
       intro.style.opacity = `${1 - outEase}`;
-      intro.style.transform = `translate3d(0, ${-45 * outEase}px, 0)`;
-      intro.style.pointerEvents = out >= 0.75 ? "none" : "auto";
+      intro.style.transform = `translate3d(0, ${-42 * outEase}px, 0)`;
+      intro.style.pointerEvents = out > 0.1 ? "none" : "auto";
     }
 
     if (hint) {
       const hintOut = Math.min(1, Math.max(0, p / 0.18));
       hint.style.opacity = `${1 - hintOut}`;
       hint.style.transform = `translate3d(0, ${18 * hintOut}px, 0)`;
+      hint.style.pointerEvents = "none";
     }
   }, [settle, zoom]);
 
@@ -73,12 +105,89 @@ export default function ScrollMask({
     const track = trackRef.current;
     if (!track) return;
 
+    const isMobile = window.innerWidth <= 768;
+    const scrubSpeed = isMobile ? 0.7 : 1.2;
+
     const ctx = gsap.context(() => {
+      // ── Timeline Animasi Huruf Lompat dari Atas Satu per Satu ──
+      const entranceTl = gsap.timeline({
+        defaults: { ease: "back.out(2.2)" },
+        delay: 0.1,
+      });
+
+      // 1. Teks SELAMAT DATANG / WELCOME tampil halus dan tenang tanpa animasi lompat
+      entranceTl.fromTo(
+        ".welcome-lead-wrapper",
+        { y: -16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }
+      );
+
+      // 2. Setiap huruf PORTFOLIO DANDI PRATAMA lompat dari atas satu per satu
+      entranceTl.fromTo(
+        ".jump-char-title",
+        {
+          y: -110,
+          opacity: 0,
+          scaleY: 1.45,
+          scaleX: 0.75,
+          rotation: (i) => (i % 2 === 0 ? 10 : -10),
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scaleY: 1,
+          scaleX: 1,
+          rotation: 0,
+          duration: 0.7,
+          stagger: {
+            each: 0.032,
+            from: "start",
+          },
+          ease: "back.out(2.6)",
+        },
+        "-=0.2"
+      );
+
+      // 3. Setiap huruf SOFTWARE ENGINEER lompat dari atas satu per satu
+      entranceTl.fromTo(
+        ".jump-char-subtitle",
+        {
+          y: -45,
+          opacity: 0,
+          scaleY: 1.3,
+          scaleX: 0.8,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scaleY: 1,
+          scaleX: 1,
+          duration: 0.5,
+          stagger: {
+            each: 0.022,
+            from: "start",
+          },
+          ease: "back.out(2.2)",
+        },
+        "-=0.25"
+      );
+
+      // 4. Petunjuk Scroll fade-in
+      if (hintRef.current) {
+        entranceTl.fromTo(
+          hintRef.current,
+          { y: 25, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" },
+          "-=0.2"
+        );
+      }
+
+      // ── ScrollTrigger untuk Animasi Iris Pembuka Hero Saat Scroll ──
       ScrollTrigger.create({
         trigger: track,
         start: "top top",
         end: "bottom bottom",
-        scrub: 1.6,
+        scrub: scrubSpeed,
         onUpdate: (self) => {
           applyProgress(self.progress);
         },
@@ -88,7 +197,7 @@ export default function ScrollMask({
     applyProgress(0);
 
     return () => ctx.revert();
-  }, [applyProgress, scrollLength]);
+  }, [applyProgress, scrollLength, title, welcomeText, subtitle]);
 
   return (
     <div
@@ -110,22 +219,31 @@ export default function ScrollMask({
           </div>
         </div>
 
-        {/* Layer 2: Soft Dark Veil Overlay (Hitamnya Halus & Lembut) */}
+        {/* Layer 2: Soft Dark Veil Overlay (Hitam Halus & Nyaman) */}
         <div ref={darkVeilRef} className="scroll-mask-dark-veil" aria-hidden="true" />
 
-        {/* Layer 3: Welcome Overlay (Font Poppins, Bersih Tanpa Role) */}
+        {/* Layer 3: Welcome Overlay */}
         <div ref={introOverlayRef} className="scroll-mask-welcome-overlay">
           {welcomeText && (
-            <p className="welcome-headline-lead">
-              {welcomeText}
-            </p>
+            <div className="welcome-lead-wrapper">
+              <span className="welcome-headline-lead">
+                {welcomeText}
+              </span>
+            </div>
           )}
 
           <h1 className="welcome-main-title">
-            {title}
+            {renderAnimatedLetters(title, "jump-char-title", "jump-word-title")}
           </h1>
+
+          {subtitle && (
+            <p className="welcome-subtitle">
+              {renderAnimatedLetters(subtitle, "jump-char-subtitle", "jump-word-subtitle")}
+            </p>
+          )}
         </div>
 
+        {/* Layer 4: Petunjuk Scroll */}
         <div ref={hintRef} className="scroll-mask-scroll-hint">
           <div className="scroll-hint-mouse">
             <span className="scroll-hint-dot" />
