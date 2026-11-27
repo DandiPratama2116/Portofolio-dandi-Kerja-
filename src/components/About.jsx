@@ -61,10 +61,11 @@ function About() {
 
   useEffect(() => {
     const phrases = [
-        "Backend Engineer",
-        "Software Developer",
-        "API Architect",
-        "Tech Enthusiast"
+      "Backend Engineer",
+      "Software Developer",
+      "API Architect",
+      "Tech Enthusiast",
+      "Application Developer"
     ];
     let phraseIndex = 0;
     let charIndex = 0;
@@ -256,8 +257,8 @@ function About() {
                   {/* Unduh CV dengan border rapi */}
                   <div className="about-resume-row">
                     <a
-                      href="/CV_DandiPratama_BE.pdf"
-                      download="CV_DandiPratama_BE.pdf"
+                      href="/CV_DandiPratama-BE.pdf"
+                      download="CV_DandiPratama-BE.pdf"
                       className="about-cv-bordered-btn"
                       title={lang === "id" ? "Unduh CV Dandi Pratama (PDF)" : "Download Resume (PDF)"}
                     >
