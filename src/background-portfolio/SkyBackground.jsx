@@ -1,5 +1,5 @@
 import { useEffect, useRef, useMemo, useCallback } from "react";
-import "../css/SkyBackground.css";
+import "./SkyBackground.css";
 
 // ── Seeded random for deterministic star placement ──
 function seededRandom(seed) {

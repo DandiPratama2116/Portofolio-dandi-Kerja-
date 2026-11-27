@@ -7,7 +7,6 @@ import {
   Calendar, 
   Clock, 
   ShieldCheck, 
-  Eye, 
   X, 
   Tag, 
   CheckCircle2,
@@ -19,24 +18,25 @@ gsap.registerPlugin(ScrollTrigger);
 function Certificate() {
   const { lang, t } = useLanguage();
   const [selectedCert, setSelectedCert] = useState(null);
+  const [isFullscreenImage, setIsFullscreenImage] = useState(false);
   const sectionRef = useRef(null);
-  const cardsGridRef = useRef(null);
 
   const certData = t.certificates || {
-    title: "Sertifikat & Lisensi",
-    subtitle: "Daftar sertifikasi profesional, pelatihan industri, dan pencapaian kompetensi teknologi",
+    title: lang === "id" ? "Sertifikat & Lisensi" : "Certificates & Licenses",
+    subtitle: lang === "id" 
+      ? "Daftar sertifikasi profesional, pelatihan industri, dan pencapaian kompetensi teknologi"
+      : "Professional certifications, industry training courses, and verified technical credentials",
     items: []
   };
 
-  const allItems = certData.items || [];
+  const allItems = certData.items || [];  
 
-  // GSAP animation on mount
+  // GSAP Entrance Animations
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      // Animate Section Title & Header
       const header = el.querySelector(".section-header");
       if (header) {
         gsap.fromTo(header,
@@ -54,37 +54,42 @@ function Certificate() {
           }
         );
       }
+
+      const cards = el.querySelectorAll(".cert-card");
+      if (cards.length) {
+        gsap.fromTo(cards,
+          { opacity: 0, y: 24 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            duration: 0.5, 
+            stagger: 0.06, 
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: el.querySelector(".cert-grid"),
+              start: "top 86%",
+              toggleActions: "play none none reverse"
+            }
+          }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [lang]);
-
-  // Animate cards whenever lang or allItems change
-  useEffect(() => {
-    if (!cardsGridRef.current) return;
-    const cards = cardsGridRef.current.querySelectorAll(".cert-card");
-    if (cards.length) {
-      gsap.fromTo(cards,
-        { opacity: 0, y: 24 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 0.45, 
-          stagger: 0.06, 
-          ease: "power2.out" 
-        }
-      );
-    }
-  }, [lang, allItems.length]);
+  }, [lang, t]);  
 
   // Handle ESC key to close modal
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        setSelectedCert(null);
+        if (isFullscreenImage) {
+          setIsFullscreenImage(false);
+        } else {
+          setSelectedCert(null);
+        }
       }
     };
-    if (selectedCert) {
+    if (selectedCert || isFullscreenImage) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
     } else {
@@ -94,7 +99,7 @@ function Certificate() {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [selectedCert]);
+  }, [selectedCert, isFullscreenImage]);
 
   return (
     <section id="certificate" ref={sectionRef} className="section cert-section">
@@ -107,114 +112,56 @@ function Certificate() {
           )}
         </div>
 
-        {/* Certificates Grid */}
-        <div className="cert-grid" ref={cardsGridRef}>
+        {/* Certificates Grid - Tampilan Bersih, Sederhana & Enak Dilihat */}
+        <div className="cert-grid">
           {allItems.map((cert) => (
-            <div className="cert-card" key={cert.id}>
+            <div 
+              className="cert-card" 
+              key={cert.id}
+              onClick={() => setSelectedCert(cert)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setSelectedCert(cert);
+                }
+              }}
+            >
               {/* Certificate Image Frame */}
-              <div 
-                className="cert-img-container" 
-                onClick={() => setSelectedCert(cert)}
-                tabIndex={0}
-                role="button"
-                aria-label={`Preview ${cert.title}`}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setSelectedCert(cert);
-                  }
-                }}
-              >
+              <div className="cert-img-container">
                 <img 
                   src={cert.image} 
                   alt={cert.title} 
                   className="cert-thumbnail" 
                   loading="lazy" 
                 />
-                <div className="cert-issuer-badge">
-                  <span>{cert.issuer}</span>
-                </div>
               </div>
 
               {/* Certificate Body */}
               <div className="cert-body">
-                <div className="cert-meta-row">
-                  {cert.date && (
-                    <span className="cert-meta-item">
-                      <Calendar size={13} />
-                      <span>{cert.date}</span>
-                    </span>
-                  )}
-                  {cert.hours && (
-                    <span className="cert-meta-item">
-                      <Clock size={13} />
-                      <span>{cert.hours}</span>
-                    </span>
-                  )}
+                <div className="cert-header-info">
+                  <span className="cert-issuer-text">{cert.issuer}</span>
+                  {cert.date && <span className="cert-date-text">{cert.date}</span>}
                 </div>
 
-                <h3 
-                  className="cert-title" 
-                  onClick={() => setSelectedCert(cert)}
-                  title={cert.title}
-                >
+                <h3 className="cert-title" title={cert.title}>
                   {cert.title}
                 </h3>
-
-                <p className="cert-desc">{cert.desc}</p>
-
-                {/* Tags */}
-                {cert.tags && cert.tags.length > 0 && (
-                  <div className="cert-tags">
-                    {cert.tags.slice(0, 3).map((tag, tIdx) => (
-                      <span className="cert-tag" key={tIdx}>
-                        {tag}
-                      </span>
-                    ))}
-                    {cert.tags.length > 3 && (
-                      <span className="cert-tag-more">
-                        +{cert.tags.length - 3}
-                      </span>
-                    )}
-                  </div>
-                )}
-
-                {/* Card Actions */}
-                <div className="cert-actions">
-                  <button 
-                    type="button" 
-                    className="cert-btn cert-btn-preview"
-                    onClick={() => setSelectedCert(cert)}
-                  >
-                    <Eye size={15} />
-                    <span>{certData.previewLabel || "Preview"}</span>
-                  </button>
-
-                  {cert.pdf && (
-                    <a 
-                      href={cert.pdf} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="cert-btn cert-btn-pdf"
-                      title={certData.viewOriginal || "Buka PDF Asli"}
-                    >
-                      <FileText size={15} />
-                      <span>PDF</span>
-                      <ExternalLink size={12} className="cert-ext-icon" />
-                    </a>
-                  )}
-                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Detail / Fullscreen Modal */}
+      {/* POPUP MODAL TENTANG SERTIFIKAT */}
       {selectedCert && (
         <div 
           className="cert-modal-backdrop" 
-          onClick={() => setSelectedCert(null)}
+          onClick={() => {
+            setSelectedCert(null);
+            setIsFullscreenImage(false);
+          }}
           role="dialog"
           aria-modal="true"
         >
@@ -225,23 +172,33 @@ function Certificate() {
             {/* Modal Header */}
             <div className="cert-modal-header">
               <div className="cert-modal-title-group">
-                <span className="cert-modal-issuer">{selectedCert.issuer}</span>
+                <div className="cert-modal-issuer-badge">
+                  <ShieldCheck size={14} />
+                  <span>{selectedCert.issuer}</span>
+                </div>
                 <h3 className="cert-modal-title">{selectedCert.title}</h3>
               </div>
               <button 
                 type="button" 
                 className="cert-modal-close"
-                onClick={() => setSelectedCert(null)}
-                aria-label="Tutup"
+                onClick={() => {
+                  setSelectedCert(null);
+                  setIsFullscreenImage(false);
+                }}
+                aria-label={lang === "id" ? "Tutup" : "Close"}
+                title={lang === "id" ? "Tutup (ESC)" : "Close (ESC)"}
               >
                 <X size={20} />
               </button>
             </div>
 
-            {/* Modal Scroll Content */}
+            {/* Modal Content */}
             <div className="cert-modal-body">
               {/* Image Preview */}
-              <div className="cert-modal-img-wrap">
+              <div 
+                className="cert-modal-img-wrap"
+                onClick={() => setIsFullscreenImage(true)}
+              >
                 <img 
                   src={selectedCert.image} 
                   alt={selectedCert.title} 
@@ -255,7 +212,7 @@ function Certificate() {
                   <div className="modal-meta-cell">
                     <span className="meta-cell-label">
                       <ShieldCheck size={14} />
-                      <span>{certData.issuedBy || "Penerbit"}</span>
+                      <span>{certData.issuedBy || (lang === "id" ? "Penerbit" : "Issuer")}</span>
                     </span>
                     <span className="meta-cell-value">{selectedCert.issuer}</span>
                   </div>
@@ -264,7 +221,7 @@ function Certificate() {
                     <div className="modal-meta-cell">
                       <span className="meta-cell-label">
                         <Calendar size={14} />
-                        <span>{certData.dateLabel || "Tanggal"}</span>
+                        <span>{certData.dateLabel || (lang === "id" ? "Tanggal Terbit" : "Issue Date")}</span>
                       </span>
                       <span className="meta-cell-value">{selectedCert.date}</span>
                     </div>
@@ -274,7 +231,7 @@ function Certificate() {
                     <div className="modal-meta-cell">
                       <span className="meta-cell-label">
                         <Clock size={14} />
-                        <span>{certData.hoursLabel || "Durasi"}</span>
+                        <span>{certData.hoursLabel || (lang === "id" ? "Durasi Pelatihan" : "Duration")}</span>
                       </span>
                       <span className="meta-cell-value">{selectedCert.hours}</span>
                     </div>
@@ -284,7 +241,7 @@ function Certificate() {
                     <div className="modal-meta-cell">
                       <span className="meta-cell-label">
                         <CheckCircle2 size={14} />
-                        <span>{certData.credentialLabel || "Kredensial"}</span>
+                        <span>{certData.credentialLabel || (lang === "id" ? "ID Kredensial" : "Credential ID")}</span>
                       </span>
                       <span className="meta-cell-value font-mono">{selectedCert.credential}</span>
                     </div>
@@ -293,6 +250,9 @@ function Certificate() {
 
                 {selectedCert.desc && (
                   <div className="cert-modal-desc-block">
+                    <h4 className="modal-desc-title">
+                      {lang === "id" ? "Deskripsi & Materi Kompetensi" : "Description & Competency"}
+                    </h4>
                     <p>{selectedCert.desc}</p>
                   </div>
                 )}
@@ -302,11 +262,11 @@ function Certificate() {
                   <div className="cert-modal-tags">
                     <span className="modal-tags-label">
                       <Tag size={13} />
-                      <span>Skills & Topics:</span>
+                      <span>{lang === "id" ? "Keterampilan yang Diverifikasi:" : "Verified Skills:"}</span>
                     </span>
                     <div className="modal-tag-chips">
                       {selectedCert.tags.map((tag, idx) => (
-                        <span className="cert-tag" key={idx}>{tag}</span>
+                        <span className="cert-modal-tag" key={idx}>{tag}</span>
                       ))}
                     </div>
                   </div>
@@ -319,9 +279,12 @@ function Certificate() {
               <button 
                 type="button" 
                 className="modal-btn-secondary"
-                onClick={() => setSelectedCert(null)}
+                onClick={() => {
+                  setSelectedCert(null);
+                  setIsFullscreenImage(false);
+                }}
               >
-                {certData.closeLabel || "Tutup"}
+                {certData.closeLabel || (lang === "id" ? "Tutup" : "Close")}
               </button>
 
               {selectedCert.pdf && (
@@ -332,10 +295,39 @@ function Certificate() {
                   className="modal-btn-primary"
                 >
                   <FileText size={16} />
-                  <span>{certData.viewOriginal || "Buka Dokumen PDF Asli"}</span>
+                  <span>{certData.viewOriginal || (lang === "id" ? "Buka Dokumen PDF Asli" : "View Original PDF")}</span>
                   <ExternalLink size={14} />
                 </a>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FULLSCREEN LIGHTBOX */}
+      {isFullscreenImage && selectedCert && (
+        <div 
+          className="cert-lightbox-backdrop"
+          onClick={() => setIsFullscreenImage(false)}
+        >
+          <button 
+            type="button" 
+            className="cert-lightbox-close"
+            onClick={() => setIsFullscreenImage(false)}
+            aria-label={lang === "id" ? "Tutup Layar Penuh" : "Close Fullscreen"}
+            title={lang === "id" ? "Tutup (ESC)" : "Close (ESC)"}
+          >
+            <X size={24} />
+          </button>
+          <div className="cert-lightbox-container" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={selectedCert.image} 
+              alt={selectedCert.title} 
+              className="cert-lightbox-img" 
+            />
+            <div className="cert-lightbox-caption">
+              <h4>{selectedCert.title}</h4>
+              <p>{selectedCert.issuer} {selectedCert.date ? `• ${selectedCert.date}` : ""}</p>
             </div>
           </div>
         </div>

@@ -26,13 +26,22 @@ function Contact() {
     if (!el) return;
 
     const ctx = gsap.context(() => {
-      // ── Section title ──
+      // ── Section Header Entrance ──
       const sectionTitle = el.querySelector('.section-title');
+      const sectionSub = el.querySelector('.section-subtitle');
       if (sectionTitle) {
         gsap.fromTo(sectionTitle,
-          { opacity: 0, y: 28, skewX: -3 },
-          { opacity: 1, y: 0, skewX: 0, duration: 0.75, ease: 'power3.out',
+          { opacity: 0, y: 28 },
+          { opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
             scrollTrigger: { trigger: sectionTitle, start: 'top 88%', toggleActions: 'play none none reverse' }
+          }
+        );
+      }
+      if (sectionSub) {
+        gsap.fromTo(sectionSub,
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.65, delay: 0.1, ease: 'power2.out',
+            scrollTrigger: { trigger: sectionSub, start: 'top 88%', toggleActions: 'play none none reverse' }
           }
         );
       }

@@ -214,7 +214,7 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
               onClick={() => setDarkMode(!darkMode)}
               aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
               id="theme-toggle-btn"
-              title={darkMode ? "Mode Terang" : "Mode Gelap"}
+              title={darkMode ? (lang === "id" ? "Mode Terang" : "Light Mode") : (lang === "id" ? "Mode Gelap" : "Dark Mode")}
             >
               {darkMode ? (
                 <Sun size={17} className="theme-icon light" />
@@ -229,7 +229,7 @@ function Navbar({ activeSection, scrollTo, darkMode, setDarkMode, menuOpen, setM
               onClick={() => handleMenuClick("contact")}
               title={lang === "id" ? "Hubungi Saya" : "Get in Touch"}
             >
-              <span>{lang === "id" ? "Kontak" : "Hire Me"}</span>
+              <span>{lang === "id" ? "Kontak" : "Contact"}</span>
               <ArrowRight size={13} className="nav-cta-arrow" />
             </button>
 
