@@ -4,7 +4,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Navbar from "./components/Navbar";
-import Hero from "./components/Home";
+import Hero from "./components/home";
 import About from "./components/About";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
