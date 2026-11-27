@@ -21,7 +21,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 function Projects() {
   const { lang, t } = useLanguage();
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(3); // Default index 3 (SIOPLAS, persis di tengah dari 7 proyek)
+  const [globalActiveIndex, setGlobalActiveIndex] = useState(17); // Set tengah (index 17 dari 35 kartu berulang)
   const [modalProject, setModalProject] = useState(null);
   const [modalActiveImage, setModalActiveImage] = useState(null);
   const [modalActiveCaption, setModalActiveCaption] = useState("");
@@ -33,11 +34,16 @@ function Projects() {
   const sliderRef = useRef(null);
   const modalContentRef = useRef(null);
 
-  // Mouse drag state
+  // Mouse & Touch drag state + Smooth Momentum Physics
   const isDraggingRef = useRef(false);
-  const startXRef = useRef(0);
-  const scrollLeftRef = useRef(0);
   const hasDraggedRef = useRef(false);
+  const lastXRef = useRef(0);
+  const lastTimeRef = useRef(0);
+  const velocityRef = useRef(0);
+  const momentumRafRef = useRef(null);
+  const scrollRafRef = useRef(null);
+  const cardStepRef = useRef(390);
+  const globalActiveIndexRef = useRef(17);
 
   // Foto Dokumentasi Terintegrasi
   const DOKUMENTASI_PHOTOS = useMemo(() => [
@@ -52,62 +58,80 @@ function Projects() {
     "/Dokumentasi Dandi/Project(Absensiku).jpeg",
   ], []);
 
-  const galleryItems = [
-  {
-    src: "/Dokumentasi Dandi/(1Sioplas).jpeg",
-    tag: "Backend Development",
-    title: "Pengembangan Sistem SIOPLAS",
-    caption: "Dokumentasi pengembangan backend dan sistem pelaporan operasional SIOPLAS di Balai Karantina."
-  },
-  {
-    src: "/Dokumentasi Dandi/(2Sioplas).jpeg",
-    tag: "System Development",
-    title: "Implementasi Sistem SIOPLAS",
-    caption: "Dokumentasi proses implementasi fitur dan pengembangan sistem informasi SIOPLAS."
-  },
-  {
-    src: "/Dokumentasi Dandi/(3Sioplas).jpeg",
-    tag: "Team Collaboration",
-    title: "Kolaborasi Proyek SIOPLAS",
-    caption: "Dokumentasi kolaborasi dan koordinasi tim dalam pengembangan aplikasi SIOPLAS."
-  },
-  {
-    src: "/Dokumentasi Dandi/(1Eyemate).jpeg",
-    tag: "AI Development",
-    title: "Pengembangan Aplikasi EyeMate",
-    caption: "Dokumentasi pengembangan aplikasi mobile berbasis AI untuk membantu penyandang gangguan penglihatan."
-  },
-  {
-    src: "/Dokumentasi Dandi/(1Pertamina).jpeg",
-    tag: "Industrial Internship",
-    title: "Dokumentasi Magang Pertamina",
-    caption: "Pengalaman praktik kerja lapangan di PT Kilang Pertamina Internasional RU II Dumai."
-  },
-  {
-    src: "/Dokumentasi Dandi/(Pertamina).jpeg",
-    tag: "Field Observation",
-    title: "Observasi Operasional Kilang",
-    caption: "Dokumentasi kegiatan observasi lingkungan kerja dan operasional di lingkungan kilang Pertamina."
-  },
-  {
-    src: "/Dokumentasi Dandi/UX(Pertamina).jpeg",
-    tag: "UI/UX Design",
-    title: "Perancangan UI/UX Pertamina",
-    caption: "Dokumentasi perancangan prototype antarmuka chatbot untuk mendukung sistem pelaporan internal."
-  },
-  {
-    src: "/Dokumentasi Dandi/Project(1Absensiku).jpeg",
-    tag: "Mobile Development",
-    title: "Pengembangan Absensiku",
-    caption: "Dokumentasi pengembangan aplikasi presensi mobile dengan fitur pencatatan dan verifikasi lokasi."
-  },
-  {
-    src: "/Dokumentasi Dandi/Project(Absensiku).jpeg",
-    tag: "Application Testing",
-    title: "Implementasi Aplikasi Absensiku",
-    caption: "Dokumentasi implementasi dan pengujian fungsionalitas aplikasi presensi."
-  }
-  ];
+  const galleryItems = useMemo(() => [
+    {
+      src: "/Dokumentasi Dandi/(1Sioplas).jpeg",
+      tag: "Backend Development",
+      title: lang === "id" ? "Pengembangan Sistem SIOPLAS" : "SIOPLAS System Development",
+      caption: lang === "id"
+        ? "Dokumentasi pengembangan backend dan sistem pelaporan operasional SIOPLAS di Balai Karantina."
+        : "Backend development and operational reporting system documentation for SIOPLAS at the Quarantine Authority."
+    },
+    {
+      src: "/Dokumentasi Dandi/(2Sioplas).jpeg",
+      tag: "System Development",
+      title: lang === "id" ? "Implementasi Sistem SIOPLAS" : "SIOPLAS System Implementation",
+      caption: lang === "id"
+        ? "Dokumentasi proses implementasi fitur dan pengembangan sistem informasi SIOPLAS."
+        : "Feature implementation and development documentation for the SIOPLAS information system."
+    },
+    {
+      src: "/Dokumentasi Dandi/(3Sioplas).jpeg",
+      tag: "Team Collaboration",
+      title: lang === "id" ? "Kolaborasi Proyek SIOPLAS" : "SIOPLAS Project Collaboration",
+      caption: lang === "id"
+        ? "Dokumentasi kolaborasi dan koordinasi tim dalam pengembangan aplikasi SIOPLAS."
+        : "Team collaboration and technical coordination documentation for SIOPLAS development."
+    },
+    {
+      src: "/Dokumentasi Dandi/(1Eyemate).jpeg",
+      tag: "AI Development",
+      title: lang === "id" ? "Pengembangan Aplikasi EyeMate" : "EyeMate Application Development",
+      caption: lang === "id"
+        ? "Dokumentasi pengembangan aplikasi mobile berbasis AI untuk membantu penyandang gangguan penglihatan."
+        : "Documentation of AI-based mobile app development to assist visually impaired individuals."
+    },
+    {
+      src: "/Dokumentasi Dandi/(1Pertamina).jpeg",
+      tag: "Industrial Internship",
+      title: lang === "id" ? "Dokumentasi Magang Pertamina" : "Pertamina Internship Documentation",
+      caption: lang === "id"
+        ? "Pengalaman praktik kerja lapangan di PT Kilang Pertamina Internasional RU II Dumai."
+        : "Field work internship experience at PT Kilang Pertamina Internasional RU II Dumai."
+    },
+    {
+      src: "/Dokumentasi Dandi/(Pertamina).jpeg",
+      tag: "Field Observation",
+      title: lang === "id" ? "Observasi Operasional Kilang" : "Refinery Operational Observation",
+      caption: lang === "id"
+        ? "Dokumentasi kegiatan observasi lingkungan kerja dan operasional di lingkungan kilang Pertamina."
+        : "Observation of working environment and technical operations at the Pertamina refinery."
+    },
+    {
+      src: "/Dokumentasi Dandi/UX(Pertamina).jpeg",
+      tag: "UI/UX Design",
+      title: lang === "id" ? "Perancangan UI/UX Pertamina" : "Pertamina UI/UX Design",
+      caption: lang === "id"
+        ? "Dokumentasi perancangan prototype antarmuka chatbot untuk mendukung sistem pelaporan internal."
+        : "Chatbot interface prototype design to support internal incident and operational reporting."
+    },
+    {
+      src: "/Dokumentasi Dandi/Project(1Absensiku).jpeg",
+      tag: "Mobile Development",
+      title: lang === "id" ? "Pengembangan Absensiku" : "Absensiku Development",
+      caption: lang === "id"
+        ? "Dokumentasi pengembangan aplikasi presensi mobile dengan fitur pencatatan dan verifikasi lokasi."
+        : "Mobile attendance app development featuring real-time location tracking and verification."
+    },
+    {
+      src: "/Dokumentasi Dandi/Project(Absensiku).jpeg",
+      tag: "Application Testing",
+      title: lang === "id" ? "Implementasi Aplikasi Absensiku" : "Absensiku Implementation & Testing",
+      caption: lang === "id"
+        ? "Dokumentasi implementasi dan pengujian fungsionalitas aplikasi presensi."
+        : "Implementation testing and functionality verification for the Absensiku mobile attendance system."
+    }
+  ], [lang]);
 
   // Metadata Project dengan Hierarki Ukuran & Dokumentasi Terintegrasi
   const projectsMeta = useMemo(() => [
@@ -122,26 +146,36 @@ function Projects() {
       image: "/project dandi/EyeMate.png",
       gallery: [
         {
-          label: "Pengembangan Aplikasi EyeMate",
+          label: lang === "id" ? "Pengembangan Aplikasi EyeMate" : "EyeMate App Development",
           src: "/Dokumentasi Dandi/(1Eyemate).jpeg",
           type: "photo",
-          caption: "Dokumentasi pengembangan aplikasi mobile EyeMate berbasis AI untuk membantu penyandang gangguan penglihatan melalui teknologi pengenalan objek dan panduan suara."
+          caption: lang === "id" 
+            ? "Dokumentasi pengembangan aplikasi mobile EyeMate berbasis AI untuk membantu penyandang gangguan penglihatan melalui teknologi pengenalan objek dan panduan suara."
+            : "Development documentation for the AI-powered EyeMate mobile app helping visually impaired individuals through real-time object detection and voice guidance."
         },
         {
-          label: "Testing",
+          label: lang === "id" ? "Pengujian & Validasi" : "Testing & Validation",
           src: "/Dokumentasi Dandi/(2Eyemate).jpeg",
           type: "mobile",
-          caption: "Melakukan testing pada aplikasi EyeMate untuk memastikan fungsionalitas berjalan dengan baik."
+          caption: lang === "id"
+            ? "Melakukan testing pada aplikasi EyeMate untuk memastikan fungsionalitas berjalan dengan baik."
+            : "Conducting comprehensive testing on EyeMate to ensure optimal multi-device performance."
         },
         {
-          label: "Dokumentasi Aplikasi tersedia di Ios/Android",
+          label: lang === "id" ? "Dokumentasi Aplikasi di iOS/Android" : "iOS & Android Cross-Platform",
           src: "/Dokumentasi Dandi/(3Eyemate).jpeg",
           type: "photo",
-          caption: "Membuktikan bahwa aplikasi EyeMate tersedia di Ios dan Android."
+          caption: lang === "id"
+            ? "Membuktikan bahwa aplikasi EyeMate tersedia di iOS dan Android."
+            : "Cross-platform verification proving EyeMate functionality across both iOS and Android ecosystems."
         },
       ],
-      problem: "Penyandang gangguan penglihatan sering menghadapi hambatan dalam mengenali objek di sekitarnya secara mandiri dan cepat.",
-      goal: "Membangun asisten cerdas mobile berbasis model YOLOv8 dan FastAPI yang memberikan panduan suara dan teks secara real-time.",
+      problem: lang === "id"
+        ? "Penyandang gangguan penglihatan sering menghadapi hambatan dalam mengenali objek di sekitarnya secara mandiri dan cepat."
+        : "Visually impaired individuals frequently face difficulties in identifying surrounding objects quickly and independently.",
+      goal: lang === "id"
+        ? "Membangun asisten cerdas mobile berbasis model YOLOv8 dan FastAPI yang memberikan panduan suara dan teks secara real-time."
+        : "Build an intelligent mobile assistant powered by YOLOv8 and FastAPI that delivers real-time voice and audio scene descriptions.",
       fit: "cover",
       bg: "#181a20",
     },
@@ -156,20 +190,28 @@ function Projects() {
       image: "/project dandi/Absensiku.png",
       gallery: [
         { 
-          label: "Menentukan Alur", 
+          label: lang === "id" ? "Menentukan Alur Sistem" : "System Flow Mapping", 
           src: "/Dokumentasi Dandi/Project(Absensiku).jpeg", 
           type: "photo", 
-          caption: "Menentukan alur dan alur kerja sistem presensi Absensiku" 
+          caption: lang === "id"
+            ? "Menentukan alur dan arsitektur kerja sistem presensi Absensiku"
+            : "Architecting the workflow and technical structure for the Absensiku mobile attendance system"
         },
         { 
-          label: "Dokumentasi", 
+          label: lang === "id" ? "Dokumentasi Pembuatan" : "Build Documentation", 
           src: "/Dokumentasi Dandi/Project(1Absensiku).jpeg", 
           type: "photo", 
-          caption: "Mendokumentasikan proses pembuatan project Absensiku" 
+          caption: lang === "id"
+            ? "Mendokumentasikan proses pembuatan project Absensiku"
+            : "Documenting the development lifecycle and endpoint implementation for Absensiku"
         },
       ],
-      problem: "Pencatatan presensi konvensional sulit memvalidasi kehadiran staf di lokasi kerja secara real-time.",
-      goal: "Menyediakan aplikasi presensi mobile berbasis koordinat geolokasi dengan backend API cepat menggunakan Go.",
+      problem: lang === "id"
+        ? "Pencatatan presensi konvensional sulit memvalidasi kehadiran staf di lokasi kerja secara real-time."
+        : "Conventional attendance logging struggles to verify actual staff presence at assigned work coordinates in real time.",
+      goal: lang === "id"
+        ? "Menyediakan aplikasi presensi mobile berbasis koordinat geolokasi dengan backend API cepat menggunakan Go."
+        : "Deliver a high-performance geolocation-based mobile attendance application backed by a fast Go RESTful API.",
       fit: "cover",
       bg: "#ffffff",
     },
@@ -184,8 +226,12 @@ function Projects() {
       image: "/project dandi/Coffe-Shop.png",
       gallery: [
       ],
-      problem: "Pelanggan coffee shop sering menghadapi antrean panjang dalam pemesanan saat jam sibuk.",
-      goal: "Membangun sistem pemesanan responsif berbasis React dan backend Golang untuk mempercepat transaksi.",
+      problem: lang === "id"
+        ? "Pelanggan coffee shop sering menghadapi antrean panjang dalam pemesanan saat jam sibuk."
+        : "Coffee shop customers frequently experience prolonged queues and wait times during peak order hours.",
+      goal: lang === "id"
+        ? "Membangun sistem pemesanan responsif berbasis React dan backend Golang untuk mempercepat transaksi."
+        : "Develop a responsive ordering system with React and a Golang backend to accelerate order fulfillment.",
       fit: "cover",
       bg: "#1c140e",
     },
@@ -200,26 +246,36 @@ function Projects() {
       image: "/project dandi/Sioplas.png",
       gallery: [
         { 
-          label: "Uji Validasi Backend & API", 
+          label: lang === "id" ? "Uji Validasi Backend & API" : "Backend & API Validation", 
           src: "/Dokumentasi Dandi/(3Sioplas).jpeg", 
           type: "photo", 
-          caption: "Demonstrasi dan validasi modul backend API bersama tim penguji" 
+          caption: lang === "id"
+            ? "Demonstrasi dan validasi modul backend API bersama tim penguji"
+            : "Demonstrating and validating backend API modules with testing supervisors"
         },
         { 
-          label: "Proses Proyek SIOPLAS", 
+          label: lang === "id" ? "Proses Proyek SIOPLAS" : "SIOPLAS Project Process", 
           src: "/Dokumentasi Dandi/(1Sioplas).jpeg", 
           type: "photo", 
-          caption: "Laporan proses project SIOPLAS" 
+          caption: lang === "id"
+            ? "Laporan proses project SIOPLAS"
+            : "Development and reporting workflow for the SIOPLAS agency platform"
         },
         { 
-          label: "Proses dalam pembuatan Backend", 
+          label: lang === "id" ? "Proses Pembuatan Backend" : "Backend Engineering", 
           src: "/Dokumentasi Dandi/(2Sioplas).jpeg", 
           type: "web", 
-          caption: "Laporan proses pembuatan backend" 
+          caption: lang === "id"
+            ? "Laporan proses pembuatan backend"
+            : "Backend implementation and operational query testing"
         },
       ],
-      problem: "Proses rekapitulasi data penugasan dan pelaporan operasional sebelumnya memerlukan pencatatan manual yang rentan redundansi.",
-      goal: "Mengembangkan backend API yang andal dan terstruktur menggunakan Go (Golang) dan MySQL untuk otomasi alur kerja data.",
+      problem: lang === "id"
+        ? "Proses rekapitulasi data penugasan dan pelaporan operasional sebelumnya memerlukan pencatatan manual yang rentan redundansi."
+        : "Operational task tracking and reporting previously relied on manual record-keeping prone to human errors and data redundancy.",
+      goal: lang === "id"
+        ? "Mengembangkan backend API yang andal dan terstruktur menggunakan Go (Golang) dan MySQL untuk otomasi alur kerja data."
+        : "Engineer a resilient, structured backend API using Go (Golang) and MySQL to automate operational data workflows.",
       fit: "contain",
       bg: "#ffffff",
       padding: "24px 16px",
@@ -235,8 +291,12 @@ function Projects() {
       image: "/project dandi/WebNesa.png",
       gallery: [
       ],
-      problem: "Calon klien agensi membutuhkan kemudahan dalam meninjau portofolio layanan dan paket penawaran pembuatan website.",
-      goal: "Merancang portal agensi yang terstruktur dengan navigasi intuitif untuk konversi prospek.",
+      problem: lang === "id"
+        ? "Calon klien agensi membutuhkan kemudahan dalam meninjau portofolio layanan dan paket penawaran pembuatan website."
+        : "Prospective agency clients require a clear, seamless interface to browse digital service tiers and website packages.",
+      goal: lang === "id"
+        ? "Merancang portal agensi yang terstruktur dengan navigasi intuitif untuk konversi prospek."
+        : "Craft an elegant, structured agency showcase with intuitive navigation to drive client inquiries and conversions.",
       fit: "cover",
       bg: "#0f172a",
     },
@@ -251,8 +311,12 @@ function Projects() {
       image: "/project dandi/Kafe-Shukufuku.png",
       gallery: [
       ],
-      problem: "Brand kuliner specialty membutuhkan representasi digital yang mencerminkan estetika otentik dan ketenangan visual.",
-      goal: "Mengembangkan landing page interaktif dengan TypeScript dan CSS modern yang responsif di seluruh layar.",
+      problem: lang === "id"
+        ? "Brand kuliner specialty membutuhkan representasi digital yang mencerminkan estetika otentik dan ketenangan visual."
+        : "Specialty culinary brands need a digital storefront that faithfully reflects authentic atmosphere and modern minimalism.",
+      goal: lang === "id"
+        ? "Mengembangkan landing page interaktif dengan TypeScript dan CSS modern yang responsif di seluruh layar."
+        : "Create an interactive, ultra-responsive landing experience using modern CSS and TypeScript across all devices.",
       fit: "cover",
       bg: "#f8f6f0",
     },
@@ -267,30 +331,40 @@ function Projects() {
       image: "/project dandi/UI:UX Pertamina.png",
       gallery: [
         { 
-          label: "Observasi Fasilitas Kilang Pertamina", 
+          label: lang === "id" ? "Observasi Fasilitas Kilang Pertamina" : "Pertamina Refinery Observation", 
           src: "/Dokumentasi Dandi/(Pertamina).jpeg", 
           type: "photo", 
-          caption: "Observasi operasional dan fasilitas di PT Kilang Pertamina Internasional RU II Dumai" 
+          caption: lang === "id"
+            ? "Observasi operasional dan fasilitas di PT Kilang Pertamina Internasional RU II Dumai"
+            : "Operational and facilities observation at PT Kilang Pertamina Internasional RU II Dumai"
         },
         { 
-          label: "Magang PT Pertamina RU II Dumai", 
+          label: lang === "id" ? "Magang PT Pertamina RU II Dumai" : "Pertamina Internship Certification", 
           src: "/Dokumentasi Dandi/(1Pertamina).jpeg", 
           type: "photo", 
-          caption: "Sertifikat resmi Praktik Kerja Lapangan (PKL) di PT Kilang Pertamina Internasional RU II Dumai" 
+          caption: lang === "id"
+            ? "Sertifikat resmi Praktik Kerja Lapangan (PKL) di PT Kilang Pertamina Internasional RU II Dumai"
+            : "Official internship certification at PT Kilang Pertamina Internasional RU II Dumai"
         },
         { 
-          label: "Rancangan Portal Chatbot Figma", 
+          label: lang === "id" ? "Rancangan Portal Chatbot Figma" : "Figma Chatbot Portal Design", 
           src: "/Dokumentasi Dandi/UX(Pertamina).jpeg", 
           type: "photo", 
-          caption: "Rancangan antarmuka portal CS & Chatbot virtual PT Pertamina RU II Dumai" 
+          caption: lang === "id"
+            ? "Rancangan antarmuka portal CS & Chatbot virtual PT Pertamina RU II Dumai"
+            : "Prototype interface for the CS portal and virtual chatbot at PT Pertamina RU II Dumai"
         },
       ],
-      problem: "Departemen fasilitas kilang membutuhkan alur pelaporan insiden dan kebutuhan logistik yang cepat tanpa hambatan birokrasi manual.",
-      goal: "Merancang antarmuka website berbasis chatbot virtual di Figma dengan usability tinggi untuk operasional internal.",
+      problem: lang === "id"
+        ? "Departemen fasilitas kilang membutuhkan alur pelaporan insiden dan kebutuhan logistik yang cepat tanpa hambatan birokrasi manual."
+        : "Refinery facility departments required a rapid incident reporting and logistics workflow free of manual bureaucratic delay.",
+      goal: lang === "id"
+        ? "Merancang antarmuka website berbasis chatbot virtual di Figma dengan usability tinggi untuk operasional internal."
+        : "Design a highly intuitive virtual chatbot interface prototype in Figma to streamline internal operational reporting.",
       fit: "cover",
       bg: "#0c1a2e",
     }
-  ], [DOKUMENTASI_PHOTOS]);
+  ], [DOKUMENTASI_PHOTOS, lang]);
 
   const allProjects = useMemo(() => {
     return (t.projects?.items || []).map((proj, idx) => {
@@ -298,6 +372,26 @@ function Projects() {
       return { ...proj, meta };
     });
   }, [t.projects, projectsMeta]);
+
+  // Buat array berulang (5 set) agar slider dapat digeser terus menerus tanpa batas (infinite loop)
+  const infiniteProjects = useMemo(() => {
+    if (!allProjects.length) return [];
+    const sets = [0, 1, 2, 3, 4];
+    return sets.flatMap((setIdx) =>
+      allProjects.map((p, i) => ({
+        ...p,
+        setIdx,
+        originalIndex: i,
+        globalIdx: setIdx * allProjects.length + i,
+      }))
+    );
+  }, [allProjects]);
+
+  // Index proyek tengah di set tengah (set 2, SIOPLAS di index 3 -> 7*2 + 3 = 17)
+  const initialCenterIndex = useMemo(() => {
+    if (!allProjects.length) return 0;
+    return allProjects.length * 2 + Math.floor(allProjects.length / 2);
+  }, [allProjects.length]);
 
   // Open modal with initial tab
   const openModal = useCallback((project, initialTab = "details") => {
@@ -396,17 +490,22 @@ function Projects() {
     const el = sectionRef.current;
     if (!el) return;
     const ctx = gsap.context(() => {
-      const headerEl = el.querySelector(".projects-section-header");
-      if (headerEl) {
-        gsap.fromTo(
-          headerEl,
-          { opacity: 0, y: 32 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 0.75,
-            ease: "power3.out",
-            scrollTrigger: { trigger: headerEl, start: "top 88%", toggleActions: "play none none reverse" },
+      // ── Section Header Entrance ──
+      const headerTitle = el.querySelector(".projects-section-header .section-title");
+      const headerSub = el.querySelector(".projects-section-header .section-subtitle");
+      if (headerTitle) {
+        gsap.fromTo(headerTitle,
+          { opacity: 0, y: 28 },
+          { opacity: 1, y: 0, duration: 0.75, ease: "power3.out",
+            scrollTrigger: { trigger: headerTitle, start: "top 88%", toggleActions: "play none none reverse" }
+          }
+        );
+      }
+      if (headerSub) {
+        gsap.fromTo(headerSub,
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 0.65, delay: 0.1, ease: "power2.out",
+            scrollTrigger: { trigger: headerSub, start: "top 88%", toggleActions: "play none none reverse" }
           }
         );
       }
@@ -427,102 +526,217 @@ function Projects() {
       }
     }, sectionRef);
     return () => ctx.revert();
-  }, [t]);
+  }, [lang, t]);
 
-  // Slider Mouse Drag Handlers
-  const handleMouseDown = (e) => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    isDraggingRef.current = true;
-    hasDraggedRef.current = false;
-    startXRef.current = e.pageX - slider.offsetLeft;
-    scrollLeftRef.current = slider.scrollLeft;
-    slider.classList.add("is-dragging");
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDraggingRef.current) return;
-    const slider = sliderRef.current;
-    if (!slider) return;
-    e.preventDefault();
-    const x = e.pageX - slider.offsetLeft;
-    const walk = (x - startXRef.current) * 1.5;
-    if (Math.abs(walk) > 5) {
-      hasDraggedRef.current = true;
-    }
-    slider.scrollLeft = scrollLeftRef.current - walk;
-  };
-
-  const handleMouseUpOrLeave = () => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    isDraggingRef.current = false;
-    slider.classList.remove("is-dragging");
-  };
-
-  // Slider Scroll Listener to update activeIndex accurately
-  const handleSliderScroll = useCallback(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
-    const cards = slider.querySelectorAll(".project-showcase-card");
-    if (!cards.length) return;
-
-    const sliderRect = slider.getBoundingClientRect();
-    const sliderCenter = sliderRect.left + sliderRect.width / 2;
-    let closestIndex = 0;
-    let minDistance = Infinity;
-
-    cards.forEach((card, index) => {
-      const cardRect = card.getBoundingClientRect();
-      const cardCenter = cardRect.left + cardRect.width / 2;
-      const distance = Math.abs(sliderCenter - cardCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closestIndex = index;
-      }
-    });
-
-    setActiveIndex(closestIndex);
+  // Cleanup RAF momentum and scroll listeners on unmount
+  useEffect(() => {
+    return () => {
+      if (momentumRafRef.current) cancelAnimationFrame(momentumRafRef.current);
+      if (scrollRafRef.current) cancelAnimationFrame(scrollRafRef.current);
+    };
   }, []);
 
-  // Slider Arrow Navigation - Menuju ke Card Tengah
-  const scrollToCard = useCallback((index) => {
+  // Update card metrics (step width) dynamically
+  const updateCardMetrics = useCallback(() => {
     const slider = sliderRef.current;
     if (!slider) return;
     const cards = slider.querySelectorAll(".project-showcase-card");
-    const targetCard = cards[index];
+    if (cards.length >= 2) {
+      const step = cards[1].offsetLeft - cards[0].offsetLeft;
+      if (step > 0) cardStepRef.current = step;
+    }
+  }, []);
+
+  const cancelMomentum = useCallback(() => {
+    if (momentumRafRef.current) {
+      cancelAnimationFrame(momentumRafRef.current);
+      momentumRafRef.current = null;
+    }
+  }, []);
+
+  // Slider Mouse & Touch Drag Handlers (Geser mulus tanpa putus-putus dan tanpa jedag-jedag)
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return;
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    cancelMomentum();
+    isDraggingRef.current = true;
+    hasDraggedRef.current = false;
+    lastXRef.current = e.pageX;
+    lastTimeRef.current = performance.now();
+    velocityRef.current = 0;
+    slider.classList.add("is-dragging");
+
+    const onMouseMove = (moveEvent) => {
+      if (!isDraggingRef.current) return;
+      const currentX = moveEvent.pageX;
+      const deltaX = currentX - lastXRef.current;
+      const now = performance.now();
+      const dt = now - lastTimeRef.current;
+
+      if (Math.abs(deltaX) > 2) {
+        hasDraggedRef.current = true;
+      }
+
+      if (dt > 0) {
+        const instantVelocity = deltaX / dt;
+        velocityRef.current = velocityRef.current * 0.35 + instantVelocity * 0.65;
+      }
+
+      lastXRef.current = currentX;
+      lastTimeRef.current = now;
+
+      // Delta shift: tidak akan pernah meloncat saat infinite wrap terjadi
+      slider.scrollLeft -= deltaX;
+    };
+
+    const onMouseUp = () => {
+      isDraggingRef.current = false;
+      slider.classList.remove("is-dragging");
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+
+      // Inersia momentum halus saat dilepas dengan kecepatan tinggi
+      const initVelocity = velocityRef.current;
+      if (Math.abs(initVelocity) > 0.2) {
+        let v = initVelocity * 14;
+        const friction = 0.94;
+        const stepMomentum = () => {
+          if (Math.abs(v) < 0.3 || isDraggingRef.current) {
+            momentumRafRef.current = null;
+            return;
+          }
+          slider.scrollLeft -= v;
+          v *= friction;
+          momentumRafRef.current = requestAnimationFrame(stepMomentum);
+        };
+        momentumRafRef.current = requestAnimationFrame(stepMomentum);
+      }
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+  };
+
+  const handleTouchStart = () => {
+    cancelMomentum();
+    isDraggingRef.current = true;
+    hasDraggedRef.current = false;
+  };
+
+  const handleTouchMove = () => {
+    hasDraggedRef.current = true;
+  };
+
+  const handleTouchEnd = () => {
+    isDraggingRef.current = false;
+    setTimeout(() => {
+      hasDraggedRef.current = false;
+    }, 120);
+  };
+
+  // Slider Arrow Navigation - Menuju ke Card Tengah
+  const scrollToCard = useCallback((targetGlobalIndex, behavior = "smooth") => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+    cancelMomentum();
+
+    const cards = slider.querySelectorAll(".project-showcase-card");
+    const targetCard = cards[targetGlobalIndex];
     if (targetCard) {
       const cardOffsetLeft = targetCard.offsetLeft;
       const cardWidth = targetCard.offsetWidth;
       const sliderWidth = slider.clientWidth;
       const targetScrollLeft = cardOffsetLeft - (sliderWidth - cardWidth) / 2;
-      slider.scrollTo({
-        left: targetScrollLeft,
-        behavior: "smooth",
-      });
-      setActiveIndex(index);
+
+      if (behavior === "auto") {
+        slider.scrollLeft = targetScrollLeft;
+      } else {
+        slider.scrollTo({
+          left: targetScrollLeft,
+          behavior: "smooth",
+        });
+      }
+      globalActiveIndexRef.current = targetGlobalIndex;
+      setGlobalActiveIndex(targetGlobalIndex);
+      setActiveIndex(targetGlobalIndex % (allProjects.length || 7));
     }
-  }, []);
+  }, [allProjects.length, cancelMomentum]);
+
+  // Posisikan awal di tengah-tengah pada saat komponen dimuat (Mulai Tengah-tengah)
+  useEffect(() => {
+    const slider = sliderRef.current;
+    if (!slider || !allProjects.length) return;
+
+    updateCardMetrics();
+    const timer = setTimeout(() => {
+      updateCardMetrics();
+      scrollToCard(initialCenterIndex, "auto");
+    }, 60);
+
+    return () => clearTimeout(timer);
+  }, [allProjects.length, initialCenterIndex, scrollToCard, updateCardMetrics]);
+
+  // Jaga posisi card tengah saat ukuran layar berubah
+  useEffect(() => {
+    const handleResize = () => {
+      updateCardMetrics();
+      scrollToCard(globalActiveIndexRef.current, "auto");
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [scrollToCard, updateCardMetrics]);
+
+  // Slider Scroll Listener dengan RAF throttle & kalkulasi matematis O(1) (Ultra Smooth)
+  const handleSliderScroll = useCallback(() => {
+    const slider = sliderRef.current;
+    if (!slider) return;
+
+    if (scrollRafRef.current) return;
+
+    scrollRafRef.current = requestAnimationFrame(() => {
+      scrollRafRef.current = null;
+      const currentSlider = sliderRef.current;
+      if (!currentSlider) return;
+
+      const singleSetCount = allProjects.length;
+      if (singleSetCount === 0) return;
+
+      const step = cardStepRef.current || 390;
+      const singleSetWidth = step * singleSetCount;
+
+      // 1. Seamless Infinite Loop Wrap tanpa jedag-jedag
+      if (currentSlider.scrollLeft >= singleSetWidth * 3.5) {
+        currentSlider.scrollLeft -= singleSetWidth;
+      } else if (currentSlider.scrollLeft <= singleSetWidth * 0.5) {
+        currentSlider.scrollLeft += singleSetWidth;
+      }
+
+      // 2. Kalkulasi matematis cepat O(1) untuk menentukan kartu yang tepat di tengah
+      const totalCards = singleSetCount * 5;
+      const rawIndex = Math.round(currentSlider.scrollLeft / step);
+      const closestIndex = Math.max(0, Math.min(totalCards - 1, rawIndex));
+
+      if (closestIndex !== globalActiveIndexRef.current) {
+        globalActiveIndexRef.current = closestIndex;
+        setGlobalActiveIndex(closestIndex);
+        setActiveIndex(closestIndex % singleSetCount);
+      }
+    });
+  }, [allProjects.length]);
 
   const handlePrevSlide = () => {
-    if (activeIndex > 0) {
-      scrollToCard(activeIndex - 1);
-    } else {
-      scrollToCard(allProjects.length - 1);
-    }
+    scrollToCard(globalActiveIndex - 1);
   };
 
   const handleNextSlide = () => {
-    if (activeIndex < allProjects.length - 1) {
-      scrollToCard(activeIndex + 1);
-    } else {
-      scrollToCard(0);
-    }
+    scrollToCard(globalActiveIndex + 1);
   };
 
   // Project yang sedang aktif / berada di tengah
   const activeProject = useMemo(() => {
-    return allProjects[activeIndex] || allProjects[0];
+    return allProjects[activeIndex] || allProjects[Math.floor(allProjects.length / 2)] || allProjects[0];
   }, [allProjects, activeIndex]);
 
   // Dokumentasi foto yang sesuai dengan project yang sedang aktif/tengah
@@ -570,63 +784,66 @@ function Projects() {
             className="projects-gallery-track" 
             ref={sliderRef}
             onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUpOrLeave}
-            onMouseLeave={handleMouseUpOrLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             onScroll={handleSliderScroll}
           >
-            {allProjects.map((proj, idx) => (
-              <div 
-                key={proj.id}
-                className={`project-showcase-card ${activeIndex === idx ? "is-active-center" : ""}`}
-                onClick={() => {
-                  if (!hasDraggedRef.current) scrollToCard(idx);
-                }}
-              >
-                {/* 1. Gambar Preview Project */}
+            {infiniteProjects.map((proj) => {
+              const isCenter = globalActiveIndex === proj.globalIdx;
+              return (
                 <div 
-                  className="proj-card-media"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (!hasDraggedRef.current) openModal(proj, "details");
+                  key={`${proj.id}-set-${proj.setIdx}-${proj.globalIdx}`}
+                  className={`project-showcase-card ${isCenter ? "is-active-center" : ""}`}
+                  onClick={() => {
+                    if (!hasDraggedRef.current) scrollToCard(proj.globalIdx);
                   }}
-                  role="button"
-                  tabIndex={0}
-                  title={lang === "id" ? "Klik untuk melihat detail" : "Click to view details"}
                 >
-                  <img 
-                    src={proj.meta.image} 
-                    alt={proj.title} 
-                    className="proj-card-img" 
-                    loading="lazy" 
-                  />
-                  {activeIndex === idx && (
-                    <div className="active-center-badge">
-                      <Sparkles size={11} />
-                      <span>Active Project</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* 2. Card Content Under Preview */}
-                <div className="proj-card-body">
-                  <h3 className="proj-card-title">{proj.title}</h3>
-                  <p className="proj-card-desc">{proj.desc}</p>
-
-                  <button
-                    type="button"
-                    className="btn-card-detail"
+                  {/* 1. Gambar Preview Project */}
+                  <div 
+                    className="proj-card-media"
                     onClick={(e) => {
                       e.stopPropagation();
-                      openModal(proj, "details");
+                      if (!hasDraggedRef.current) openModal(proj, "details");
                     }}
+                    role="button"
+                    tabIndex={0}
+                    title={lang === "id" ? "Klik untuk melihat detail" : "Click to view details"}
                   >
-                    <span>Details</span>
-                    <ChevronRight size={16} />
-                  </button>
+                    <img 
+                      src={proj.meta.image} 
+                      alt={proj.title} 
+                      className="proj-card-img" 
+                      loading="lazy" 
+                    />
+                    {isCenter && (
+                      <div className="active-center-badge">
+                        <Sparkles size={11} />
+                        <span>Active Project</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 2. Card Content Under Preview */}
+                  <div className="proj-card-body">
+                    <h3 className="proj-card-title">{proj.title}</h3>
+                    <p className="proj-card-desc">{proj.desc}</p>
+
+                    <button
+                      type="button"
+                      className="btn-card-detail"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openModal(proj, "details");
+                      }}
+                    >
+                      <span>Details</span>
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Floating Blue Circular Arrow Button Right */}
@@ -706,7 +923,12 @@ function Projects() {
                 </button>
               </div>
 
-              <button className="project-modal-close" onClick={closeModal} aria-label="Close" title="Tutup Modal (ESC)">
+              <button 
+                className="project-modal-close" 
+                onClick={closeModal} 
+                aria-label={lang === "id" ? "Tutup" : "Close"} 
+                title={lang === "id" ? "Tutup Modal (ESC)" : "Close Modal (ESC)"}
+              >
                 <X size={18} />
               </button>
             </div>
@@ -975,8 +1197,8 @@ function Projects() {
           <button
             className="fullscreen-close-btn"
             onClick={() => setIsFullscreenPhoto(false)}
-            aria-label="Tutup Layar Penuh"
-            title="Tutup (ESC)"
+            aria-label={lang === "id" ? "Tutup Layar Penuh" : "Close Fullscreen"}
+            title={lang === "id" ? "Tutup (ESC)" : "Close (ESC)"}
           >
             <X size={24} />
           </button>

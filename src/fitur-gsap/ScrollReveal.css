@@ -1,0 +1,27 @@
+/* ── ScrollReveal Component Styles (React Bits) ── */
+
+.scroll-reveal {
+  box-sizing: border-box;
+}
+
+.scroll-reveal-text {
+  display: block;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  font-family: inherit;
+  text-shadow: inherit;
+  text-align: inherit;
+}
+
+.scroll-reveal-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.scroll-reveal-piece {
+  display: inline-block;
+  will-change: transform, opacity;
+}

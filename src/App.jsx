@@ -4,14 +4,14 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Navbar from "./components/Navbar";
-import Hero from "./components/home";
+import Hero from "./components/Home";
 import About from "./components/About";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import Certificate from "./components/Certificate";
-import SkyBackground from "./components/SkyBackground";
+import SkyBackground from "./background-portfolio/SkyBackground";
 
 
 gsap.registerPlugin(ScrollTrigger);

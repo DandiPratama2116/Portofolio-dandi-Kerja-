@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ScrollFloat from '../fitur-gsap/ScrollFloat';
 import { 
   GraduationCap, 
   FileText, 
@@ -187,21 +188,12 @@ function About() {
           <h2 className="section-title about-typewriter-headline">
             <span className="headline-static">Problem Solver. </span>
             <span className="headline-dynamic">{typedText}</span>
-            <span className="headline-cursor" aria-hidden="true">|</span>
           </h2>
         </div>
 
         <div className="about-content">
           {/* Main Container: Seamless background, no outer box border */}
           <div className="about-main-wrapper">
-            {/* Subtle background ambient waves */}
-            <div className="about-card-waves" aria-hidden="true">
-              <svg viewBox="0 0 1200 360" preserveAspectRatio="none" className="about-waves-svg">
-                <path d="M0,140 C320,260 460,50 740,160 C980,250 1080,70 1200,120 L1200,360 L0,360 Z" fill="none" stroke="currentColor" strokeWidth="1.2" opacity="0.06" />
-                <path d="M0,200 C280,90 500,290 800,110 C1020,10 1120,220 1200,180 L1200,360 L0,360 Z" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.04" />
-              </svg>
-            </div>
-
             {/* Split Layout: Foto di Kiri, Teks & Stats di Samping (Kanan) */}
             <div className="about-split-layout">
               {/* Kolom Kiri: Foto Profil Lingkaran */}
@@ -233,7 +225,7 @@ function About() {
                 <div className="about-stats-row">
                   <div className="about-stat-col">
                     <span className="stat-col-label">{lang === "id" ? "MASA STUDI" : "STUDY DURATION"}</span>
-                    <span className="stat-col-val">&lt; 4 Thn</span>
+                    <span className="stat-col-val">{lang === "id" ? "< 4 Thn" : "< 4 Yrs"}</span>
                   </div>
                   <div className="about-stat-col">
                     <span className="stat-col-label">{lang === "id" ? "IPK (GPA)" : "GPA"}</span>
@@ -251,9 +243,15 @@ function About() {
 
                 {/* Paragraf Teks Tentang di samping foto */}
                 <div className="about-bio-wrap">
-                  <p className="about-bio-text">
+                  <ScrollFloat
+                    as="p"
+                    containerClassName="about-bio-text"
+                    animationDuration={0.75}
+                    ease="back.out(1.5)"
+                    scrollStart="top 88%"
+                  >
                     {t.about.paragraph}
-                  </p>
+                  </ScrollFloat>
 
                   {/* Unduh CV dengan border rapi */}
                   <div className="about-resume-row">
@@ -281,8 +279,8 @@ function About() {
                       <Code2 size={16} />
                     </div>
                     <div className="currently-item-text">
-                      <strong className="currently-title">Building</strong>
-                      <span className="currently-desc">{lang === "id" ? "Backend APIs & Database Systems" : "Backend APIs & Database Systems"}</span>
+                      <strong className="currently-title">{lang === "id" ? "Membangun" : "Building"}</strong>
+                      <span className="currently-desc">{lang === "id" ? "Backend API & Sistem Database" : "Backend APIs & Database Systems"}</span>
                     </div>
                   </div>
 
@@ -291,8 +289,8 @@ function About() {
                       <Sparkles size={16} />
                     </div>
                     <div className="currently-item-text">
-                      <strong className="currently-title">Exploring</strong>
-                      <span className="currently-desc">{lang === "id" ? "Golang & RESTful API Development" : "Golang & RESTful API Development"}</span>
+                      <strong className="currently-title">{lang === "id" ? "Mengeksplorasi" : "Exploring"}</strong>
+                      <span className="currently-desc">{lang === "id" ? "Pengembangan API Golang & RESTful" : "Golang & RESTful API Development"}</span>
                     </div>
                   </div>
 
@@ -301,8 +299,8 @@ function About() {
                       <Rocket size={16} />
                     </div>
                     <div className="currently-item-text">
-                      <strong className="currently-title">Learning</strong>
-                      <span className="currently-desc">{lang === "id" ? "System Design & Cloud Deployment" : "System Design & Cloud Deployment"}</span>
+                      <strong className="currently-title">{lang === "id" ? "Mempelajari" : "Learning"}</strong>
+                      <span className="currently-desc">{lang === "id" ? "Desain Sistem & Cloud Deployment" : "System Design & Cloud Deployment"}</span>
                     </div>
                   </div>
                 </div>

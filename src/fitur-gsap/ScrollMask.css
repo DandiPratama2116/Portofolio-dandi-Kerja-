@@ -1,0 +1,233 @@
+/* ── ScrollMask Component Styles (React Bits Pro - Native Background Preserved) ── */
+
+.scroll-mask-runway {
+  position: relative;
+  width: 100%;
+  background: transparent !important;
+}
+
+/* Sticky Stage pinned across the entire runway - Background Transparent agar SkyBackground tetap terlihat! */
+.scroll-mask-stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: clamp(64px, 8.5vh, 92px);
+  box-sizing: border-box;
+  z-index: 2;
+  background: transparent !important;
+}
+
+/* ── Layer 1: Home Hero Stage (Mempertahankan background asli portofolio) ── */
+.scroll-mask-viewport-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 4;
+  clip-path: circle(0% at 50% 50%); /* Awal 0% (tertutup total sebelum scroll) */
+  will-change: clip-path;
+  background: transparent !important;
+}
+
+.scroll-mask-media-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  will-change: transform;
+  background: transparent !important;
+}
+
+.scroll-mask-direct-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Layer 2: Soft Dark Veil Overlay (Hitam Halus & Nyaman di Mata) ── */
+.scroll-mask-dark-veil {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(10, 16, 32, 0.92) 0%, rgba(6, 10, 22, 0.95) 55%, rgba(3, 7, 18, 0.98) 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 8;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* ── Layer 3: Welcome Overlay (Font Poppins, Bersih, Tanpa Role) ── */
+.scroll-mask-welcome-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  z-index: 15;
+  pointer-events: auto;
+  will-change: transform, opacity;
+  box-sizing: border-box;
+}
+
+.welcome-headline-lead {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.35rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: #38bdf8;
+  margin: 0 0 16px;
+  text-shadow: 0 2px 16px rgba(56, 189, 248, 0.45);
+}
+
+.welcome-main-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2rem, 5.2vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 auto;
+  text-align: center;
+  max-width: 950px;
+  text-shadow: 0 4px 28px rgba(0, 0, 0, 0.75), 0 0 40px rgba(56, 189, 248, 0.16);
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* ── Layer 4: Petunjuk Scroll di Bagian Bawah Layar (Terpusat Rapi) ── */
+.scroll-mask-scroll-hint {
+  position: absolute;
+  bottom: clamp(28px, 5.5vh, 48px);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: max-content;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.scroll-hint-mouse {
+  width: 22px;
+  height: 36px;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.scroll-hint-dot {
+  width: 4px;
+  height: 7px;
+  border-radius: 2px;
+  background: #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+  animation: scrollHintWheel 1.6s ease-in-out infinite;
+}
+
+.scroll-hint-text {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+}
+
+.scroll-hint-arrow {
+  color: #38bdf8;
+  animation: scrollArrowBounce 1.6s ease-in-out infinite;
+}
+
+/* ── Keyframe Animations ── */
+@keyframes scrollHintWheel {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(9px);
+    opacity: 0.15;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scrollArrowBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes welcomeSparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.2) rotate(15deg);
+    opacity: 1;
+  }
+}
+
+/* ── Responsive Mobile Adjustments ── */
+@media (max-width: 640px) {
+  .welcome-main-title {
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+  .welcome-tag-pill {
+    margin-bottom: 16px;
+  }
+  .scroll-mask-welcome-overlay {
+    padding: 0 20px;
+  }
+}
+
+/* ── Reduced Motion Support ── */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-mask-viewport-frame {
+    clip-path: none !important;
+  }
+  .scroll-hint-dot,
+  .scroll-hint-arrow,
+  .welcome-tag-icon {
+    animation: none !important;
+  }
+}

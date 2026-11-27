@@ -9,13 +9,17 @@ export const translations = {
       contact: "Kontak"
     },
     hero: {
+      welcome: "SELAMAT DATANG",
+      title: "PORTFOLIO DANDI PRATAMA",
+      scrollHint: "Scroll ke bawah",
+      role: "SOFTWARE ENGINEER",
       subtitle: "Lulusan Baru Teknik Informatika Universitas Islam Riau | Software Engineer | Backend Developer | Web & Mobile Developer",
       cvBtn: "📄 Unduh CV",
       contactBtn: "💬 Hubungi Saya"
     },
     about: {
       title: "Tentang Saya",
-      paragraph: "Saya Dandi Pratama, lulusan baru Program Studi Teknik Informatika Universitas Islam Riau yang berhasil menyelesaikan studi dalam waktu kurang dari empat tahun. Saya memiliki minat besar di bidang Software Engineering, khususnya Backend Development, Web Development, Mobile Development, dan Frontend Development. Selama masa perkuliahan, saya aktif mengembangkan berbagai aplikasi web dan mobile menggunakan React.js, Vue.js, Flutter, serta bahasa pemrograman Java dan Go. Saya juga memiliki pengalaman dalam merancang dan membangun RESTful API serta bekerja dengan basis data seperti MongoDB dan SQLite untuk mendukung sistem yang efisien dan skalabel. Saya senang mempelajari teknologi baru dan terus mengasah kemampuan dalam membangun solusi digital yang fungsional, rapi, dan berdampak. Saat ini saya terbuka untuk peluang sebagai Software Engineer dan siap berkontribusi dalam tim pengembangan yang dinamis.",
+      paragraph: "Saya Dandi Pratama, lulusan baru Program Teknik Informatika Universitas Islam Riau yang lulus kurang dari empat tahun dan berfokus pada Backend Development. Saya berpengalaman membangun backend untuk website dan mobile, mulai dari perancangan RESTful API hingga sistem pelaporan, menggunakan Golang, Java, serta Node.js dengan Express.js. Saya terbiasa mengelola database relasional (MySQL, PostgreSQL) maupun NoSQL (MongoDB, Firebase, SQLite), dan memilih yang paling sesuai dengan kebutuhan sistem. Untuk mendukung proses pengembangan dan deployment, saya menggunakan Docker agar aplikasi berjalan konsisten di berbagai lingkungan. Dengan pemahaman React.js, Vue.js, dan Flutter, saya mudah berkolaborasi dengan tim frontend dalam merancang kontrak API yang jelas dan memastikan integrasi berjalan lancar.",
       stats: [
         { value: "< 4 Thn", label: "Masa Studi Teknik Informatika UIR" },
         { value: "IPK 3.46 / 4.00", label: "Indeks Prestasi Kumulatif (IPK)" }
@@ -388,6 +392,10 @@ export const translations = {
       contact: "Contact"
     },
     hero: {
+      welcome: "WELCOME",
+      title: "PORTFOLIO DANDI PRATAMA",
+      scrollHint: "Scroll down",
+      role: "SOFTWARE ENGINEER",
       subtitle: "Informatics Engineering Fresh Graduate from Universitas Islam Riau | Software Engineer | Backend Developer | Web & Mobile Developer",
       cvBtn: "📄 Download CV",
       contactBtn: "💬 Contact Me"
@@ -408,7 +416,7 @@ export const translations = {
         {
           icon: "📜",
           title: "Bachelor Thesis Title",
-          desc: "\"Aplikasi Eyemate Berbasis AI dalam Pengenalan Objek dan Panduan Suara dan Teks Penyandang Gangguan Penglihatan\" (developed for Android & iOS using YOLOv8)."
+          desc: "\"AI-Based Eyemate Application for Object Recognition with Voice & Text Guidance for Visually Impaired Users\" (developed for Android & iOS using YOLOv8)."
         }
       ],
       experienceBadge: "Experience",
