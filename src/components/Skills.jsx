@@ -12,6 +12,8 @@ import mysqlIcon from "../assets/mysql.png";
 import mongoIcon from "../assets/mongodb.png";
 import dockerIcon from "../assets/Docker.png";
 import xamppIcon from "../assets/xampp.png";
+import dotnetIcon from "../assets/logo.NET.jpeg";
+import sqlServerIcon from "../assets/Logo-SQLServer.jpeg";
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
@@ -137,6 +139,7 @@ function Skills() {
     { name: "Vue.js", icon: vueIcon },
     { name: "Vite", icon: viteIcon },
     { name: "Flutter", icon: flutterIcon },
+    { name: ".NET", icon: dotnetIcon },
     { name: "Python", icon: pythonIcon },
     { name: "JavaScript", icon: jsIcon },
     { name: "Java", icon: javaIcon },
@@ -147,6 +150,7 @@ function Skills() {
     { name: "Golang", icon: golangIcon },
     { name: "FastAPI", icon: fastApiIcon },
     { name: "Laravel", icon: laravelIcon },
+    { name: "SQL Server", icon: sqlServerIcon },
     { name: "MySQL", icon: mysqlIcon },
     { name: "MongoDB", icon: mongoIcon },
     { name: "Docker", icon: dockerIcon },
@@ -175,29 +179,26 @@ function Skills() {
     }
   };
 
+  // Dynamic SVG Paths definitions for skills
+  const centerY = 262;
+  const leftStep = 440 / Math.max(1, leftSkills.length - 1);
+  const leftStartY = centerY - ((leftSkills.length - 1) * leftStep) / 2;
 
-  // SVG Paths definitions for skills
-  const leftPaths = [
-    "M 120 45 C 300 45, 350 262, 500 262",
-    "M 120 107 C 300 107, 350 262, 500 262",
-    "M 120 169 C 300 169, 350 262, 500 262",
-    "M 120 231 C 300 231, 350 262, 500 262",
-    "M 120 293 C 300 293, 350 262, 500 262",
-    "M 120 355 C 300 355, 350 262, 500 262",
-    "M 120 417 C 300 417, 350 262, 500 262",
-    "M 120 479 C 300 479, 350 262, 500 262",
-  ];
+  const leftPaths = leftSkills.map((_, idx) => {
+    const y = Math.round(leftStartY + idx * leftStep);
+    return `M 120 ${y} C 300 ${y}, 350 ${centerY}, 500 ${centerY}`;
+  });
 
-  const rightPaths = [
-    "M 500 262 C 650 262, 700 45, 880 45",
-    "M 500 262 C 650 262, 700 107, 880 107",
-    "M 500 262 C 650 262, 700 169, 880 169",
-    "M 500 262 C 650 262, 700 231, 880 231",
-    "M 500 262 C 650 262, 700 293, 880 293",
-    "M 500 262 C 650 262, 700 355, 880 355",
-    "M 500 262 C 650 262, 700 417, 880 417",
-    "M 500 262 C 650 262, 700 479, 880 479",
-  ];
+  const rightStep = 440 / Math.max(1, rightSkills.length - 1);
+  const rightStartY = centerY - ((rightSkills.length - 1) * rightStep) / 2;
+
+  const rightPaths = rightSkills.map((_, idx) => {
+    const y = Math.round(rightStartY + idx * rightStep);
+    return {
+      pathD: `M 500 ${centerY} C 650 ${centerY}, 700 ${y}, 880 ${y}`,
+      reversePathD: `M 880 ${y} C 700 ${y}, 650 ${centerY}, 500 ${centerY}`,
+    };
+  });
 
   return (
     <section id="skills" ref={sectionRef} className="section skills-section">
@@ -241,32 +242,28 @@ function Skills() {
             ))}
 
             {/* Right connection lines (reverse direction towards center) */}
-            {rightPaths.map((pathD, idx) => {
-              const outerY = 45 + idx * 62;
-              const reversePathD = `M 880 ${outerY} C 700 ${outerY}, 650 262, 500 262`;
-              return (
-                <g key={`right-${idx}`}>
-                  <path id={`path-right-${idx}`} d={pathD} className="hub-line" />
-                  {/* Glowing energy particle 1 */}
-                  <circle r="5" className="energy-particle">
-                    <animateMotion
-                      dur={`${4.5 + idx * 0.4}s`}
-                      repeatCount="indefinite"
-                      path={reversePathD}
-                    />
-                  </circle>
-                  {/* Glowing energy particle 2 (staggered) */}
-                  <circle r="3.5" className="energy-particle particle-secondary">
-                    <animateMotion
-                      dur={`${4.5 + idx * 0.4}s`}
-                      begin={`${2.25 + idx * 0.2}s`}
-                      repeatCount="indefinite"
-                      path={reversePathD}
-                    />
-                  </circle>
-                </g>
-              );
-            })}
+            {rightPaths.map(({ pathD, reversePathD }, idx) => (
+              <g key={`right-${idx}`}>
+                <path id={`path-right-${idx}`} d={pathD} className="hub-line" />
+                {/* Glowing energy particle 1 */}
+                <circle r="5" className="energy-particle">
+                  <animateMotion
+                    dur={`${4.5 + idx * 0.4}s`}
+                    repeatCount="indefinite"
+                    path={reversePathD}
+                  />
+                </circle>
+                {/* Glowing energy particle 2 (staggered) */}
+                <circle r="3.5" className="energy-particle particle-secondary">
+                  <animateMotion
+                    dur={`${4.5 + idx * 0.4}s`}
+                    begin={`${2.25 + idx * 0.2}s`}
+                    repeatCount="indefinite"
+                    path={reversePathD}
+                  />
+                </circle>
+              </g>
+            ))}
           </svg>
 
           <div className="skills-hub-container">

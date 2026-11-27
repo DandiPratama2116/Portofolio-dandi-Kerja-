@@ -2009,6 +2009,7 @@ a {
   height: 22px;
   object-fit: contain;
   display: block;
+  border-radius: 4px;
 }
 
 .hub-node-name {
