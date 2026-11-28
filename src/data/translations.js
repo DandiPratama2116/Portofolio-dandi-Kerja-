@@ -20,7 +20,7 @@ export const translations = {
     },
     about: {
       title: "Tentang Saya",
-      paragraph: "Saya Dandi Pratama, lulusan baru Program Teknik Informatika Universitas Islam Riau yang lulus kurang dari empat tahun dan berfokus pada Backend Development. Saya berpengalaman membangun backend untuk website dan mobile, mulai dari perancangan RESTful API hingga sistem pelaporan, menggunakan Golang, Java, serta Node.js dengan Express.js. Saya terbiasa mengelola database relasional (MySQL, PostgreSQL) maupun NoSQL (MongoDB, Firebase, SQLite), dan memilih yang paling sesuai dengan kebutuhan sistem. Untuk mendukung proses pengembangan dan deployment, saya menggunakan Docker agar aplikasi berjalan konsisten di berbagai lingkungan. Dengan pemahaman React.js, Vue.js, dan Flutter, saya mudah berkolaborasi dengan tim frontend dalam merancang kontrak API yang jelas dan memastikan integrasi berjalan lancar.",
+      paragraph: "Fresh graduate Teknik Informatika Universitas Islam Riau (IPK 3,46) yang berfokus pada Backend Development. Berpengalaman membangun RESTful API dan sistem pelaporan menggunakan Golang, Java, dan Node.js, serta mengelola database relasional dan NoSQL. Terbiasa menggunakan Docker, memahami React.js, dan telah mengesuai bahasa .NET serta SQL Server di PT Pertamina RU II Dumai. Mampu berpikir logis, cepat belajar, bertanggung jawab, dan bekerja sama dalam tim maupun mandiri.",
       stats: [
         { value: "< 4 Thn", label: "Masa Studi Teknik Informatika UIR" },
         { value: "IPK 3.46 / 4.00", label: "Indeks Prestasi Kumulatif (IPK)" }
@@ -68,10 +68,9 @@ export const translations = {
           icon: "🎨",
           desc: "Merancang prototipe antarmuka sistem pelaporan lapangan dan mendukung operasional pemantauan fasilitas kilang minyak.",
           details: [
-            "Merancang prototipe UI/UX menggunakan Figma untuk website berbasis chatbot guna memfasilitasi pengajuan laporan lapangan ke departemen terkait yang bertanggung jawab atas peralatan dan sumber daya.",
-            "Membantu entri data karyawan dan pengelolaan data administrasi perusahaan secara rapi dan akurat.",
-            "Melakukan observasi lapangan langsung terhadap operasional pemrosesan dan manajemen kilang minyak.",
-            "Membantu divisi CCTV dalam memantau aktivitas karyawan dan operasional kerja di PT Pertamina Refinery Unit II Dumai."
+            "Membuat Project ChatBot AI untuk melakukan Customer Service dalam melakukan pengajuan permintaan oleh user",
+            "Merancang UI/UX situs web untuk chatbot",
+            "Mempelajari sistem digunakan dalam membuat project, menggunakan .NET dan database menggunakan SQL Server"
           ],
           skills: ["Figma", "UI/UX Design", "Prototyping", "Data Management", "Field Operations", "CCTV Monitoring"]
         }
@@ -404,7 +403,7 @@ export const translations = {
     },
     about: {
       title: "About Me",
-      paragraph: "Hello, I'm Dandi Pratama, a fresh graduate of the Informatics Engineering Program at Universitas Islam Riau who successfully completed my studies in less than four years. I have a strong interest in Software Engineering, particularly in Backend Development, Web Development, Mobile Development, and Frontend Development. During my college years, I actively developed various web and mobile applications using React.js, Vue.js, Flutter, as well as Java and Go programming languages. I also have experience in designing and building RESTful APIs and working with databases such as MongoDB and SQLite to support efficient and scalable systems. I enjoy learning new technologies and continuously honing my skills in building functional, neat, and impactful digital solutions. Currently, I am open to opportunities as a Software Engineer and ready to contribute to a dynamic development team.",
+      paragraph: "Fresh graduate in Informatics Engineering from Universitas Islam Riau (GPA 3.46), focusing on Backend Development. Experienced in building RESTful APIs and reporting systems using Golang, Java, and Node.js, as well as managing relational and NoSQL databases. Accustomed to using Docker, with an understanding of React.js, and gained proficiency in .NET and SQL Server at PT Pertamina RU II Dumai. A logical thinker and fast learner who is responsible and able to work both independently and in a team.",
       stats: [
         { value: "< 4 Yrs", label: "Study Duration Informatics UIR" },
         { value: "GPA 3.46 / 4.00", label: "Cumulative Grade Point Average" }
@@ -452,10 +451,9 @@ export const translations = {
           icon: "🎨",
           desc: "Designed UI/UX prototypes for field reporting systems and supported operational monitoring at the refinery facility.",
           details: [
-            "Designed UI/UX prototypes using Figma for a chatbot-based website aimed at facilitating field report submissions to the relevant departments responsible for equipment and resource requests.",
-            "Assisted with employee data entry and administrative data management.",
-            "Conducted direct field observations of the oil processing and management operations.",
-            "Assisted the CCTV division in monitoring employee activities and work operations at PT Pertamina Refinery Unit II Dumai."
+            "Developing an AI Chatbot Project to provide Customer Service for handling request submissions for field workers",
+            "Designing the Website UI/UX for the chatbot",
+            "Studying the system used to build the project, using .NET with SQL Server as the database"  
           ],
           skills: ["Figma", "UI/UX Design", "Prototyping", "Data Management", "Field Operations", "CCTV Monitoring"]
         }
